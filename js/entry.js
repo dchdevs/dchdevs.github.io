@@ -11,9 +11,9 @@ var section = 1;
 
 //JSON for data
 var dataForPage = {
-    'id' : {},
-    'coal_shovels_operating' : [], //it's just default, we will increase it later
-    'ob_shovels_operating' : [], //it's just default, we will increase it later
+    //'id' : {},
+    //'coal_shovels_operating' : [], //it's just default, we will increase it later
+    //'ob_shovels_operating' : [], //it's just default, we will increase it later
     'dumper_wise_data' : {}
 };
 
@@ -93,13 +93,14 @@ $(document).ready(function() {
         var obj = {};
         var arr = this.serializeArray();
         $.each(arr, function() {
-            if (obj[this.name] !== undefined) {
-                if (!obj[this.name].push) {
-                    obj[this.name] = [obj[this.name]];
+            var thisname = this.name.slice(0, -2);
+            if (obj[thisname] !== undefined) {
+                if (!obj[thisname].push) {
+                    obj[thisname] = [obj[thisname]];
                 }
-                obj[this.name].push(this.value || '');
+                obj[thisname].push(this.value || '');
             } else {
-                obj[this.name] = this.value || '';
+                obj[thisname] = this.value || '';
             }
         });
         return obj;
