@@ -104,7 +104,7 @@ $(document).ready(function() {
         var dumper_thead_th = $('#dumper_table > thead > tr > th');
         header.push({"text":$(dumper_thead_th).eq(0).html()});
         header.push({"text":$(dumper_thead_th).eq(1).html()});
-        header.push({"text":"Shovel"});
+        header.push({"text":"Shovel No."});
         header.push({"text":"Material Type"});
         header.push({"text":"Shovel Operator"});
         header.push({"text":"Production"});
