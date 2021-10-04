@@ -26,7 +26,13 @@ $(document).ready(function() {
     var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
     $('#date').val(today);
 
-    $(".add_row").on('click', function() {
+    $(".add_row1").on('click', function() {
+        var table = $(this).parent().parent().find("table").first();
+        $(table).find('select').select2('destroy').end().append($(table).find("tr").eq(1).clone());
+        $(table).find('select').select2();
+        $('#dumperwise_entry').hide();
+    });
+    $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').select2('destroy').end().append($(table).find("tr").eq(1).clone());
         $(table).find('select').select2();
@@ -77,6 +83,7 @@ $(document).ready(function() {
                 $(tr).append("<td><input name='ob_shovel_" + ob_shovels_operating[i]  + "_" + ob_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
             }
         });
+        $('#dumperwise_entry').show();
     });
 
     $("#save_dumpers").on('click', function() {
@@ -110,6 +117,5 @@ $(document).ready(function() {
         };
         Jhxlsx.export(dataForPage, options);
     });
-    $("#save_shovels").trigger('click');
 });
 
