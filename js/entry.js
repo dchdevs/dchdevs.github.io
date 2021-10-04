@@ -129,7 +129,7 @@ $(document).ready(function() {
                     excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": threeFields[1]});
                     excelRowToInsert.push({"text": parseInt(threeFields[2])});
-                    excelRowToInsert.push({"text": parseInt($(td).children('select, input').eq(0).val())});
+                    excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
                     dataForPage[0].data.push(excelRowToInsert);
                 }
             });
