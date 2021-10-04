@@ -18,6 +18,7 @@ var dataForPage = [
 ];
 
 $(document).ready(function() {
+    $('.searchable').select2();
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -27,7 +28,8 @@ $(document).ready(function() {
 
     $(".add_row").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
-        $(table).append($(table).find("tr").eq(1).clone());
+        $(table).find('select').select2('destroy').end().append($(table).find("tr").eq(1).clone());
+        $(table).find('select').select2();
     });
     $(".delete_row").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
