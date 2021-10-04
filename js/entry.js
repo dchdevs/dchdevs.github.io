@@ -104,7 +104,7 @@ $(document).ready(function() {
         });
         console.log(dataForPage);
         var options = {
-            fileName: $('#date').val() + "-- dumper-wise production"
+            fileName: $('#date').val() + "_dumper_wise_production"
         };
         Jhxlsx.export(dataForPage, options);
     });
