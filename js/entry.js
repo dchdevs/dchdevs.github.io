@@ -30,7 +30,7 @@ $(document).ready(function() {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').select2('destroy').end().append($(table).find("tr").eq(1).clone());
         $(table).find('select').select2();
-        $('#dumperwise_entry').hide();
+        $('#dumperwise_entry').fadeOut(500);
     });
     $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -42,7 +42,7 @@ $(document).ready(function() {
         if ($(table).find("tr").length > 2) {
             $(table).find("tr").last().remove();
         }
-        $('#dumperwise_entry').hide();
+        $('#dumperwise_entry').fadeOut(500);
     });
     $(".delete_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -90,7 +90,7 @@ $(document).ready(function() {
                 $(tr).append("<td><input name='ob_shovel_" + ob_shovels_operating[i]  + "_" + ob_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
             }
         });
-        $('#dumperwise_entry').show();
+        $('#dumperwise_entry').fadeIn(800);
     });
 
     $("#save_dumpers").on('click', function() {
