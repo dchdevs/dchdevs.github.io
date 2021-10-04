@@ -74,10 +74,10 @@ $(document).ready(function() {
         $(dumper_thead_tr).each(function(index, tr) {
             $(tr).find("th:gt(1)").remove();
             for (var i = 0; i < coal_shovels_operating.length; i++) {
-                $("<th>" + coal_shovels_operating[i] + "(Coal) Op. " + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                $("<th>" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
             }
             for (i = 0; i < ob_shovels_operating.length; i++) {
-                $("<th>" + ob_shovels_operating[i] + "(OB) Op. " + ob_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                $("<th>" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
             }
         });
 
@@ -102,9 +102,13 @@ $(document).ready(function() {
         header.push({"text":"Section"});
 
         var dumper_thead_th = $('#dumper_table > thead > tr > th');
-        $(dumper_thead_th).each(function(index, th) {
-            header.push({"text":$(th).html()});
-        });
+        header.push({"text":$(dumper_thead_th).eq(0).html()});
+        header.push({"text":$(dumper_thead_th).eq(1).html()});
+        header.push({"text":"Shovel"});
+        header.push({"text":"Material Type"});
+        header.push({"text":"Shovel Operator"});
+        header.push({"text":"Production"});
+
         dataForPage[0].data.push(header);
 
         var dumper_thead_tr = $('#dumper_table > tbody > tr');
@@ -113,10 +117,22 @@ $(document).ready(function() {
             excelData.push({"text":$('#date').val()});
             excelData.push({"text":$('#shift').val()});
             excelData.push({"text":$('#section').val()});
-            $(tr).children('td').each(function() {
-                excelData.push({"text": $(this).children('select, input').eq(0).val()});
+            excelData.push({"text":$(tr).children('td').eq(0).children('select, input').eq(0).val()});
+            excelData.push({"text":$(tr).children('td').eq(1).children('select, input').eq(0).val()});
+            var excelRowToInsert;
+            var threeFields;
+            $(tr).children('td').each(function(index, td) {
+                if(index>1) {
+                    excelRowToInsert = [];
+                    excelRowToInsert = excelData.slice();
+                    threeFields = $(dumper_thead_th).eq(index).html().split('_');
+                    excelRowToInsert.push({"text": threeFields[0]});
+                    excelRowToInsert.push({"text": threeFields[1]});
+                    excelRowToInsert.push({"text": threeFields[2]});
+                    excelRowToInsert.push({"text": $(td).children('select, input').eq(0).val()});
+                    dataForPage[0].data.push(excelRowToInsert);
+                }
             });
-            dataForPage[0].data.push(excelData);
         });
         console.log(dataForPage);
         var options = {
