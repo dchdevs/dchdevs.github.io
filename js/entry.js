@@ -134,7 +134,6 @@ $(document).ready(function() {
                 }
             });
         });
-        console.log(dataForPage);
         var options = {
             fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
         };
