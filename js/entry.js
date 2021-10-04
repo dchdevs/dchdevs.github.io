@@ -118,7 +118,7 @@ $(document).ready(function() {
             excelData.push({"text":$('#shift').val()});
             excelData.push({"text":$('#section').val()});
             excelData.push({"text":$(tr).children('td').eq(0).children('select, input').eq(0).val()});
-            excelData.push({"text":$(tr).children('td').eq(1).children('select, input').eq(0).val()});
+            excelData.push({"text":parseInt($(tr).children('td').eq(1).children('select, input').eq(0).val())});
             var excelRowToInsert;
             var threeFields;
             $(tr).children('td').each(function(index, td) {
@@ -128,8 +128,8 @@ $(document).ready(function() {
                     threeFields = $(dumper_thead_th).eq(index).html().split('_');
                     excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": threeFields[1]});
-                    excelRowToInsert.push({"text": threeFields[2]});
-                    excelRowToInsert.push({"text": $(td).children('select, input').eq(0).val()});
+                    excelRowToInsert.push({"text": parseInt(threeFields[2])});
+                    excelRowToInsert.push({"text": parseInt($(td).children('select, input').eq(0).val())});
                     dataForPage[0].data.push(excelRowToInsert);
                 }
             });
