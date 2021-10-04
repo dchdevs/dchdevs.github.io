@@ -21,6 +21,13 @@ var dataForPage = [
 ];
 
 $(document).ready(function() {
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $('#date').val(today);
+
     $(".add_row").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
         $(table).append($(table).find("tr").eq(1).clone());
@@ -111,5 +118,6 @@ $(document).ready(function() {
         };
         Jhxlsx.export(dataForPage, options);
     });
+    $("#save_shovels").trigger('click');
 });
 
