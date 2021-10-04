@@ -115,7 +115,7 @@ $(document).ready(function() {
         $(dumper_thead_tr).each(function(index, tr) {
             var excelData = [];
             excelData.push({"text":$('#date').val()});
-            excelData.push({"text":$('#shift').val()});
+            excelData.push({"text":parseInt($('#shift').val())});
             excelData.push({"text":$('#section').val()});
             excelData.push({"text":$(tr).children('td').eq(0).children('select, input').eq(0).val()});
             excelData.push({"text":parseInt($(tr).children('td').eq(1).children('select, input').eq(0).val())});
