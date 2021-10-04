@@ -55,10 +55,10 @@ $(document).ready(function() {
         $(dumper_thead_tr).each(function(index, tr) {
             $(tr).find("th:gt(1)").remove();
             for (var i = 0; i < coal_shovels_operating.length; i++) {
-                $("<th>" + "Coal Shovel " + coal_shovels_operating[i] + " Operator " + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                $("<th>" + coal_shovels_operating[i] + "(Coal) Op. " + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
             }
             for (i = 0; i < ob_shovels_operating.length; i++) {
-                $("<th>" + "OB Shovel " + ob_shovels_operating[i] + " Operator " + ob_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                $("<th>" + ob_shovels_operating[i] + "(OB) Op. " + ob_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
             }
         });
 
@@ -79,16 +79,30 @@ $(document).ready(function() {
     });
 
     $("#save_dumpers").on('click', function() {
-        //populate JSON
-        dataForPage['id'] = {
-            'unique_id' : $('#date').val() + '_' + $('#shift').val() + '_' + $('#section').val(),
-            'date' : $('#date').val(),
-            'shift' : $('#shift').val(),
-            'section' : $('#section').val()
-        };
         //Create header
-        var header = [{"text":"Dumper No."},{"text":"Dumper Operator"}];
+        dataForPage[0].data = [];
+        var header = [];
+        header.push({"text":"Date"});
+        header.push({"text":"Shift"});
+        header.push({"text":"Section"});
+
+        var dumper_thead_th = $('#dumper_table > thead > tr > th');
+        $(dumper_thead_th).each(function(index, th) {
+            header.push({"text":$(th).html()});
+        });
         dataForPage[0].data.push(header);
+
+        var dumper_thead_tr = $('#dumper_table > tbody > tr');
+        $(dumper_thead_tr).each(function(index, tr) {
+            var excelData = [];
+            excelData.push({"text":$('#date').val()});
+            excelData.push({"text":$('#shift').val()});
+            excelData.push({"text":$('#section').val()});
+            $(tr).children('td').each(function() {
+                excelData.push({"text": $(this).children('select, input').eq(0).val()});
+            });
+            dataForPage[0].data.push(excelData);
+        });
         //dataForPage['data'] = $('#pageData').populateJSON();
         console.log(dataForPage);
         //return false;
@@ -97,23 +111,5 @@ $(document).ready(function() {
         };
         Jhxlsx.export(dataForPage, options);
     });
-
-    $.fn.populateJSON = function()
-    {
-        var obj = {};
-        var arr = this.serializeArray();
-        $.each(arr, function() {
-            var thisname = this.name.slice(0, -2);
-            if (obj[thisname] !== undefined) {
-                if (!obj[thisname].push) {
-                    obj[thisname] = [obj[thisname]];
-                }
-                obj[thisname].push(this.value || '');
-            } else {
-                obj[thisname] = this.value || '';
-            }
-        });
-        return obj;
-    };
 });
 
