@@ -12,9 +12,6 @@ var section = 1;
 //JSON for data
 var dataForPage = [
     {
-        //'id' : {},
-        //'coal_shovels_operating' : [], //it's just default, we will increase it later
-        //'ob_shovels_operating' : [], //it's just default, we will increase it later
         "sheetName": "Sheet1",
         "data": []
     }
@@ -78,11 +75,6 @@ $(document).ready(function() {
                 $(tr).append("<td><input name='ob_shovel_" + ob_shovels_operating[i]  + "_" + ob_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
             }
         });
-
-        //populate JSON
-        //dataForPage.coal_shovels_operating = coal_shovels_operating.slice();
-        //dataForPage.ob_shovels_operating = ob_shovels_operating.slice();
-
     });
 
     $("#save_dumpers").on('click', function() {
@@ -110,9 +102,7 @@ $(document).ready(function() {
             });
             dataForPage[0].data.push(excelData);
         });
-        //dataForPage['data'] = $('#pageData').populateJSON();
         console.log(dataForPage);
-        //return false;
         var options = {
             fileName: $('#date').val() + "-- dumper-wise production"
         };
