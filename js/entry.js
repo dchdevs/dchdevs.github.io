@@ -122,7 +122,7 @@ $(document).ready(function() {
             var excelRowToInsert;
             var threeFields;
             $(tr).children('td').each(function(index, td) {
-                if(index>1) {
+                if(index>1 && $(td).children('select, input').eq(0).val() !== '') {
                     excelRowToInsert = [];
                     excelRowToInsert = excelData.slice();
                     threeFields = $(dumper_thead_th).eq(index).html().split('_');
