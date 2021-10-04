@@ -120,7 +120,7 @@ $(document).ready(function() {
         });
         console.log(dataForPage);
         var options = {
-            fileName: $('#date').val() + "_dumper_wise_production"
+            fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
         };
         Jhxlsx.export(dataForPage, options);
     });
