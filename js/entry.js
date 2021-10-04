@@ -37,7 +37,14 @@ $(document).ready(function() {
         $(table).find('select').select2('destroy').end().append($(table).find("tr").eq(1).clone());
         $(table).find('select').select2();
     });
-    $(".delete_row").on('click', function() {
+    $(".delete_row1").on('click', function() {
+        var table = $(this).parent().parent().find("table").first();
+        if ($(table).find("tr").length > 2) {
+            $(table).find("tr").last().remove();
+        }
+        $('#dumperwise_entry').hide();
+    });
+    $(".delete_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
         if ($(table).find("tr").length > 2) {
             $(table).find("tr").last().remove();
