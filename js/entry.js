@@ -10,12 +10,15 @@ var shift = 1;
 var section = 1;
 
 //JSON for data
-var dataForPage = {
-    //'id' : {},
-    //'coal_shovels_operating' : [], //it's just default, we will increase it later
-    //'ob_shovels_operating' : [], //it's just default, we will increase it later
-    'dumper_wise_data' : {}
-};
+var dataForPage = [
+    {
+        //'id' : {},
+        //'coal_shovels_operating' : [], //it's just default, we will increase it later
+        //'ob_shovels_operating' : [], //it's just default, we will increase it later
+        "sheetName": "Sheet1",
+        "data": []
+    }
+];
 
 $(document).ready(function() {
     $(".add_row").on('click', function() {
@@ -70,8 +73,8 @@ $(document).ready(function() {
         });
 
         //populate JSON
-        dataForPage.coal_shovels_operating = coal_shovels_operating.slice();
-        dataForPage.ob_shovels_operating = ob_shovels_operating.slice();
+        //dataForPage.coal_shovels_operating = coal_shovels_operating.slice();
+        //dataForPage.ob_shovels_operating = ob_shovels_operating.slice();
 
     });
 
@@ -83,9 +86,16 @@ $(document).ready(function() {
             'shift' : $('#shift').val(),
             'section' : $('#section').val()
         };
-        dataForPage['dumper_wise_data'] = $('#pageData').populateJSON();
+        //Create header
+        var header = [{"text":"Dumper No."},{"text":"Dumper Operator"}];
+        dataForPage[0].data.push(header);
+        //dataForPage['data'] = $('#pageData').populateJSON();
         console.log(dataForPage);
         //return false;
+        var options = {
+            fileName: $('#date').val() + "-- dumper-wise production"
+        };
+        Jhxlsx.export(dataForPage, options);
     });
 
     $.fn.populateJSON = function()
@@ -106,3 +116,4 @@ $(document).ready(function() {
         return obj;
     };
 });
+
