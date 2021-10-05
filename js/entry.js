@@ -28,13 +28,15 @@ $(document).ready(function() {
 
     $(".add_row1").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
-        $(table).find('select').select2('destroy').end().append($(table).find("tr").eq(1).clone());
+        $(table).find('select').select2('destroy').end();
+        $(table).find("tr").eq(1).clone().appendTo($(table));
         $(table).find('select').select2();
         $('#dumperwise_entry').fadeOut(500);
     });
     $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
-        $(table).find('select').select2('destroy').end().append($(table).find("tr").eq(1).clone());
+        $(table).find('select').select2('destroy').end();
+        $(table).find("tr").eq(1).clone().appendTo($(table)).find('input').val('');
         $(table).find('select').select2();
     });
     $(".delete_row1").on('click', function() {
