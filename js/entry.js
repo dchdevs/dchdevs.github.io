@@ -8,6 +8,7 @@
 var date = 'today';
 var shift = 1;
 var section = 1;
+var shovel_working_hours = [];
 
 //JSON for data
 var dataForPage = [
@@ -57,6 +58,7 @@ $(document).ready(function() {
         var coal_shovel_operator = [];
         var ob_shovels_operating = [];
         var ob_shovel_operator = [];
+        shovel_working_hours = [];
 
         var shovel_table_row = $('#shovel_table > tbody > tr');
 
@@ -67,12 +69,14 @@ $(document).ready(function() {
             ) {
                 coal_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
                 coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
+                shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
             } else if ($('select[name="material_type[]"]').eq(index).val() === 'ob'
                 && $('select[name="shovel_no[]"]').eq(index).val()
                 && $('select[name="shovel_operator[]"]').eq(index).val()
             ) {
                 ob_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
                 ob_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
+                shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
             }
         });
 
@@ -155,7 +159,7 @@ $(document).ready(function() {
                     excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": threeFields[1]});
                     excelRowToInsert.push({"text": parseInt(threeFields[2])});
-                    excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
+                    excelRowToInsert.push({"text": parseFloat(shovel_working_hours[index-3])});
                     excelRowToInsert.push({"text": parseFloat($(tr).children('td').eq(2).children('select, input').eq(0).val())});
                     excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
                     dataForPage[0].data.push(excelRowToInsert);
