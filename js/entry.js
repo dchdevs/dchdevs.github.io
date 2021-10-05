@@ -61,14 +61,25 @@ $(document).ready(function() {
         var shovel_table_row = $('#shovel_table > tbody > tr');
 
         $(shovel_table_row).each(function(index, tr) {
-            if ($('select[name="material_type[]"]').eq(index).val() === 'coal') {
+            if ($('select[name="material_type[]"]').eq(index).val() === 'coal'
+                && $('select[name="shovel_no[]"]').eq(index).val()
+                && $('select[name="shovel_operator[]"]').eq(index).val()
+            ) {
                 coal_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
                 coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
-            } else {
+            } else if ($('select[name="material_type[]"]').eq(index).val() === 'ob'
+                && $('select[name="shovel_no[]"]').eq(index).val()
+                && $('select[name="shovel_operator[]"]').eq(index).val()
+            ) {
                 ob_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
                 ob_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
             }
         });
+
+        if(! coal_shovels_operating.length && ! ob_shovels_operating.length) {
+            alert('No shovels to create table. Please fill at least 1 shovel row');
+            return;
+        }
 
         var dumper_tbody_tr = $('#dumper_table > tbody > tr');
         var dumper_thead_tr = $('#dumper_table > thead > tr');
@@ -78,20 +89,28 @@ $(document).ready(function() {
         $(dumper_thead_tr).each(function(index, tr) {
             $(tr).find("th:gt(1)").remove();
             for (var i = 0; i < coal_shovels_operating.length; i++) {
-                $("<th>" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
+                    $("<th>" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                }
             }
             for (i = 0; i < ob_shovels_operating.length; i++) {
-                $("<th>" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
+                    $("<th>" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));    
+                }
             }
         });
 
         $(dumper_tbody_tr).each(function(index, tr) {
             $(tr).find("td:gt(1)").remove();
             for (var i = 0; i < coal_shovels_operating.length; i++) {
-                $(tr).append("<td><input name='coal_shovel_" + coal_shovels_operating[i]  + "_" + coal_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
+                    $(tr).append("<td><input name='coal_shovel_" + coal_shovels_operating[i]  + "_" + coal_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                }
             }
             for (var i = 0; i < ob_shovels_operating.length; i++) {
-                $(tr).append("<td><input name='ob_shovel_" + ob_shovels_operating[i]  + "_" + ob_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
+                    $(tr).append("<td><input name='ob_shovel_" + ob_shovels_operating[i]  + "_" + ob_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                }
             }
         });
         $('#dumperwise_entry').fadeIn(800);
