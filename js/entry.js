@@ -18,10 +18,7 @@ var dataForPage = [
 ];
 
 $(document).ready(function() {
-    $('.searchable').select2();
-    $('.selection').on('click', function() {
-        $('.select2-search__field')[0].focus();
-    });
+    $('.searchable').chosen();
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -31,22 +28,16 @@ $(document).ready(function() {
 
     $(".add_row1").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
-        $(table).find('select').select2('destroy').end();
+        $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
-        $(table).find('select').select2();
-        $('.selection').on('click', function() {
-            $('.select2-search__field')[0].focus();
-        });
+        $(table).find('select').chosen();
         $('#dumperwise_entry').fadeOut(500);
     });
     $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
-        $(table).find('select').select2('destroy').end();
+        $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table)).find('input').val('');
-        $(table).find('select').select2();
-        $('.selection').on('click', function() {
-            $('.select2-search__field')[0].focus();
-        });
+        $(table).find('select').chosen();
     });
     $(".delete_row1").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -82,6 +73,8 @@ $(document).ready(function() {
         var dumper_tbody_tr = $('#dumper_table > tbody > tr');
         var dumper_thead_tr = $('#dumper_table > thead > tr');
 
+        $('#dumper_table').find(".searchable").chosen('destroy').end();
+
         $(dumper_thead_tr).each(function(index, tr) {
             $(tr).find("th:gt(1)").remove();
             for (var i = 0; i < coal_shovels_operating.length; i++) {
@@ -102,6 +95,7 @@ $(document).ready(function() {
             }
         });
         $('#dumperwise_entry').fadeIn(800);
+        $('#dumper_table').find(".searchable").chosen();
     });
 
     $("#save_dumpers").on('click', function() {
