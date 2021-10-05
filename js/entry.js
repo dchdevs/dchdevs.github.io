@@ -19,6 +19,9 @@ var dataForPage = [
 
 $(document).ready(function() {
     $('.searchable').select2();
+    $('.selection').on('click', function() {
+        $('.select2-search__field')[0].focus();
+    });
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -31,6 +34,9 @@ $(document).ready(function() {
         $(table).find('select').select2('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
         $(table).find('select').select2();
+        $('.selection').on('click', function() {
+            $('.select2-search__field')[0].focus();
+        });
         $('#dumperwise_entry').fadeOut(500);
     });
     $(".add_row2").on('click', function() {
@@ -38,6 +44,9 @@ $(document).ready(function() {
         $(table).find('select').select2('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table)).find('input').val('');
         $(table).find('select').select2();
+        $('.selection').on('click', function() {
+            $('.select2-search__field')[0].focus();
+        });
     });
     $(".delete_row1").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
