@@ -29,14 +29,14 @@
                                 <input id="date" required="required" type="date" value="" placeholder="" data-rule-required="true" data-msg-required="Please enter a valid date">
                             </td>
                             <td>
-                                <select id="shift" style="width: 120px !important;" >
+                                <select id="shift" style="width: 120px !important;" class="searchable" >
                                     <option value='1'> Shift 1</option>
                                     <option value='2'> Shift 2</option>
                                     <option value='3'> Shift 3</option>
                                 </select>
                             </td>
                             <td>
-                                <select id="section" style="width: 120px !important;" >
+                                <select id="section" style="width: 120px !important;" class="searchable" >
                                     <option value='East'> East</option>
                                     <option value='West'> West</option>
                                 </select>
@@ -48,14 +48,6 @@
                 </div>
                 <div>
                     <label>----------------Select operating shovels:----------------</label>
-                    <br>
-                    <br>
-                    <div style="float:left; margin:0 15px 0 0;">
-                        <input type="button" value="Add Row" class="add_row1" />
-                    </div>
-                    <div style="float:left; margin:0 15px 0 0;">
-                        <input type="button" value="Delete Row" class="delete_row1" />
-                    </div>
                     <br>
                     <br>
                     <table id="shovel_table">
@@ -168,6 +160,14 @@
                     </table>
                     <br>
                     <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Add Row" class="add_row1" />
+                    </div>
+                    <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Delete Row" class="delete_row1" />
+                    </div>
+                    <br>
+                    <br>
+                    <div style="float:left; margin:0 15px 0 0;">
                         <input type="button" value="Create Table" id="save_shovels" />
                     </div>
                     <br>
@@ -175,14 +175,6 @@
                 </div>
                 <div id="dumperwise_entry" style="display: none;">
                 <label>----------------Dumper wise data entry:----------------</label>
-                    <br>
-                    <br>
-                    <div style="float:left; margin:0 15px 0 0;">
-                        <input type="button" value="Add Row" class="add_row2" />
-                    </div>
-                    <div style="float:left; margin:0 15px 0 0;">
-                        <input type="button" value="Delete Row" class="delete_row2" />
-                    </div>
                     <br>
                     <br>
                     <form id='pageData'>
@@ -544,6 +536,14 @@
                         </tr>
                         </tbody>
                     </table>
+                    <br>
+                    <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Add Row" class="add_row2" />
+                    </div>
+                    <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Delete Row" class="delete_row2" />
+                    </div>
+                    <br>
                     <br>
                     <div style="float:left; margin:0 15px 0 0;">
                         <input type="button" value="Get Excel" id="save_dumpers" />
