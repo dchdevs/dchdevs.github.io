@@ -17,7 +17,7 @@
     <div id="entry">
         <h1 class="fs-title">Shift Wise Entry</h1>
         <h3 class="fs-subtitle"></h3>
-        <label>----------------Select Shift and Section:----------------</label>
+        <label>--------------------------------------Select Shift and Section:--------------------------------------</label>
         <div>
             <br>
             <table id="despatch_0">
@@ -50,7 +50,7 @@
             <br>
         </div>
         <div>
-            <label>----------------Select operating shovels:----------------</label>
+            <label>--------------------------------------Select operating shovels:--------------------------------------</label>
             <br>
             <br>
             <table id="shovel_table">
@@ -58,7 +58,8 @@
                     <tr>
                         <th>Shovel No.</th>
                         <th>Shovel Operator</th>
-                        <th>Material</th>
+                        <th>Material Type</th>
+                        <th>Working Hours (Shovel)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,6 +162,11 @@
                                 <option value='ob'> OB</option>
                             </select>
                         </td>
+                        <td>
+                            <input name="shovel_working_hours[]" required="required" maxlength="128" type="number" value=""
+                                    min="0" placeholder="" data-rule-required="true"
+                                    data-msg-required="Please enter a valid number">
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -180,7 +186,7 @@
             <br>
         </div>
         <div id="dumperwise_entry" style="display: none;">
-            <label>----------------Dumper wise data entry:----------------</label>
+            <label>--------------------------------------Dumper wise data entry:--------------------------------------</label>
             <br>
             <br>
             <form id='pageData'>
@@ -189,6 +195,7 @@
                         <tr>
                             <th>Dumper No.</th>
                             <th>Dumper Operator</th>
+                            <th>Working Hours(Dumper)</th>
                             <th id='coal_header'>Coal Shovel</th>
                             <th id='ob_header'>OB Shovel</th>
                         </tr>
@@ -534,6 +541,11 @@
                                     <option value='26329912'>VIJAY KUMAR SONI -- 26329912</option>
                                     <option value='26330216'>VISHAL KUMAR RAI -- 26330216</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input name="dumper_working_hours[]" required="required" maxlength="128" type="number" value=""
+                                    min="0" placeholder="" data-rule-required="true"
+                                    data-msg-required="Please enter a valid number">
                             </td>
                             <td>
                                 <input name="coal_shovel[]" required="required" maxlength="128" type="number" value=""

@@ -87,7 +87,7 @@ $(document).ready(function() {
         $('#dumper_table').find(".searchable").chosen('destroy').end();
 
         $(dumper_thead_tr).each(function(index, tr) {
-            $(tr).find("th:gt(1)").remove();
+            $(tr).find("th:gt(2)").remove();
             for (var i = 0; i < coal_shovels_operating.length; i++) {
                 if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
                     $("<th>" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
@@ -101,7 +101,7 @@ $(document).ready(function() {
         });
 
         $(dumper_tbody_tr).each(function(index, tr) {
-            $(tr).find("td:gt(1)").remove();
+            $(tr).find("td:gt(2)").remove();
             for (var i = 0; i < coal_shovels_operating.length; i++) {
                 if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
                     $(tr).append("<td><input name='coal_shovel_" + coal_shovels_operating[i]  + "_" + coal_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
@@ -131,6 +131,8 @@ $(document).ready(function() {
         header.push({"text":"Shovel No."});
         header.push({"text":"Material Type"});
         header.push({"text":"Shovel Operator"});
+        header.push({"text":"Working Hours (Shovel)"});
+        header.push({"text":"Working Hours (Dumper)"});
         header.push({"text":"Production"});
 
         dataForPage[0].data.push(header);
@@ -146,13 +148,15 @@ $(document).ready(function() {
             var excelRowToInsert;
             var threeFields;
             $(tr).children('td').each(function(index, td) {
-                if(index>1 && $(td).children('select, input').eq(0).val() !== '') {
+                if(index>2 && $(td).children('select, input').eq(0).val() !== '') {
                     excelRowToInsert = [];
                     excelRowToInsert = excelData.slice();
                     threeFields = $(dumper_thead_th).eq(index).html().split('_');
                     excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": threeFields[1]});
                     excelRowToInsert.push({"text": parseInt(threeFields[2])});
+                    excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
+                    excelRowToInsert.push({"text": parseFloat($(tr).children('td').eq(2).children('select, input').eq(0).val())});
                     excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
                     dataForPage[0].data.push(excelRowToInsert);
                 }
