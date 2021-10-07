@@ -19,6 +19,7 @@ var dataForPage = [
 ];
 
 function create_table() {
+    $('#dumperwise_entry').fadeOut(200);
     var coal_shovels_operating = [];
     var coal_shovel_operator = [];
     var ob_shovels_operating = [];
@@ -46,7 +47,7 @@ function create_table() {
     });
 
     if(! coal_shovels_operating.length && ! ob_shovels_operating.length) {
-        alert('No shovels to create table. Please fill at least 1 shovel row');
+        alert('No shovels entered to create dumper-wise table. At least one required!');
         return;
     }
 
@@ -70,6 +71,7 @@ function create_table() {
     });
 
     $(dumper_tbody_tr).each(function(index, tr) {
+        $(tr).find("input,select").val('');
         $(tr).find("td:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
@@ -82,7 +84,7 @@ function create_table() {
             }
         }
     });
-    $('#dumperwise_entry').fadeIn(800);
+    $('#dumperwise_entry').fadeIn(500);
     $('#dumper_table').find(".searchable").chosen();
 }
 
@@ -151,7 +153,7 @@ $(document).ready(function() {
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
         $(table).find('select').chosen();
-        $('#dumperwise_entry').fadeOut(500);
+        $('#dumperwise_entry').fadeOut(200);
     });
     $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -164,7 +166,7 @@ $(document).ready(function() {
         if ($(table).find("tr").length > 2) {
             $(table).find("tr").last().remove();
         }
-        $('#dumperwise_entry').fadeOut(500);
+        $('#dumperwise_entry').fadeOut(200);
     });
     $(".delete_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -173,6 +175,10 @@ $(document).ready(function() {
         }
     });
     $("#save_shovels").on('click', create_table);
+
+    $("form#shovels").on('change', function() {
+        $('#dumperwise_entry').fadeOut(200);
+    });
 
     $("#save_dumpers").on('click', save_dumpers_get_excel);
 });
