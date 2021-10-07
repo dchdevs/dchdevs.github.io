@@ -18,7 +18,7 @@ var dataForPage = [
     }
 ];
 
-function save_shovels() {
+function create_table() {
     var coal_shovels_operating = [];
     var coal_shovel_operator = [];
     var ob_shovels_operating = [];
@@ -172,7 +172,7 @@ $(document).ready(function() {
             $(table).find("tr").last().remove();
         }
     });
-    $("#save_shovels").on('click', save_shovels);
+    $("#save_shovels").on('click', create_table);
 
     $("#save_dumpers").on('click', save_dumpers_get_excel);
 });
