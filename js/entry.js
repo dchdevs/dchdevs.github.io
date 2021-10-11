@@ -19,7 +19,7 @@ var dataForPage = [
 ];
 
 function create_table() {
-    $('#dumperwise_entry').fadeOut(200);
+    $('#dumperwise_entry').fadeOut(100);
     var coal_shovels_operating = [];
     var coal_shovel_operator = [];
     var ob_shovels_operating = [];
@@ -84,7 +84,7 @@ function create_table() {
             }
         }
     });
-    $('#dumperwise_entry').fadeIn(500);
+    $('#dumperwise_entry').fadeIn(300);
     $('#dumper_table').find(".searchable").chosen();
 }
 
@@ -153,7 +153,7 @@ $(document).ready(function() {
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
         $(table).find('select').chosen();
-        $('#dumperwise_entry').fadeOut(200);
+        $('#dumperwise_entry').fadeOut(100);
     });
     $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -166,7 +166,7 @@ $(document).ready(function() {
         if ($(table).find("tr").length > 2) {
             $(table).find("tr").last().remove();
         }
-        $('#dumperwise_entry').fadeOut(200);
+        $('#dumperwise_entry').fadeOut(100);
     });
     $(".delete_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -177,7 +177,7 @@ $(document).ready(function() {
     $("#save_shovels").on('click', create_table);
 
     $("form#shovels").on('change', function() {
-        $('#dumperwise_entry').fadeOut(200);
+        $('#dumperwise_entry').fadeOut(100);
     });
 
     $("#save_dumpers").on('click', save_dumpers_get_excel);
