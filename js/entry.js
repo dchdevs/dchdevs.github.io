@@ -51,10 +51,11 @@ function create_table() {
         return;
     }
 
-    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
     var dumper_thead_tr = $('#dumper_table > thead > tr');
+    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
 
     $('#dumper_table').find(".searchable").chosen('destroy').end();
+    $('#dumper_table > tbody').find("tr:gt(0)").remove();
 
     $(dumper_thead_tr).each(function(index, tr) {
         $(tr).find("th:gt(2)").remove();
