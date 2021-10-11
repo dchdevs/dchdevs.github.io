@@ -86,6 +86,8 @@ function create_table() {
         }
     });
     $('#dumperwise_entry').fadeIn(300);
+    $('.edit').show();
+    $('#dummy').show();
     $('#dumper_table').find(".searchable").chosen();
 }
 
@@ -179,6 +181,11 @@ $(document).ready(function() {
 
     $("form#shovels").on('change', function() {
         $('#dumperwise_entry').fadeOut(100);
+    });
+
+    $('#re_edit_shovels').on('click', function() {
+        $('#dummy').hide();
+        $('.edit').hide();
     });
 
     $("#save_dumpers").on('click', save_dumpers_get_excel);
