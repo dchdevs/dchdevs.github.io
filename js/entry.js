@@ -60,12 +60,12 @@ function create_table() {
         $(tr).find("th:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $("<th>" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));
+                $("<th>" + coal_shovels_operating[i] + " (Coal)</th>").insertAfter($(tr).find("th:last"));
             }
         }
         for (i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $("<th>" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "</th>").insertAfter($(tr).find("th:last"));    
+                $("<th>" + ob_shovels_operating[i] + " (Overburden)</th>").insertAfter($(tr).find("th:last"));    
             }
         }
     });
@@ -75,12 +75,12 @@ function create_table() {
         $(tr).find("td:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $(tr).append("<td><input name='coal_shovel_" + coal_shovels_operating[i]  + "_" + coal_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
             }
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $(tr).append("<td><input name='ob_shovel_" + ob_shovels_operating[i]  + "_" + ob_shovel_operator[i] +  "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
             }
         }
     });
@@ -108,8 +108,8 @@ function save_dumpers_get_excel() {
 
     dataForPage[0].data.push(header);
 
-    var dumper_thead_tr = $('#dumper_table > tbody > tr');
-    $(dumper_thead_tr).each(function(index, tr) {
+    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
+    $(dumper_tbody_tr).each(function(index, tr) {
         var excelData = [];
         excelData.push({"text":new Date($('#date').val())});
         excelData.push({"text":parseInt($('#shift').val())});
@@ -122,7 +122,7 @@ function save_dumpers_get_excel() {
             if(index>2 && $(td).children('select, input').eq(0).val() !== '') {
                 excelRowToInsert = [];
                 excelRowToInsert = excelData.slice();
-                threeFields = $(dumper_thead_th).eq(index).html().split('_');
+                threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
                 excelRowToInsert.push({"text": threeFields[0]});
                 excelRowToInsert.push({"text": threeFields[1]});
                 excelRowToInsert.push({"text": parseInt(threeFields[2])});
