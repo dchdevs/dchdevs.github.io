@@ -10,46 +10,51 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link href="css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/chosen.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>DCH Data Entry</title>
 </head>
 
 <body>
     <div id="entry" style="padding-left:2em;padding-top: 1em;">
         <h1 class="fs-title">Shift Wise Entry</h1>
-        <label style="background-color:lightgray;">--------------------------------------Select Shift and Section:--------------------------------------</label>
+        <label style="background-color:rgb(239, 239, 239);">-----------------------------------------Select Shift and Section:-----------------------------------------</label>
         <div>
             <br>
-            <table id="despatch_0">
-                <tr>
-                    <th>Date.</th>
-                    <th>Shift</th>
-                    <th>Section</th>
-                </tr>
-                <tr>
-                    <td>
-                        <input id="date" required="required" type="date" value="" placeholder=""
-                            data-rule-required="true" data-msg-required="Please enter a valid date">
-                    </td>
-                    <td>
-                        <select id="shift" style="width: 120px !important;" class="searchable">
-                            <option value='1'> Shift 1</option>
-                            <option value='2'> Shift 2</option>
-                            <option value='3'> Shift 3</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="section" style="width: 120px !important;" class="searchable">
-                            <option value='East'> East</option>
-                            <option value='West'> West</option>
-                        </select>
-                    </td>
-                </tr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date.</th>
+                        <th>Shift</th>
+                        <th>Section</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input id="date" required="required" type="date" value="" placeholder=""
+                                data-rule-required="true" data-msg-required="Please enter a valid date">
+                        </td>
+                        <td>
+                            <select id="shift" style="width: 120px !important;" class="searchable">
+                                <option value='1'> Shift 1</option>
+                                <option value='2'> Shift 2</option>
+                                <option value='3'> Shift 3</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="section" style="width: 120px !important;" class="searchable">
+                                <option value='East'> East</option>
+                                <option value='West'> West</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
             <br>
             <br>
         </div>
         <div>
-            <label style="background-color:lightgray;">--------------------------------------Shovels Table:--------------------------------------</label>
+            <label style="background-color:rgb(239, 239, 239);">----------------------------------------------Shovels Table:----------------------------------------------</label>
             <br>
             <br>
             <form id='shovels'>
@@ -182,13 +187,12 @@
             <br>
             <div style="float:left; margin:0 15px 0 0;">
                 <input type="button" value="Create Dumper-wise Table" id="save_shovels" />
-                <label>(Any changes in above shovels table will require re-creation of the dumper-wise table)</label>
             </div>
             <br>
             <br>
         </div>
         <div id="dumperwise_entry" style="display: none;">
-            <label style="background-color:lightgray;">--------------------------------------Dumper-wise table:--------------------------------------</label>
+            <label style="background-color:rgb(239, 239, 239);">-------------------------------------------Dumper-wise table:-------------------------------------------</label>
             <br>
             <br>
             <form id='pageData'>
@@ -321,7 +325,7 @@
                                 </select>
                             </td>
                             <td>
-                                <select style="width: 200px !important;" name="dumper_operator[]" class="searchable">
+                                <select style="width: 200px;" name="dumper_operator[]" class="searchable">
                                     <option value="" selected disabled hidden>Select Dumper Operator</option>
                                     <option value='26315119'>ACHHEWAR KUMAR -- 26315119</option>
                                     <option value='26020966'>AMAL BISWAS -- 26020966</option>
