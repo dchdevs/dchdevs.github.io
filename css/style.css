@@ -48,3 +48,7 @@ table thead th {
     position: absolute;
     font-weight: bold;
 }
+
+.inp{
+    width:100px;
+}
