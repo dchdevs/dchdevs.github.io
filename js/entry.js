@@ -8,7 +8,8 @@
 var date = 'today';
 var shift = 1;
 var section = 1;
-var shovel_working_hours = [];
+var coal_shovel_working_hours = [];
+var ob_shovel_working_hours = [];
 
 //JSON for data
 var dataForPage = [
@@ -24,7 +25,8 @@ function create_table() {
     var coal_shovel_operator = [];
     var ob_shovels_operating = [];
     var ob_shovel_operator = [];
-    shovel_working_hours = [];
+    coal_shovel_working_hours = [];
+    ob_shovel_working_hours = [];
 
     var shovel_table_row = $('#shovel_table > tbody > tr');
 
@@ -35,14 +37,14 @@ function create_table() {
         ) {
             coal_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
-            shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
+            coal_shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
         } else if ($('select[name="material_type[]"]').eq(index).val() === 'ob'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
         ) {
             ob_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             ob_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
-            shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
+            ob_shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
         }
     });
 
@@ -128,7 +130,11 @@ function save_dumpers_get_excel() {
                 excelRowToInsert.push({"text": threeFields[0]});
                 excelRowToInsert.push({"text": threeFields[1]});
                 excelRowToInsert.push({"text": parseInt(threeFields[2])});
-                excelRowToInsert.push({"text": parseFloat(shovel_working_hours[index-2])});
+                if (threeFields[1] === 'Coal') {
+                    excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index-2])});
+                } else if (threeFields[1] === 'OB') {
+                    excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index-2-coal_shovel_working_hours.length])});
+                }
                 excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
                 dataForPage[0].data.push(excelRowToInsert);
             }
