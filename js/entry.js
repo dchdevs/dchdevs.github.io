@@ -63,12 +63,12 @@ function create_table() {
         $(tr).find("th:gt(1)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $("<th>" + coal_shovels_operating[i] + " (Coal)</th>").insertAfter($(tr).find("th:last"));
+                $("<th>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
             }
         }
         for (i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $("<th>" + ob_shovels_operating[i] + " (Overburden)</th>").insertAfter($(tr).find("th:last"));    
+                $("<th>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));    
             }
         }
     });
