@@ -90,7 +90,18 @@ function create_table() {
     $('#dumperwise_entry').fadeIn(300);
     $('.edit').show();
     $('#dummy').show();
-    $('#dumper_table').find(".searchable").chosen();
+    $('#dumper_table').find(".searchable").chosen().change(setFocusOnNextElement);
+    $('td > input').on('keydown', function(e) {
+        if (e.which === 13) {
+            var element = $(this).parent().next().children('input,select').eq(0);
+            if(element.is('input')) {
+                window.setTimeout(() => $(element).focus(), 0);
+            } else if (element.is('select')) {
+                window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
+            }
+            return false;
+        }
+    });
 }
 
 function save_dumpers_get_excel() {
@@ -146,27 +157,49 @@ function save_dumpers_get_excel() {
     Jhxlsx.export(dataForPage, options);
 }
 
+function setFocusOnNextElement() {
+    var element = $(this).parent().next().children('input,select').eq(0);
+    if(element.is('input')) {
+        window.setTimeout(() => $(element).focus(), 0);
+    } else if (element.is('select')) {
+        window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
+    }
+    return false;
+}
+
 $(document).ready(function() {
-    $('.searchable').chosen();
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
     var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
     $('#date').val(today);
+    
+    $('.searchable').chosen().change(setFocusOnNextElement);
 
     $(".add_row1").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
-        $(table).find('select').chosen();
+        $(table).find('select').chosen().change(setFocusOnNextElement);
         $('#dumperwise_entry').fadeOut(100);
     });
     $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table)).find('input').val('');
-        $(table).find('select').chosen();
+        $(table).find('select').chosen().change(setFocusOnNextElement);
+        $('td > input').on('keydown', function(e) {
+            if (e.which === 13) {
+                var element = $(this).parent().next().children('input,select').eq(0);
+                if(element.is('input')) {
+                    window.setTimeout(() => $(element).focus(), 0);
+                } else if (element.is('select')) {
+                    window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
+                }
+                return false;
+            }
+        });
     });
     $(".delete_row1").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
@@ -181,6 +214,7 @@ $(document).ready(function() {
             $(table).find("tr").last().remove();
         }
     });
+
     $("#save_shovels").on('click', create_table);
 
     $("form#shovels").on('change', function() {
