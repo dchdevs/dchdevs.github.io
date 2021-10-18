@@ -1,3 +1,4 @@
+
 table {
     table-layout: fixed;
     font-weight: normal;
@@ -51,4 +52,68 @@ table thead th {
 
 .inp{
     width:50px;
+}
+
+.inp1{
+    width:70px;
+}
+
+
+/* //////////////////////CUSTOM STYLES */
+*{
+    box-sizing: border-box;
+    margin:0px;
+    padding:0px;
+    border-collapse: collapse;
+    font:inherit;
+}
+.page-head{
+    height:100px;
+    width:100vw;
+    /* background:yellow; */
+    display:flex;
+    flex-direction: row;
+    align-items:stretch;
+    justify-content: space-evenly;
+    background-color:beige;
+}
+
+.ph-left{
+    width:60%;
+    display: flex;
+    /* flex-grow:1; */
+    
+}
+
+.page-logo img{
+    height: 100%;
+} 
+.page-title {
+    margin:10px;
+    padding:5px;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    border-right:1px solid lightgrey;
+}
+
+.page-title-1{
+    padding:0;
+    margin:0;
+    font-size: 2rem;
+    /* background:yellow; */
+}
+
+.page-title-2{
+    padding:0 15px;
+    margin:0;
+    font-size:1.2rem;
+    /* background:red; */
+    border-top:1px solid lightgrey;
+}
+.page-head > div{
+    /* height:100%; */
+    /* width:33%; */
+    /* border:1px solid black; */
 }
