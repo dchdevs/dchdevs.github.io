@@ -60,13 +60,14 @@
                                 <th style="background-color: beige;">Shovel No.</th>
                                 <th style="background-color: beige;">Shovel Operator</th>
                                 <th style="background-color: beige;">Material Type</th>
+                                <th style="background-color: beige;">Seam</th>
                                 <th style="background-color: beige;">Working<br>Hours<br>(Shovel)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <select style="width: 130px;" name="shovel_no[]" class="searchable">
+                                    <select style="width: 120px;" name="shovel_no[]" class="searchable">
                                         <option value="" selected disabled hidden>Select Shovel</option>
                                         <option value='PH-06'>PH-06</option>
                                         <option value='PH-07'>PH-07</option>
@@ -160,10 +161,22 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select style="width: 140px;" name="material_type[]" class="searchable">
+                                    <select style="width: 120px;" name="material_type[]" class="searchable">
                                         <option value="" selected disabled hidden>Select Material</option>
                                         <option value='coal'>COAL</option>
                                         <option value='ob'> OB</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select style="width: 110px;" name="seam[]" class="searchable">
+                                        <option value="" selected disabled hidden>Select Seam</option>
+                                        <option value='OVERBURDEN'>Overburden</option>
+                                        <option value='Purewa Top East'>Purewa Top East</option>
+                                        <option value='Purewa Top West'>Purewa Top West</option>
+                                        <option value='Purewa Bottom East'>Purewa Bottom East</option>
+                                        <option value='Purewa Bottom West'>Purewa Bottom West</option>
+                                        <option value='Turra East'>Turra East</option>
+                                        <option value='Turra West'>Turra West</option>
                                     </select>
                                 </td>
                                 <td>

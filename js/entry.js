@@ -10,6 +10,11 @@ var shift = 1;
 var section = 1;
 var coal_shovel_working_hours = [];
 var ob_shovel_working_hours = [];
+var coal_shovels_operating = [];
+var coal_shovel_operator = [];
+var ob_shovels_operating = [];
+var ob_shovel_operator = [];
+var coal_shovel_seam = [];
 
 //JSON for data
 var dataForPage = [
@@ -21,12 +26,13 @@ var dataForPage = [
 
 function create_table() {
     $('#dumperwise_entry').fadeOut(100);
-    var coal_shovels_operating = [];
-    var coal_shovel_operator = [];
-    var ob_shovels_operating = [];
-    var ob_shovel_operator = [];
+    coal_shovels_operating = [];
+    coal_shovel_operator = [];
+    ob_shovels_operating = [];
+    ob_shovel_operator = [];
     coal_shovel_working_hours = [];
     ob_shovel_working_hours = [];
+    coal_shovel_seam = [];
 
     var shovel_table_row = $('#shovel_table > tbody > tr');
 
@@ -38,6 +44,7 @@ function create_table() {
             coal_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
             coal_shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
+            coal_shovel_seam.push($('select[name="seam[]"]').eq(index).val());
         } else if ($('select[name="material_type[]"]').eq(index).val() === 'ob'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
@@ -118,6 +125,7 @@ function save_dumpers_get_excel() {
     header.push({"text":"Shovel No."});
     header.push({"text":"Material Type"});
     header.push({"text":"Shovel Operator"});
+    header.push({"text":"Seam"});
     header.push({"text":"Working Hours (Shovel)"});
     header.push({"text":"Working Hours (Dumper)"});
     header.push({"text":"Production"});
@@ -143,8 +151,10 @@ function save_dumpers_get_excel() {
                 excelRowToInsert.push({"text": threeFields[1]});
                 excelRowToInsert.push({"text": parseInt(threeFields[2])});
                 if (threeFields[1] === 'Coal') {
+                    excelRowToInsert.push({"text": coal_shovel_seam[index-3]});
                     excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index-3])});
                 } else if (threeFields[1] === 'OB') {
+                    excelRowToInsert.push({"text": "OVERBURDEN"});
                     excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index-3-coal_shovel_working_hours.length])});
                 }
                 excelRowToInsert.push({"text": parseFloat($(tr).children('td').eq(2).children('select, input').eq(0).val())});
