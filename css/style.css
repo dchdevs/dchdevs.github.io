@@ -79,10 +79,9 @@ table thead th {
 }
 
 .ph-left{
-    width:60%;
+    width:30%;
     display: flex;
     /* flex-grow:1; */
-    
 }
 
 .page-logo img{
@@ -97,14 +96,12 @@ table thead th {
     align-items: center;
     border-right:1px solid lightgrey;
 }
-
 .page-title-1{
     padding:0;
     margin:0;
     font-size: 2rem;
     /* background:yellow; */
 }
-
 .page-title-2{
     padding:0 15px;
     margin:0;
@@ -114,6 +111,13 @@ table thead th {
 }
 .page-head > div{
     /* height:100%; */
-    /* width:33%; */
+    /* width:33%;
     /* border:1px solid black; */
+}
+.ph-mid{
+    flex-direction: column;
+    width:40%;
+}
+.ph-right{
+    width:30%
 }

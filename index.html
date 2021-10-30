@@ -26,21 +26,43 @@
             </div>
         </div>
         <div class="ph-mid">
-
+            <div>
+                <label>Production Date:</label> 
+                <input id="date" required="required" type="date" value="" placeholder="" data-rule-required="true"
+                    data-msg-required="Please enter a valid date">
+            </div>
+            <div>
+                <label>Shift:</label>
+                <select id="shift" style="width: 120px !important;" class="searchable">
+                    <option value='SF1A'> Shift 1</option>
+                    <option value='SF2B'> Shift 2</option>
+                    <option value='SF3C'> Shift 3</option>
+                </select>
+            </div>
+            <div>
+                <label>Section:</label>
+                <select id="section" style="width: 120px !important;" class="searchable">
+                    <option value='East'> East</option>
+                    <option value='West'> West</option>
+                </select>
+            </div>
         </div>
         <div class="ph-right">
-            <input id="date" required="required" type="date" value="" placeholder="" data-rule-required="true"
-                data-msg-required="Please enter a valid date">
-            <select id="shift" style="width: 120px !important;" class="searchable">
-                <option value='1'> Shift 1</option>
-                <option value='2'> Shift 2</option>
-                <option value='3'> Shift 3</option>
-            </select>
-
-            <select id="section" style="width: 120px !important;" class="searchable">
-                <option value='East'> East</option>
-                <option value='West'> West</option>
-            </select>
+            <div>
+                <label>Plant no.:</label>
+                <input id="plant" required="required" type="number" value="" placeholder="" data-rule-required="true"
+                    data-msg-required="Please enter a valid date">
+            </div>
+            <div>
+                <label>Material Code:</label>
+                <input id="material_code" required="required" type="number" value="" placeholder="" data-rule-required="true"
+                    data-msg-required="Please enter a valid date">
+            </div>
+            <div>
+                <label>Process Order:</label>
+                <input id="process_order" required="required" type="number" value="" placeholder="" data-rule-required="true"
+                    data-msg-required="Please enter a valid date">
+            </div>
         </div>
     </div>
     <div class="page-body">
@@ -234,6 +256,12 @@
                         <tbody>
                             <tr>
                                 <td>
+                                    <!-- CN-01 TO CN-36 FOR COAL=45 FOR OB 32
+                                    C-SERIES & K/D SERIES COAL 40 & OB 27
+                                    TX SERIES COAL 55 OB 37
+                                    KM SERIES FOR COAL=45 FOR OB 32
+                                    CAT SERIES COAL 75 OB 50
+                                    -->
                                     <select style="width: 95px;" name="dumper_no[]" class="searchable">
                                         <option value="" selected disabled hidden>Select Dumper</option>
                                         <option value='CN-01'>CN-01</option>
