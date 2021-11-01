@@ -60,11 +60,11 @@ function create_table() {
         return;
     }
 
-    var dumper_thead_tr = $('#dumper_table > thead > tr');
-    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
-
     $('#dumper_table').find(".searchable").chosen('destroy').end();
     $('#dumper_table > tbody').find("tr:gt(0)").remove();
+
+    var dumper_thead_tr = $('#dumper_table > thead > tr');
+    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
 
     $(dumper_thead_tr).each(function(index, tr) {
         $(tr).find("th:gt(2)").remove();
@@ -86,12 +86,18 @@ function create_table() {
         }
     });
 
+    var totals_html = '<tr class=totalColumn>'
+    + '<td>Total</td>'
+    + '<td></td>'
+    + '<td>0</td>';
+
     $(dumper_tbody_tr).each(function(index, tr) {
         $(tr).find("input,select").val('');
         $(tr).find("td:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='inp' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='inp " + "sum" + (i+4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                totals_html += '<td>0</td>';
             }
             if(i === coal_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable'>"
@@ -100,11 +106,13 @@ function create_table() {
                 + "<option value='West Coal Yard'>West Coal Yard</option>"
                 + "<option value='Crusher Yard'>Crusher Yard</option>"
                 + "</select></td>");
+                totals_html += '<td></td>';
             }
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='inp' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='inp " + "sum" + (i + coal_shovels_operating.length + 4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                totals_html += '<td>0</td>';
             }
             if(i === ob_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable'>"
@@ -113,9 +121,14 @@ function create_table() {
                 + "<option value='OB Dump West'>OB Dump West</option>"
                 + "<option value='Local OB Dump'>Local OB Dump</option>"
                 + "</select></td>");
+                totals_html += '<td></td>';
             }
         }
     });
+    totals_html += '</tr>';
+    $('#dumper_table > tbody').append(totals_html);
+    bind_total_event();
+
     $('#dumperwise_entry').fadeIn(300);
     $('.edit').show();
     $('#dummy').show();
@@ -131,6 +144,25 @@ function create_table() {
             return false;
         }
     });
+}
+
+function bind_total_event() {
+    $('#dumper_table tr:not(.totalColumn) input').bind('keyup change', function() {
+        calc_total(this);
+    });
+}
+
+function calc_total(obj) {
+    var $table = $(obj).closest('table');
+    var total = 0;
+    var thisNumber = $(obj).attr('class').slice(-1);
+
+    if(! isNaN(thisNumber)) {
+        $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function() {
+            total += +$(this).val();
+        });
+        $table.find('.totalColumn td:nth-child('+ thisNumber + ')').html(total);
+    }
 }
 
 function save_dumpers_get_excel() {
@@ -229,7 +261,8 @@ $(document).ready(function() {
     $(".add_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
-        $(table).find("tr").eq(1).clone().appendTo($(table)).find('input').val('');
+        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length -2)).find('input').val('');
+        bind_total_event();
         $(table).find('select').chosen().change(setFocusOnNextElement);
         $('td > input').on('keydown', function(e) {
             if (e.which === 13) {
@@ -252,8 +285,11 @@ $(document).ready(function() {
     });
     $(".delete_row2").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
-        if ($(table).find("tr").length > 2) {
-            $(table).find("tr").last().remove();
+        if ($(table).find("tr").length > 3) {
+            $(table).find("tr").eq(-2).remove();
+            $('#dumper_table tr:not(.totalColumn) input').each(function () {
+                calc_total(this);
+            });
         }
     });
 
