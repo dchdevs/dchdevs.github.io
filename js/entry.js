@@ -72,10 +72,16 @@ function create_table() {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
                 $("<th style='background-color: beige;'>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
             }
+            if(i === coal_shovels_operating.length - 1) {
+                $("<th style='background-color: beige;'>Dump<br>Location<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
+            }
         }
         for (i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
                 $("<th style='background-color: beige;'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));    
+            }
+            if(i === ob_shovels_operating.length - 1) {
+                $("<th style='background-color: beige;'>Dump<br>Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
             }
         }
     });
@@ -87,10 +93,26 @@ function create_table() {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
                 $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='inp' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
             }
+            if(i === coal_shovels_operating.length - 1) {
+                $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable'>"
+                + "<option value='' selected disabled hidden>Select Dump</option>"
+                + "<option value='East Coal Yard'>East Coal Yard</option>"
+                + "<option value='West Coal Yard'>West Coal Yard</option>"
+                + "<option value='Crusher Yard'>Crusher Yard</option>"
+                + "</select></td>");
+            }
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
                 $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='inp' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+            }
+            if(i === ob_shovels_operating.length - 1) {
+                $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable'>"
+                + "<option value='' selected disabled hidden>Select Dump</option>"
+                + "<option value='OB Dump East'>OB Dump East</option>"
+                + "<option value='OB Dump West'>OB Dump West</option>"
+                + "<option value='Local OB Dump'>Local OB Dump</option>"
+                + "</select></td>");
             }
         }
     });
@@ -129,6 +151,7 @@ function save_dumpers_get_excel() {
     header.push({"text":"Working Hours (Shovel)"});
     header.push({"text":"Working Hours (Dumper)"});
     header.push({"text":"Production"});
+    header.push({"text":"Dump Location"});
 
     dataForPage[0].data.push(header);
 
@@ -136,29 +159,36 @@ function save_dumpers_get_excel() {
     $(dumper_tbody_tr).each(function(index, tr) {
         var excelData = [];
         excelData.push({"text":new Date($('#date').val())});
-        excelData.push({"text":parseInt($('#shift').val())});
+        excelData.push({"text":$('#shift').val()});
         excelData.push({"text":$('#section').val()});
         excelData.push({"text":$(tr).children('td').eq(0).children('select, input').eq(0).val()});
         excelData.push({"text":parseInt($(tr).children('td').eq(1).children('select, input').eq(0).val())});
         var excelRowToInsert;
         var threeFields;
-        $(tr).children('td').each(function(index, td) {
-            if(index>2 && $(td).children('select, input').eq(0).val() !== '') {
+        $(tr).children('td').each(function(index1, td) {
+            if(index1 > 2
+                && $(td).children('select, input').eq(0).is('input') 
+                && $(td).children('select, input').eq(0).val() !== ''
+            ) {
                 excelRowToInsert = [];
                 excelRowToInsert = excelData.slice();
                 threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
                 excelRowToInsert.push({"text": threeFields[0]});
                 excelRowToInsert.push({"text": threeFields[1]});
                 excelRowToInsert.push({"text": parseInt(threeFields[2])});
+                var dump_location;
                 if (threeFields[1] === 'Coal') {
-                    excelRowToInsert.push({"text": coal_shovel_seam[index-3]});
-                    excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index-3])});
+                    excelRowToInsert.push({"text": coal_shovel_seam[index1-3]});
+                    excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index1-3])});
+                    dump_location = $('select[name="coal_dump_location[]"]').eq(index).val();
                 } else if (threeFields[1] === 'OB') {
                     excelRowToInsert.push({"text": "OVERBURDEN"});
-                    excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index-3-coal_shovel_working_hours.length])});
+                    excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index1-4-coal_shovel_working_hours.length])});
+                    dump_location = $('select[name="ob_dump_location[]"]').eq(index).val();
                 }
                 excelRowToInsert.push({"text": parseFloat($(tr).children('td').eq(2).children('select, input').eq(0).val())});
                 excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
+                excelRowToInsert.push({"text": dump_location});
                 dataForPage[0].data.push(excelRowToInsert);
             }
         });
