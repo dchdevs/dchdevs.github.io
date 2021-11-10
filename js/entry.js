@@ -165,7 +165,37 @@ function calc_total(obj) {
     }
 }
 
-function save_dumpers_get_excel() {
+function get_sap_compatible_excel() {
+    //Create header
+    dataForPage[0].data = [];
+    var header = [];
+    header.push({"text":"Plant"});
+    header.push({"text":"Materialcode"});
+    header.push({"text":"Process_Order"});
+    header.push({"text":"Production_Date"});
+    header.push({"text":"Shift"});
+    header.push({"text":"Seam"});
+    header.push({"text":"Bench"});
+    header.push({"text":"Shovel_Number"});
+    header.push({"text":"Shovel_Operator"});
+    header.push({"text":"Shovel_Operating_Time"});
+    header.push({"text":"Dumper_Number"});
+    header.push({"text":"Dumper_Operator"});
+    header.push({"text":"Dumper_Operating_Time"});
+    header.push({"text":"Dumper_Number_of_Trips"});
+    header.push({"text":"Dumper_Factor"});
+    header.push({"text":"Dumper_Tonnage"});
+
+    dataForPage[0].data.push(header);
+    
+    var options = {
+        fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
+    };
+    Jhxlsx.export(dataForPage, options);
+
+}
+
+function save_dumpers_get_excel_old() {
     //Create header
     dataForPage[0].data = [];
     var header = [];
@@ -304,6 +334,6 @@ $(document).ready(function() {
         $('.edit').hide();
     });
 
-    $("#save_dumpers").on('click', save_dumpers_get_excel);
+    $("#save_dumpers").on('click', save_dumpers_get_excel_old);
+    $("#save_dumpers_1").on('click', get_sap_compatible_excel);
 });
-
