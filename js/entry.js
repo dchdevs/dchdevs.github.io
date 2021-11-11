@@ -70,7 +70,7 @@ function create_table() {
         $(tr).find("th:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $("<th style='background-color: beige;'>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
+                $("<th style='background-color: beige;' class='shovel_column'>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
             }
             if(i === coal_shovels_operating.length - 1) {
                 $("<th style='background-color: beige;'>Dump<br>Location<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
@@ -78,7 +78,7 @@ function create_table() {
         }
         for (i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $("<th style='background-color: beige;'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));    
+                $("<th style='background-color: beige;' class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));    
             }
             if(i === ob_shovels_operating.length - 1) {
                 $("<th style='background-color: beige;'>Dump<br>Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
@@ -96,7 +96,7 @@ function create_table() {
         $(tr).find("td:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='inp " + "sum" + (i+4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_column_value inp " + "sum" + (i+4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
             }
             if(i === coal_shovels_operating.length - 1) {
@@ -111,7 +111,7 @@ function create_table() {
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='inp " + "sum" + (i + coal_shovels_operating.length + 5) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_column_value inp " + "sum" + (i + coal_shovels_operating.length + 5) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
             }
             if(i === ob_shovels_operating.length - 1) {
@@ -188,18 +188,38 @@ function get_sap_compatible_excel() {
 
     dataForPage[0].data.push(header);
 
-    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
-    $(dumper_tbody_tr).each(function(index, tr) {
-        var excelData = [];
-        excelData.push({"text":$('#plant').val()});
-        excelData.push({"text":$('#material_code').val()});
-        excelData.push({"text":$('#process_order').val()});
-        excelData.push({"text":new Date($('#date').val())});
-        excelData.push({"text":$('#shift').val()});
-        var excelRowToInsert;
-        excelRowToInsert = [];
-        excelRowToInsert = excelData.slice();
-        dataForPage[0].data.push(excelRowToInsert);
+    var dumper_thead_th = $('#dumper_table > thead > tr > th');
+    $(dumper_thead_th).each(function(index, th) {
+        if ($(th).hasClass("shovel_column")) {
+            var excelData = [];
+            excelData.push({"text":$('#plant').val()});
+            excelData.push({"text":$('#material_code').val()});
+            excelData.push({"text":$('#process_order').val()});
+            excelData.push({"text":new Date($('#date').val())});
+            excelData.push({"text":$('#shift').val()});
+            var excelRowToInsert;
+            var threeFields;
+            var dumper_columns = $('#dumper_table tr td:nth-child(' + (index + 1) + ')');
+            $(dumper_columns).each(function(index1, td) {
+                if ($(td).children('select, input').eq(0).is('input') 
+                && $(td).children('select, input').eq(0).val() !== '') {
+                    excelRowToInsert = [];
+                    excelRowToInsert = excelData.slice();
+                    threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
+                    if (threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({"text": coal_shovel_seam[index-3]});
+                        //excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index1-3])});
+                    } else if (threeFields[1] === 'OB') {
+                        excelRowToInsert.push({"text": ob_shovel_seam[index-3]});
+                        //excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index1-4-coal_shovel_working_hours.length])});
+                    }
+                    excelRowToInsert.push({"text": threeFields[0]});
+                    excelRowToInsert.push({"text": threeFields[0]});
+                    excelRowToInsert.push({"text": parseInt(threeFields[2])});
+                    dataForPage[0].data.push(excelRowToInsert);
+                }
+            });
+        }
     });
 
     var options = {
