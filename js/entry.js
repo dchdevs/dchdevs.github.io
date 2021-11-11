@@ -187,7 +187,21 @@ function get_sap_compatible_excel() {
     header.push({"text":"Dumper_Tonnage"});
 
     dataForPage[0].data.push(header);
-    
+
+    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
+    $(dumper_tbody_tr).each(function(index, tr) {
+        var excelData = [];
+        excelData.push({"text":$('#plant').val()});
+        excelData.push({"text":$('#material_code').val()});
+        excelData.push({"text":$('#process_order').val()});
+        excelData.push({"text":new Date($('#date').val())});
+        excelData.push({"text":$('#shift').val()});
+        var excelRowToInsert;
+        excelRowToInsert = [];
+        excelRowToInsert = excelData.slice();
+        dataForPage[0].data.push(excelRowToInsert);
+    });
+
     var options = {
         fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
     };
