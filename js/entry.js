@@ -2,7 +2,8 @@
 *
 * Generic Copyright
 *
-* Plug-ins used: jQuery hi hai abhi 
+* Plug-ins used: jQuery for now
+* Author: Atul Pratap Singh (https://github.com/atuldch)
 */
 
 var date = 'today';
@@ -15,6 +16,7 @@ var coal_shovel_operator = [];
 var ob_shovels_operating = [];
 var ob_shovel_operator = [];
 var coal_shovel_seam = [];
+var ob_shovel_seam = [];
 
 //JSON for data
 var dataForPage = [
@@ -33,6 +35,7 @@ function create_table() {
     coal_shovel_working_hours = [];
     ob_shovel_working_hours = [];
     coal_shovel_seam = [];
+    ob_shovel_seam = [];
 
     var shovel_table_row = $('#shovel_table > tbody > tr');
 
@@ -52,6 +55,7 @@ function create_table() {
             ob_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             ob_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
             ob_shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
+            ob_shovel_seam.push($('select[name="seam[]"]').eq(index).val());
         }
     });
 
@@ -210,7 +214,7 @@ function get_sap_compatible_excel() {
                         excelRowToInsert.push({"text": coal_shovel_seam[index-3]});
                         //excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index1-3])});
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text": ob_shovel_seam[index-3]});
+                        excelRowToInsert.push({"text": ob_shovel_seam[index-4-coal_shovel_seam.length]});
                         //excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index1-4-coal_shovel_working_hours.length])});
                     }
                     excelRowToInsert.push({"text": threeFields[0]});
