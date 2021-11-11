@@ -212,14 +212,23 @@ function get_sap_compatible_excel() {
                     threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
                     if (threeFields[1] === 'Coal') {
                         excelRowToInsert.push({"text": coal_shovel_seam[index-3]});
-                        //excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index1-3])});
                     } else if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({"text": ob_shovel_seam[index-4-coal_shovel_seam.length]});
-                        //excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index1-4-coal_shovel_working_hours.length])});
                     }
                     excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": parseInt(threeFields[2])});
+                    //shovel operating time
+                    if (threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index-3])});
+                    } else if (threeFields[1] === 'OB') {
+                        excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index-4-coal_shovel_working_hours.length])});
+                    }
+                    excelData.push({"text":$(td).parent().children('td').eq(0).children('select, input').eq(0).val()});
+                    excelData.push({"text":parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val())});
+                    excelData.push({"text":parseInt($(td).parent().children('td').eq(2).children('select, input').eq(0).val())});
+                    excelData.push({"text":parseInt($(td).children('select, input').eq(0).val())});
+
                     dataForPage[0].data.push(excelRowToInsert);
                 }
             });
