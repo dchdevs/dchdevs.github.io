@@ -17,6 +17,12 @@ var ob_shovels_operating = [];
 var ob_shovel_operator = [];
 var coal_shovel_seam = [];
 var ob_shovel_seam = [];
+var material_code_coal = 4100000014;
+var material_code_ob = 4100000011;
+var process_order_purewa_coal = 60004129;
+var process_order_turra_coal = 60004130;
+var process_order_ob = 70003257;
+
 
 //JSON for data
 var dataForPage = [
@@ -197,10 +203,6 @@ function get_sap_compatible_excel() {
         if ($(th).hasClass("shovel_column")) {
             var excelData = [];
             excelData.push({"text":$('#plant').val()});
-            excelData.push({"text":$('#material_code').val()});
-            excelData.push({"text":$('#process_order').val()});
-            excelData.push({"text":new Date($('#date').val())});
-            excelData.push({"text":$('#shift').val()});
             var excelRowToInsert;
             var threeFields;
             var dumper_columns = $('#dumper_table tr td:nth-child(' + (index + 1) + ')');
@@ -210,6 +212,20 @@ function get_sap_compatible_excel() {
                     excelRowToInsert = [];
                     excelRowToInsert = excelData.slice();
                     threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
+                    if (threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({"text":material_code_coal});
+                    } else if (threeFields[1] === 'OB') {
+                        excelRowToInsert.push({"text":material_code_ob});
+                    }
+                    if (coal_shovel_seam[index-3][1].indexOf('Purewa') > -1 && threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({"text":process_order_purewa_coal});
+                    } else if (coal_shovel_seam[index-3][1].indexOf('Turra') > -1 && threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({"text":process_order_turra_coal});
+                    } else if (threeFields[1] === 'OB') {
+                        excelRowToInsert.push({"text":process_order_ob});
+                    }
+                    excelRowToInsert.push({"text":new Date($('#date').val())});
+                    excelRowToInsert.push({"text":$('#shift').val()});
                     if (threeFields[1] === 'Coal') {
                         excelRowToInsert.push({"text": coal_shovel_seam[index-3][0]});
                         excelRowToInsert.push({"text": coal_shovel_seam[index-3][1]});
