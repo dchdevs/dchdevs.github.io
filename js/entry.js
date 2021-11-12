@@ -47,7 +47,7 @@ function create_table() {
             coal_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
             coal_shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
-            coal_shovel_seam.push($('select[name="seam[]"]').eq(index).val());
+            coal_shovel_seam.push([$('select[name="seam[]"]').eq(index).val().split('|')[0], $('select[name="seam[]"]').eq(index).val().split('|')[1]]);
         } else if ($('select[name="material_type[]"]').eq(index).val() === 'ob'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
@@ -55,7 +55,7 @@ function create_table() {
             ob_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             ob_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
             ob_shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
-            ob_shovel_seam.push($('select[name="seam[]"]').eq(index).val());
+            ob_shovel_seam.push([$('select[name="seam[]"]').eq(index).val().split('|')[0], $('select[name="seam[]"]').eq(index).val().split('|')[1]]);
         }
     });
 
@@ -211,11 +211,12 @@ function get_sap_compatible_excel() {
                     excelRowToInsert = excelData.slice();
                     threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text": coal_shovel_seam[index-3]});
+                        excelRowToInsert.push({"text": coal_shovel_seam[index-3][0]});
+                        excelRowToInsert.push({"text": coal_shovel_seam[index-3][1]});
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text": ob_shovel_seam[index-4-coal_shovel_seam.length]});
+                        excelRowToInsert.push({"text": ob_shovel_seam[index-4-coal_shovel_seam.length][0]});
+                        excelRowToInsert.push({"text": ob_shovel_seam[index-4-coal_shovel_seam.length][1]});
                     }
-                    excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": threeFields[0]});
                     excelRowToInsert.push({"text": parseInt(threeFields[2])});
                     //shovel operating time
