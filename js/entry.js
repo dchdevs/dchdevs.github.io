@@ -224,11 +224,15 @@ function get_sap_compatible_excel() {
                     } else if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index-4-coal_shovel_working_hours.length])});
                     }
-                    excelData.push({"text":$(td).parent().children('td').eq(0).children('select, input').eq(0).val()});
-                    excelData.push({"text":parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val())});
-                    excelData.push({"text":parseInt($(td).parent().children('td').eq(2).children('select, input').eq(0).val())});
-                    excelData.push({"text":parseInt($(td).children('select, input').eq(0).val())});
-
+                    excelRowToInsert.push({"text":$(td).parent().children('td').eq(0).children('select, input').eq(0).val()});
+                    excelRowToInsert.push({"text":parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val())});
+                    excelRowToInsert.push({"text":parseInt($(td).parent().children('td').eq(2).children('select, input').eq(0).val())});
+                    var trips = $(td).children('select, input').eq(0).val();
+                    excelRowToInsert.push({"text":parseInt(trips)});
+                    var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1]);
+                    excelRowToInsert.push({"text":parseInt(dumper_factor)});
+                    var dumper_tonnage = trips * dumper_factor;
+                    excelRowToInsert.push({"text":parseInt(dumper_tonnage)});
                     dataForPage[0].data.push(excelRowToInsert);
                 }
             });
@@ -240,6 +244,31 @@ function get_sap_compatible_excel() {
     };
     Jhxlsx.export(dataForPage, options);
 
+}
+
+function get_dumper_factor(dumper_number, material_type) {
+    var df;
+    /*
+    CN-01 TO CN-36 FOR COAL=45 FOR OB 32
+    C-SERIES & K/D SERIES COAL 40 & OB 27
+    TX SERIES COAL 55 OB 37
+    KM SERIES FOR COAL=45 FOR OB 32
+    CAT SERIES COAL 75 OB 50
+    */
+    if (dumper_number.indexOf('CN-') > -1) {
+        df = material_type == 'Coal' ? 45 : 32 ;
+    } else if (dumper_number.indexOf('C-') > -1 
+        || dumper_number.indexOf('K-') > -1 
+        || dumper_number.indexOf('D-') > -1) {
+            df = material_type == 'Coal' ? 40 : 27;
+    } else if (dumper_number.indexOf('TX-') > -1) {
+        df = material_type == 'Coal' ? 55 : 37;
+    } else if (dumper_number.indexOf('KM-') > -1) {
+        df = material_type == 'Coal' ? 45 : 32;
+    } else if (dumper_number.indexOf('CAT-') > -1) {
+        df = material_type == 'Coal' ? 70 : 50;
+    }
+    return df;
 }
 
 function save_dumpers_get_excel_old() {
