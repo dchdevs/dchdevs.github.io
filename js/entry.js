@@ -106,7 +106,7 @@ function create_table() {
         $(tr).find("td:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_column_value inp " + "sum" + (i+4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i+4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
             }
             if(i === coal_shovels_operating.length - 1) {
@@ -121,7 +121,7 @@ function create_table() {
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_column_value inp " + "sum" + (i + coal_shovels_operating.length + 5) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i + coal_shovels_operating.length + 5) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
             }
             if(i === ob_shovels_operating.length - 1) {
@@ -199,6 +199,30 @@ function get_sap_compatible_excel() {
     dataForPage[0].data.push(header);
 
     var dumper_thead_th = $('#dumper_table > thead > tr > th');
+
+    //calculate working hour distribution
+    var dumper_working_hours = {};
+    //load dumper-wise working hours
+    $('#dumper_table input[name="dumper_working_hours[]"]').each(function(){
+        dumper_working_hours[$(this).parent().parent().children().first().children('select, input').eq(0).val()] = $(this).val();
+    });
+
+    var dumper_shovel_trips = {};
+    //load dumper to shovel-wise trips
+    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
+    $(dumper_tbody_tr).each(function(index, tr) {
+        var unique_dumper = $(tr).children('td').eq(0).children('select, input').eq(0).val();
+        dumper_shovel_trips[unique_dumper] = {};
+        $(tr).children('td').each(function(index1, td) {
+            if($(td).children('input').eq(0).hasClass('shovel_dumper_trip')) {
+                var unique_shovel = $(td).children('select, input').eq(0).attr("name");
+                dumper_shovel_trips[unique_dumper][unique_shovel] = $(td).children('select, input').eq(0).val();
+            }
+        });
+    });
+
+    var working_hour_distribution = dumper_working_hour_distribution(dumper_working_hours, dumper_shovel_trips);
+
     $(dumper_thead_th).each(function(index, th) {
         if ($(th).hasClass("shovel_column")) {
             var excelData = [];
@@ -243,7 +267,7 @@ function get_sap_compatible_excel() {
                     }
                     excelRowToInsert.push({"text":$(td).parent().children('td').eq(0).children('select, input').eq(0).val()});
                     excelRowToInsert.push({"text":parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val())});
-                    excelRowToInsert.push({"text":parseInt($(td).parent().children('td').eq(2).children('select, input').eq(0).val())});
+                    excelRowToInsert.push({"text":parseInt(working_hour_distribution[$(td).parent().children('td').eq(0).children('select, input').eq(0).val()][$(td).children('select, input').eq(0).attr("name")])});
                     var trips = $(td).children('select, input').eq(0).val();
                     excelRowToInsert.push({"text":parseInt(trips)});
                     var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1]);
@@ -261,6 +285,26 @@ function get_sap_compatible_excel() {
     };
     Jhxlsx.export(dataForPage, options);
 
+}
+
+function dumper_working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
+    var working_hours = {};
+    var total_trips = {};
+    for (const key in dumper_shovel_trips) {
+        //working_hours_array[key] = {};
+        var total_dumper_trips = 0;
+        for (const key1 in dumper_shovel_trips[key]) {
+            total_dumper_trips += parseInt(dumper_shovel_trips[key][key1]);
+        }
+        total_trips[key] = total_dumper_trips;
+    }
+    for (const key in dumper_shovel_trips) {
+        working_hours[key] = {};
+        for (const key1 in dumper_shovel_trips[key]) {
+            working_hours[key][key1] = (parseInt(dumper_shovel_trips[key][key1]) / parseInt(total_trips[key])) * parseInt(dumper_working_hours[key]);
+        }
+    }
+    return working_hours;
 }
 
 function get_dumper_factor(dumper_number, material_type) {
