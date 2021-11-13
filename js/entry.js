@@ -217,12 +217,12 @@ function get_sap_compatible_excel() {
                     } else if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({"text":material_code_ob});
                     }
-                    if (coal_shovel_seam[index-3][1].indexOf('Purewa') > -1 && threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text":process_order_purewa_coal});
+                    if (threeFields[1] === 'OB') {
+                        excelRowToInsert.push({"text":process_order_ob});
                     } else if (coal_shovel_seam[index-3][1].indexOf('Turra') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({"text":process_order_turra_coal});
-                    } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text":process_order_ob});
+                    } else if (coal_shovel_seam[index-3][1].indexOf('Purewa') > -1 && threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({"text":process_order_purewa_coal});
                     }
                     excelRowToInsert.push({"text":new Date($('#date').val())});
                     excelRowToInsert.push({"text":$('#shift').val()});
