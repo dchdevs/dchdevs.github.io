@@ -140,7 +140,6 @@ function create_table() {
     bind_total_event();
 
     $('#dumperwise_entry').fadeIn(300);
-    $('.edit').show();
     $('#dummy').show();
     $('#dumper_table').find(".searchable").chosen().change(setFocusOnNextElement);
     $('td > input').on('keydown', function(e) {
@@ -468,7 +467,6 @@ $(document).ready(function() {
 
     $('#re_edit_shovels').on('click', function() {
         $('#dummy').hide();
-        $('.edit').hide();
     });
 
     $("#save_dumpers").on('click', save_dumpers_get_excel_old);
