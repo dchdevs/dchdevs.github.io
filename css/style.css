@@ -14,7 +14,8 @@ table thead th {
     text-align: center;
     padding-top: 3px;
     padding-bottom: 2px;
-    background-color:rgb(239, 239, 239);
+    font-weight:700;
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(153, 173, 231));
     position:sticky;
     top:0;
     z-index: 10000;
@@ -73,7 +74,9 @@ table thead th {
     flex-direction: row;
     align-items:stretch;
     justify-content: space-evenly;
-    background-color:beige;
+    background: #6a85b6;
+    background: -webkit-linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(81, 110, 190, 0.5));
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(81, 110, 190, 0.5));
 }
 
 .ph-left{

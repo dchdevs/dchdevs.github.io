@@ -80,18 +80,18 @@ function create_table() {
         $(tr).find("th:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $("<th style='background-color: beige;' class='shovel_column'>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
+                $("<th class='shovel_column'>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
             }
             if(i === coal_shovels_operating.length - 1) {
-                $("<th style='background-color: beige;'>Dump<br>Location<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
+                $("<th>Dump<br>Location<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
             }
         }
         for (i = 0; i < ob_shovels_operating.length; i++) {
             if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $("<th style='background-color: beige;' class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));    
+                $("<th class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));    
             }
             if(i === ob_shovels_operating.length - 1) {
-                $("<th style='background-color: beige;'>Dump<br>Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
+                $("<th>Dump<br>Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
             }
         }
     });
