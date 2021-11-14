@@ -203,7 +203,9 @@ function get_sap_compatible_excel() {
     var dumper_working_hours = {};
     //load dumper-wise working hours
     $('#dumper_table input[name="dumper_working_hours[]"]').each(function(){
-        dumper_working_hours[$(this).parent().parent().children().first().children('select, input').eq(0).val()] = $(this).val();
+        if($(this).val() !== '') {
+            dumper_working_hours[$(this).parent().parent().children().first().children('select, input').eq(0).val()] = $(this).val();
+        }
     });
 
     var dumper_shovel_trips = {};
@@ -213,7 +215,9 @@ function get_sap_compatible_excel() {
         var unique_dumper = $(tr).children('td').eq(0).children('select, input').eq(0).val();
         dumper_shovel_trips[unique_dumper] = {};
         $(tr).children('td').each(function(index1, td) {
-            if($(td).children('input').eq(0).hasClass('shovel_dumper_trip')) {
+            if($(td).children('input').eq(0).hasClass('shovel_dumper_trip')
+                && $(td).children('select, input').eq(0).val() !== ''
+            ) {
                 var unique_shovel = $(td).children('select, input').eq(0).attr("name");
                 dumper_shovel_trips[unique_dumper][unique_shovel] = $(td).children('select, input').eq(0).val();
             }
