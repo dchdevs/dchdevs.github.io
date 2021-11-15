@@ -89,7 +89,7 @@ function create_table() {
     });
 
     if(! coal_shovels_operating.length && ! ob_shovels_operating.length) {
-        alert('No shovels entered to create dumper-wise table. At least one required!');
+        alert('ERROR: Empty fields in SHOVEL TABLE!');
         return;
     }
 
@@ -220,7 +220,7 @@ function working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
 function get_sap_compatible_excel() {
     var check = check_mandatory_fields();
     if(check == true) {
-        alert ('Operator and Shovel columns have empty values');
+        alert ('ERROR: Empty fields in DUMPER TABLE!');
         return;
     }
     //Create header
