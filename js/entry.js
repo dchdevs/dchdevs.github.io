@@ -33,6 +33,13 @@ function check_mandatory_fields() {
             flag = true;
         }
     });
+    $('#dumper_table input[name="dumper_working_hours[]"]').each( function() {
+        if($(this).val() == ''
+            || $(this).val() == null
+        ) {
+            flag = true;
+        }
+    });
     return flag;
 }
 
