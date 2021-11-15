@@ -46,7 +46,7 @@ function create_table() {
     var shovel_table_row = $('#shovel_table > tbody > tr');
 
     $(shovel_table_row).each(function(index, tr) {
-        if ($('select[name="material_type[]"]').eq(index).val() === 'coal'
+        if ($('select[name="material_type[]"]').eq(index).val() === 'Coal'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
         ) {
@@ -54,7 +54,7 @@ function create_table() {
             coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
             coal_shovel_working_hours.push($('input[name="shovel_working_hours[]"]').eq(index).val());
             coal_shovel_seam.push([$('select[name="seam[]"]').eq(index).val().split('|')[0], $('select[name="seam[]"]').eq(index).val().split('|')[1]]);
-        } else if ($('select[name="material_type[]"]').eq(index).val() === 'ob'
+        } else if ($('select[name="material_type[]"]').eq(index).val() === 'OB'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
         ) {
@@ -174,6 +174,26 @@ function calc_total(obj) {
     }
 }
 
+function working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
+    var working_hours = {};
+    var total_trips = {};
+    for (const key in dumper_shovel_trips) {
+        //working_hours_array[key] = {};
+        var total_dumper_trips = 0;
+        for (const key1 in dumper_shovel_trips[key]) {
+            total_dumper_trips += parseInt(dumper_shovel_trips[key][key1]);
+        }
+        total_trips[key] = total_dumper_trips;
+    }
+    for (const key in dumper_shovel_trips) {
+        working_hours[key] = {};
+        for (const key1 in dumper_shovel_trips[key]) {
+            working_hours[key][key1] = (parseInt(dumper_shovel_trips[key][key1]) / parseInt(total_trips[key])) * parseInt(dumper_working_hours[key]);
+        }
+    }
+    return working_hours;
+}
+
 function get_sap_compatible_excel() {
     //Create header
     dataForPage[0].data = [];
@@ -199,7 +219,7 @@ function get_sap_compatible_excel() {
 
     var dumper_thead_th = $('#dumper_table > thead > tr > th');
 
-    //calculate working hour distribution
+    //calculate dumper working hour distribution
     var dumper_working_hours = {};
     //load dumper-wise working hours
     $('#dumper_table input[name="dumper_working_hours[]"]').each(function(){
@@ -224,7 +244,42 @@ function get_sap_compatible_excel() {
         });
     });
 
-    var working_hour_distribution = dumper_working_hour_distribution(dumper_working_hours, dumper_shovel_trips);
+    var dumper_working_hour_distribution = working_hour_distribution(dumper_working_hours, dumper_shovel_trips);
+
+    //calculate shovel working hour distribution
+    var shovel_working_hours = {};
+    //load dumper-wise working hours
+    $('#shovel_table input[name="shovel_working_hours[]"]').each(function(){
+        if($(this).val() !== '') {
+            var threeF =  $(this).parent().parent().children().first().children('select, input').eq(0).val()
+                + '_' + $(this).parent().parent().children().eq(2).children('select, input').eq(0).val()
+                + '_' + $(this).parent().parent().children().eq(1).children('select, input').eq(0).val()
+                + '[]';
+
+            shovel_working_hours[threeF] = $(this).val();
+        }
+    });
+
+    var shovel_dumper_trips = {};
+    //load dumper to shovel-wise trips
+    $('#dumper_table tbody tr').first().find('td').each(function(index, td) {
+        if ($(td).children('input').eq(0).hasClass('shovel_dumper_trip')) {
+            var unique_shovel = $(td).children('select, input').eq(0).attr("name");
+            shovel_dumper_trips[unique_shovel] = {};
+            var dumper_columns = $('#dumper_table tr td:nth-child(' + (index + 1) + ')');
+            $(dumper_columns).each(function(index1, td1) {
+                if($(td1).children('input').eq(0).hasClass('shovel_dumper_trip')
+                    && $(td1).children('select, input').eq(0).val() !== ''
+                ) {
+                    var unique_dumper = $(td1).parent().children('td').eq(0).children('select, input').eq(0).val();
+                    shovel_dumper_trips[unique_shovel][unique_dumper] = $(td1).children('select, input').eq(0).val();
+                }
+            });
+        }
+    });
+
+    var shovel_working_hour_distribution = working_hour_distribution(shovel_working_hours, shovel_dumper_trips);
+
 
     $(dumper_thead_th).each(function(index, th) {
         if ($(th).hasClass("shovel_column")) {
@@ -264,13 +319,13 @@ function get_sap_compatible_excel() {
                     excelRowToInsert.push({"text": parseInt(threeFields[2])});
                     //shovel operating time
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index-3])});
+                        excelRowToInsert.push({"text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()])});
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index-4-coal_shovel_working_hours.length])});
+                        excelRowToInsert.push({"text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()])});
                     }
                     excelRowToInsert.push({"text":$(td).parent().children('td').eq(0).children('select, input').eq(0).val()});
                     excelRowToInsert.push({"text":parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val())});
-                    excelRowToInsert.push({"text":parseInt(working_hour_distribution[$(td).parent().children('td').eq(0).children('select, input').eq(0).val()][$(td).children('select, input').eq(0).attr("name")])});
+                    excelRowToInsert.push({"text":parseInt(dumper_working_hour_distribution[$(td).parent().children('td').eq(0).children('select, input').eq(0).val()][$(td).children('select, input').eq(0).attr("name")])});
                     var trips = $(td).children('select, input').eq(0).val();
                     excelRowToInsert.push({"text":parseInt(trips)});
                     var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1]);
@@ -288,26 +343,6 @@ function get_sap_compatible_excel() {
     };
     Jhxlsx.export(dataForPage, options);
 
-}
-
-function dumper_working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
-    var working_hours = {};
-    var total_trips = {};
-    for (const key in dumper_shovel_trips) {
-        //working_hours_array[key] = {};
-        var total_dumper_trips = 0;
-        for (const key1 in dumper_shovel_trips[key]) {
-            total_dumper_trips += parseInt(dumper_shovel_trips[key][key1]);
-        }
-        total_trips[key] = total_dumper_trips;
-    }
-    for (const key in dumper_shovel_trips) {
-        working_hours[key] = {};
-        for (const key1 in dumper_shovel_trips[key]) {
-            working_hours[key][key1] = (parseInt(dumper_shovel_trips[key][key1]) / parseInt(total_trips[key])) * parseInt(dumper_working_hours[key]);
-        }
-    }
-    return working_hours;
 }
 
 function get_dumper_factor(dumper_number, material_type) {
