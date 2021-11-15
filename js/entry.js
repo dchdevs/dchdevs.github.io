@@ -214,6 +214,7 @@ function get_sap_compatible_excel() {
     header.push({"text":"Dumper_Number_of_Trips"});
     header.push({"text":"Dumper_Factor"});
     header.push({"text":"Dumper_Tonnage"});
+    header.push({"text":"Dumper_Volume"});
 
     dataForPage[0].data.push(header);
 
@@ -331,7 +332,13 @@ function get_sap_compatible_excel() {
                     var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1]);
                     excelRowToInsert.push({"text":parseInt(dumper_factor)});
                     var dumper_tonnage = trips * dumper_factor;
-                    excelRowToInsert.push({"text":parseInt(dumper_tonnage)});
+                    if (threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({"text":parseInt(dumper_tonnage)});
+                        excelRowToInsert.push({"text":''});
+                    } else if (threeFields[1] === 'OB') {
+                        excelRowToInsert.push({"text":''});
+                        excelRowToInsert.push({"text":parseInt(dumper_tonnage)});
+                    }
                     dataForPage[0].data.push(excelRowToInsert);
                 }
             });
