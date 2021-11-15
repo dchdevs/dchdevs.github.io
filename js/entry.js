@@ -481,6 +481,28 @@ function setFocusOnNextElement() {
     return false;
 }
 
+function updateSeam() {
+    var options = '';
+    if($(this).val() == 'Coal') {
+        options = "<option value='' selected disabled hidden>Select Seam</option> \
+        <option value='Purewa Top|Purewa Top - East'>Purewa Top - East</option> \
+        <option value='Purewa Top|Purewa Top - West'>Purewa Top - West</option> \
+        <option value='Purewa Bottom|Purewa Bottom - East'>Purewa Bottom - East</option> \
+        <option value='Purewa Bottom|Purewa Bottom - West'>Purewa Bottom - West</option> \
+        <option value='Turra|Turra - East'>Turra - East</option> \
+        <option value='Turra|Turra - West'>Turra - West</option>";
+    } else if ($(this).val() == 'OB') {
+        options = "<option value='' selected disabled hidden>Select Seam</option> \
+        <option value='OVERBURDEN|OB - Turra Band'>OB - Turra Band</option> \
+        <option value='OVERBURDEN|OB - SM Band'>OB - SM Band</option> \
+        <option value='OVERBURDEN|OB - Above Purewa Bottom - West'>OB - Above Purewa Bottom - West</option> \
+        <option value='OVERBURDEN|OB - Above Purewa Bottom - East'>OB - Above Purewa Bottom - East</option>";
+    }
+    $(this).parent().next().children('select').chosen('destroy').end();
+    $(this).parent().next().children('select').eq(0).empty().append(options);
+    $(this).parent().next().children('select').eq(0).chosen().change(setFocusOnNextElement);
+}
+
 $(document).ready(function() {
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
@@ -491,11 +513,14 @@ $(document).ready(function() {
     
     $('.searchable').chosen().change(setFocusOnNextElement);
 
+    $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
+
     $(".add_row1").on('click', function() {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
         $(table).find('select').chosen().change(setFocusOnNextElement);
+        $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
         $('#dumperwise_entry').fadeOut(100);
     });
     $(".add_row2").on('click', function() {
