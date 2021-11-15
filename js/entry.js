@@ -23,6 +23,18 @@ var process_order_purewa_coal = 60004129;
 var process_order_turra_coal = 60004130;
 var process_order_ob = 70003257;
 
+function check_mandatory_fields() {
+    var flag = false;
+    $('#dumper_table select').each(function() {
+        if(($(this).val() == ''
+            || $(this).val() == null)
+            && ! $(this).hasClass('dump')
+        ) {
+            flag = true;
+        }
+    });
+    return flag;
+}
 
 //JSON for data
 var dataForPage = [
@@ -49,6 +61,8 @@ function create_table() {
         if ($('select[name="material_type[]"]').eq(index).val() === 'Coal'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
+            && $('select[name="seam[]"]').eq(index).val()
+            && $('input[name="shovel_working_hours[]"]').eq(index).val()
         ) {
             coal_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
@@ -57,6 +71,8 @@ function create_table() {
         } else if ($('select[name="material_type[]"]').eq(index).val() === 'OB'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
+            && $('select[name="seam[]"]').eq(index).val()
+            && $('input[name="shovel_working_hours[]"]').eq(index).val()
         ) {
             ob_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
             ob_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
@@ -110,7 +126,7 @@ function create_table() {
                 totals_html += '<td>0</td>';
             }
             if(i === coal_shovels_operating.length - 1) {
-                $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable'>"
+                $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable dump'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
                 + "<option value='East Coal Yard'>East Coal Yard</option>"
                 + "<option value='West Coal Yard'>West Coal Yard</option>"
@@ -125,7 +141,7 @@ function create_table() {
                 totals_html += '<td>0</td>';
             }
             if(i === ob_shovels_operating.length - 1) {
-                $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable'>"
+                $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable dump'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
                 + "<option value='OB Dump East'>OB Dump East</option>"
                 + "<option value='OB Dump West'>OB Dump West</option>"
@@ -195,6 +211,11 @@ function working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
 }
 
 function get_sap_compatible_excel() {
+    var check = check_mandatory_fields();
+    if(check == true) {
+        alert ('Operator and Shovel columns have empty values');
+        return;
+    }
     //Create header
     dataForPage[0].data = [];
     var header = [];
