@@ -26,75 +26,78 @@
             </div>
         </div>
         <div class="ph-mid">
-        <table>
-            <tbody>
-                <tr>
-                    <td style="border: 0px !important;">
-                        <label style="width: 150px !important;">Production Date:</label> 
-                    </td>
-                    <td style="border: 0px !important;">
-                        <input id="date" style="width: 130px !important;" required="required" type="date" value="" placeholder="" data-rule-required="true"
-                    data-msg-required="Please enter a valid date">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="border: 0px !important;">
-                        <label style="width: 100px !important;">Shift:</label> 
-                    </td>
-                    <td style="border: 0px !important;">
-                        <select id="shift" style="width: 100px !important;" class="searchable">
-                            <option value='SF1A'> Shift 1</option>
-                            <option value='SF2B'> Shift 2</option>
-                            <option value='SF3C'> Shift 3</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="border: 0px !important;">
-                        <label style="width: 100px !important;">Section:</label> 
-                    </td>
-                    <td style="border: 0px !important;">
-                        <select id="section" style="width: 100px !important;" class="searchable">
-                            <option value='East'> East</option>
-                            <option value='West'> West</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="border: 0px !important;">
+                            <label style="width: 150px !important;">Production Date:</label>
+                        </td>
+                        <td style="border: 0px !important;">
+                            <input id="date" style="width: 130px !important;" required="required" type="date" value=""
+                                placeholder="" data-rule-required="true" data-msg-required="Please enter a valid date">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0px !important;">
+                            <label style="width: 100px !important;">Shift:</label>
+                        </td>
+                        <td style="border: 0px !important;">
+                            <select id="shift" style="width: 100px !important;" class="searchable">
+                                <option value='SF1A'> Shift 1</option>
+                                <option value='SF2B'> Shift 2</option>
+                                <option value='SF3C'> Shift 3</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0px !important;">
+                            <label style="width: 100px !important;">Section:</label>
+                        </td>
+                        <td style="border: 0px !important;">
+                            <select id="section" style="width: 100px !important;" class="searchable">
+                                <option value='East'> East</option>
+                                <option value='West'> West</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="ph-mid">
-        <table style="display:none;">
-            <tbody>
-                <tr>
-                    <td style="border: 0px !important;">
-                        <label>Plant Number:</label> 
-                    </td>
-                    <td style="border: 0px !important;">
-                        <input id="plant" style="width: 100px !important;"  required="required" type="number" value="6013" placeholder="" data-rule-required="true"
-                            data-msg-required="Please enter a valid number" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="border: 0px !important;">
-                        <label>Material Code:</label> 
-                    </td>
-                    <td style="border: 0px !important;">
-                        <input id="material_code" style="width: 100px !important;" required="required" type="number" value="4900000014" placeholder="" data-rule-required="true"
-                            data-msg-required="Please enter a valid number" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="border: 0px !important;">
-                        <label>Process Order:</label> 
-                    </td>
-                    <td style="border: 0px !important;">
-                        <input id="process_order" style="width: 100px !important;" required="required" type="number" value="60002898" placeholder="" data-rule-required="true"
-                            data-msg-required="Please enter a valid number" disabled>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table style="display:none;">
+                <tbody>
+                    <tr>
+                        <td style="border: 0px !important;">
+                            <label>Plant Number:</label>
+                        </td>
+                        <td style="border: 0px !important;">
+                            <input id="plant" style="width: 100px !important;" required="required" type="number"
+                                value="6013" placeholder="" data-rule-required="true"
+                                data-msg-required="Please enter a valid number" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0px !important;">
+                            <label>Material Code:</label>
+                        </td>
+                        <td style="border: 0px !important;">
+                            <input id="material_code" style="width: 100px !important;" required="required" type="number"
+                                value="4900000014" placeholder="" data-rule-required="true"
+                                data-msg-required="Please enter a valid number" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0px !important;">
+                            <label>Process Order:</label>
+                        </td>
+                        <td style="border: 0px !important;">
+                            <input id="process_order" style="width: 100px !important;" required="required" type="number"
+                                value="60002898" placeholder="" data-rule-required="true"
+                                data-msg-required="Please enter a valid number" disabled>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <br>
@@ -227,12 +230,16 @@
                                         <option value="" selected disabled hidden>Select Seam</option>
                                         <option value='OVERBURDEN|OVERBURDEN-Turra Band'>OB - Turra Band</option>
                                         <option value='OVERBURDEN|OVERBURDEN-SM Band'>OB - SM Band</option>
-                                        <option value='OVERBURDEN|OVERBURDEN-B/W PUR TOP & BOT-WEST'>OB - Above Purewa Bottom - West</option>
-                                        <option value='OVERBURDEN|OVERBURDEN-B/W PUR TOP & BOT-EAST'>OB - Above Purewa Bottom - East</option>
+                                        <option value='OVERBURDEN|OVERBURDEN-B/W PUR TOP & BOT-WEST'>OB - Above Purewa
+                                            Bottom - West</option>
+                                        <option value='OVERBURDEN|OVERBURDEN-B/W PUR TOP & BOT-EAST'>OB - Above Purewa
+                                            Bottom - East</option>
                                         <option value='PUREVA-TOP-COAL|PUREVA-TOP-COAL-EAST'>Purewa Top - East</option>
                                         <option value='PUREVA-TOP-COAL|PUREVA-TOP-COAL-WEST'>Purewa Top - West</option>
-                                        <option value='PUREVA-BOTM-COAL|PUREVA-BOTM-COAL-EAST'>Purewa Bottom - East</option>
-                                        <option value='PUREVA-BOTM-COAL|PUREVA-BOTM-COAL-WEST'>Purewa Bottom - West</option>
+                                        <option value='PUREVA-BOTM-COAL|PUREVA-BOTM-COAL-EAST'>Purewa Bottom - East
+                                        </option>
+                                        <option value='PUREVA-BOTM-COAL|PUREVA-BOTM-COAL-WEST'>Purewa Bottom - West
+                                        </option>
                                         <option value='TURRA COAL|TURRA COAL-EAST'>Turra - East</option>
                                         <option value='TURRA COAL|TURRA COAL-WEST'>Turra - West</option>
                                     </select>
@@ -256,7 +263,8 @@
                 <br>
                 <br>
                 <div style="float:left; margin:0 15px 0 0;">
-                    <input type="button" value="Create Dumper-wise Table" id="save_shovels" class="no-print btn btn-primary" />
+                    <input type="button" value="Create Dumper-wise Table" id="save_shovels"
+                        class="no-print btn btn-primary" />
                 </div>
             </div>
             <br>
@@ -598,7 +606,7 @@
                                 </td>
                                 <td>
                                     <input name="dumper_working_hours[]" class='inp1 sum3' required="required"
-                                        maxlength="128" type="number" value=""  min="1" max="7.5" placeholder=""
+                                        maxlength="128" type="number" value="" min="1" max="7.5" placeholder=""
                                         data-rule-required="true" data-msg-required="Please enter a valid number">
                                 </td>
                                 <td>
@@ -624,10 +632,12 @@
                     <br>
                     <br>
                     <div style="float:left; margin:0 15px 0 0;">
-                        <input type="button" value="Get Excel -- Dumper-wise (Old)" id="save_dumpers" class="no-print btn btn-primary" disabled />
+                        <input type="button" value="Get Excel -- Dumper-wise (Old)" id="save_dumpers"
+                            class="no-print btn btn-primary" disabled />
                     </div>
                     <div style="float:left; margin:0 15px 0 0;">
-                        <input type="button" value="Get Excel -- SAP Compatible" id="save_dumpers_1" class="no-print btn btn-primary" />
+                        <input type="button" value="Get Excel -- SAP Compatible" id="save_dumpers_1"
+                            class="no-print btn btn-primary" />
                     </div>
                 </form>
                 <!-- provide scroll space -->

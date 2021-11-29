@@ -25,16 +25,16 @@ var process_order_ob = 70003257;
 
 function check_mandatory_fields() {
     var flag = false;
-    $('#dumper_table select').each(function() {
-        if(($(this).val() == ''
+    $('#dumper_table select').each(function () {
+        if (($(this).val() == ''
             || $(this).val() == null)
-            && ! $(this).hasClass('dump')
+            && !$(this).hasClass('dump')
         ) {
             flag = true;
         }
     });
-    $('#dumper_table input[name="dumper_working_hours[]"]').each( function() {
-        if($(this).val() == ''
+    $('#dumper_table input[name="dumper_working_hours[]"]').each(function () {
+        if ($(this).val() == ''
             || $(this).val() == null
         ) {
             flag = true;
@@ -64,7 +64,7 @@ function create_table() {
 
     var shovel_table_row = $('#shovel_table > tbody > tr');
 
-    $(shovel_table_row).each(function(index, tr) {
+    $(shovel_table_row).each(function (index, tr) {
         if ($('select[name="material_type[]"]').eq(index).val() === 'Coal'
             && $('select[name="shovel_no[]"]').eq(index).val()
             && $('select[name="shovel_operator[]"]').eq(index).val()
@@ -88,7 +88,7 @@ function create_table() {
         }
     });
 
-    if(! coal_shovels_operating.length && ! ob_shovels_operating.length) {
+    if (!coal_shovels_operating.length && !ob_shovels_operating.length) {
         alert('ERROR: Empty fields in SHOVEL TABLE!');
         return;
     }
@@ -99,61 +99,61 @@ function create_table() {
     var dumper_thead_tr = $('#dumper_table > thead > tr');
     var dumper_tbody_tr = $('#dumper_table > tbody > tr');
 
-    $(dumper_thead_tr).each(function(index, tr) {
+    $(dumper_thead_tr).each(function (index, tr) {
         $(tr).find("th:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
-            if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
+            if (coal_shovels_operating[i] && coal_shovel_operator[i]) {
                 $("<th class='shovel_column'>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
             }
-            if(i === coal_shovels_operating.length - 1) {
+            if (i === coal_shovels_operating.length - 1) {
                 $("<th>Dump<br>Location<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
             }
         }
         for (i = 0; i < ob_shovels_operating.length; i++) {
-            if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $("<th class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));    
+            if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
+                $("<th class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));
             }
-            if(i === ob_shovels_operating.length - 1) {
+            if (i === ob_shovels_operating.length - 1) {
                 $("<th>Dump<br>Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
             }
         }
     });
 
     var totals_html = '<tr class=totalColumn>'
-    + '<td>Total</td>'
-    + '<td></td>'
-    + '<td>0</td>';
+        + '<td>Total</td>'
+        + '<td></td>'
+        + '<td>0</td>';
 
-    $(dumper_tbody_tr).each(function(index, tr) {
+    $(dumper_tbody_tr).each(function (index, tr) {
         $(tr).find("input,select").val('');
         $(tr).find("td:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
-            if(coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i+4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+            if (coal_shovels_operating[i] && coal_shovel_operator[i]) {
+                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i + 4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
             }
-            if(i === coal_shovels_operating.length - 1) {
+            if (i === coal_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable dump'>"
-                + "<option value='' selected disabled hidden>Select Dump</option>"
-                + "<option value='East Coal Yard'>East Coal Yard</option>"
-                + "<option value='West Coal Yard'>West Coal Yard</option>"
-                + "<option value='Crusher Yard'>Crusher Yard</option>"
-                + "</select></td>");
+                    + "<option value='' selected disabled hidden>Select Dump</option>"
+                    + "<option value='East Coal Yard'>East Coal Yard</option>"
+                    + "<option value='West Coal Yard'>West Coal Yard</option>"
+                    + "<option value='Crusher Yard'>Crusher Yard</option>"
+                    + "</select></td>");
                 totals_html += '<td></td>';
             }
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
-            if(ob_shovels_operating[i] && ob_shovel_operator[i]) {
+            if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
                 $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i + coal_shovels_operating.length + 5) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
             }
-            if(i === ob_shovels_operating.length - 1) {
+            if (i === ob_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable dump'>"
-                + "<option value='' selected disabled hidden>Select Dump</option>"
-                + "<option value='OB Dump East'>OB Dump East</option>"
-                + "<option value='OB Dump West'>OB Dump West</option>"
-                + "<option value='Local OB Dump'>Local OB Dump</option>"
-                + "</select></td>");
+                    + "<option value='' selected disabled hidden>Select Dump</option>"
+                    + "<option value='OB Dump East'>OB Dump East</option>"
+                    + "<option value='OB Dump West'>OB Dump West</option>"
+                    + "<option value='Local OB Dump'>Local OB Dump</option>"
+                    + "</select></td>");
                 totals_html += '<td></td>';
             }
         }
@@ -165,10 +165,10 @@ function create_table() {
     $('#dumperwise_entry').fadeIn(300);
     $('#dummy').show();
     $('#dumper_table').find(".searchable").chosen().change(setFocusOnNextElement);
-    $('td > input').on('keydown', function(e) {
+    $('td > input').on('keydown', function (e) {
         if (e.which === 13) {
             var element = $(this).parent().next().children('input,select').eq(0);
-            if(element.is('input')) {
+            if (element.is('input')) {
                 window.setTimeout(() => $(element).focus(), 0);
             } else if (element.is('select')) {
                 window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
@@ -179,7 +179,7 @@ function create_table() {
 }
 
 function bind_total_event() {
-    $('#dumper_table tr:not(.totalColumn) input').bind('keyup change', function() {
+    $('#dumper_table tr:not(.totalColumn) input').bind('keyup change', function () {
         calc_total(this);
     });
 }
@@ -189,11 +189,11 @@ function calc_total(obj) {
     var total = 0;
     var thisNumber = $(obj).attr('class').slice(-1);
 
-    if(! isNaN(thisNumber)) {
-        $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function() {
+    if (!isNaN(thisNumber)) {
+        $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function () {
             total += +$(this).val();
         });
-        $table.find('.totalColumn td:nth-child('+ thisNumber + ')').html(total);
+        $table.find('.totalColumn td:nth-child(' + thisNumber + ')').html(total);
     }
 }
 
@@ -219,30 +219,30 @@ function working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
 
 function get_sap_compatible_excel() {
     var check = check_mandatory_fields();
-    if(check == true) {
-        alert ('ERROR: Empty fields in DUMPER TABLE!');
+    if (check == true) {
+        alert('ERROR: Empty fields in DUMPER TABLE!');
         return;
     }
     //Create header
     dataForPage[0].data = [];
     var header = [];
-    header.push({"text":"Plant"});
-    header.push({"text":"Materialcode"});
-    header.push({"text":"Process_Order"});
-    header.push({"text":"Production_Date"});
-    header.push({"text":"Shift"});
-    header.push({"text":"Seam"});
-    header.push({"text":"Bench"});
-    header.push({"text":"Shovel_Number"});
-    header.push({"text":"Shovel_Operator"});
-    header.push({"text":"Shovel_Operating_Time"});
-    header.push({"text":"Dumper_Number"});
-    header.push({"text":"Dumper_Operator"});
-    header.push({"text":"Dumper_Operating_Time"});
-    header.push({"text":"Dumper_Number_of_Trips"});
-    header.push({"text":"Dumper_Factor"});
-    header.push({"text":"Dumper_Tonnage"});
-    header.push({"text":"Dumper_Volume"});
+    header.push({ "text": "Plant" });
+    header.push({ "text": "Materialcode" });
+    header.push({ "text": "Process_Order" });
+    header.push({ "text": "Production_Date" });
+    header.push({ "text": "Shift" });
+    header.push({ "text": "Seam" });
+    header.push({ "text": "Bench" });
+    header.push({ "text": "Shovel_Number" });
+    header.push({ "text": "Shovel_Operator" });
+    header.push({ "text": "Shovel_Operating_Time" });
+    header.push({ "text": "Dumper_Number" });
+    header.push({ "text": "Dumper_Operator" });
+    header.push({ "text": "Dumper_Operating_Time" });
+    header.push({ "text": "Dumper_Number_of_Trips" });
+    header.push({ "text": "Dumper_Factor" });
+    header.push({ "text": "Dumper_Tonnage" });
+    header.push({ "text": "Dumper_Volume" });
 
     dataForPage[0].data.push(header);
 
@@ -251,8 +251,8 @@ function get_sap_compatible_excel() {
     //calculate dumper working hour distribution
     var dumper_working_hours = {};
     //load dumper-wise working hours
-    $('#dumper_table input[name="dumper_working_hours[]"]').each(function(){
-        if($(this).val() !== '') {
+    $('#dumper_table input[name="dumper_working_hours[]"]').each(function () {
+        if ($(this).val() !== '') {
             dumper_working_hours[$(this).parent().parent().children().first().children('select, input').eq(0).val()] = $(this).val();
         }
     });
@@ -260,11 +260,11 @@ function get_sap_compatible_excel() {
     var dumper_shovel_trips = {};
     //load dumper to shovel-wise trips
     var dumper_tbody_tr = $('#dumper_table > tbody > tr');
-    $(dumper_tbody_tr).each(function(index, tr) {
+    $(dumper_tbody_tr).each(function (index, tr) {
         var unique_dumper = $(tr).children('td').eq(0).children('select, input').eq(0).val();
         dumper_shovel_trips[unique_dumper] = {};
-        $(tr).children('td').each(function(index1, td) {
-            if($(td).children('input').eq(0).hasClass('shovel_dumper_trip')
+        $(tr).children('td').each(function (index1, td) {
+            if ($(td).children('input').eq(0).hasClass('shovel_dumper_trip')
                 && $(td).children('select, input').eq(0).val() !== ''
             ) {
                 var unique_shovel = $(td).children('select, input').eq(0).attr("name");
@@ -278,9 +278,9 @@ function get_sap_compatible_excel() {
     //calculate shovel working hour distribution
     var shovel_working_hours = {};
     //load dumper-wise working hours
-    $('#shovel_table input[name="shovel_working_hours[]"]').each(function(){
-        if($(this).val() !== '') {
-            var threeF =  $(this).parent().parent().children().first().children('select, input').eq(0).val()
+    $('#shovel_table input[name="shovel_working_hours[]"]').each(function () {
+        if ($(this).val() !== '') {
+            var threeF = $(this).parent().parent().children().first().children('select, input').eq(0).val()
                 + '_' + $(this).parent().parent().children().eq(2).children('select, input').eq(0).val()
                 + '_' + $(this).parent().parent().children().eq(1).children('select, input').eq(0).val()
                 + '[]';
@@ -291,13 +291,13 @@ function get_sap_compatible_excel() {
 
     var shovel_dumper_trips = {};
     //load dumper to shovel-wise trips
-    $('#dumper_table tbody tr').first().find('td').each(function(index, td) {
+    $('#dumper_table tbody tr').first().find('td').each(function (index, td) {
         if ($(td).children('input').eq(0).hasClass('shovel_dumper_trip')) {
             var unique_shovel = $(td).children('select, input').eq(0).attr("name");
             shovel_dumper_trips[unique_shovel] = {};
             var dumper_columns = $('#dumper_table tr td:nth-child(' + (index + 1) + ')');
-            $(dumper_columns).each(function(index1, td1) {
-                if($(td1).children('input').eq(0).hasClass('shovel_dumper_trip')
+            $(dumper_columns).each(function (index1, td1) {
+                if ($(td1).children('input').eq(0).hasClass('shovel_dumper_trip')
                     && $(td1).children('select, input').eq(0).val() !== ''
                 ) {
                     var unique_dumper = $(td1).parent().children('td').eq(0).children('select, input').eq(0).val();
@@ -310,62 +310,62 @@ function get_sap_compatible_excel() {
     var shovel_working_hour_distribution = working_hour_distribution(shovel_working_hours, shovel_dumper_trips);
 
 
-    $(dumper_thead_th).each(function(index, th) {
+    $(dumper_thead_th).each(function (index, th) {
         if ($(th).hasClass("shovel_column")) {
             var excelData = [];
-            excelData.push({"text":$('#plant').val()});
+            excelData.push({ "text": $('#plant').val() });
             var excelRowToInsert;
             var threeFields;
             var dumper_columns = $('#dumper_table tr td:nth-child(' + (index + 1) + ')');
-            $(dumper_columns).each(function(index1, td) {
-                if ($(td).children('select, input').eq(0).is('input') 
-                && $(td).children('select, input').eq(0).val() !== '') {
+            $(dumper_columns).each(function (index1, td) {
+                if ($(td).children('select, input').eq(0).is('input')
+                    && $(td).children('select, input').eq(0).val() !== '') {
                     excelRowToInsert = [];
                     excelRowToInsert = excelData.slice();
                     threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text":material_code_coal});
+                        excelRowToInsert.push({ "text": material_code_coal });
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text":material_code_ob});
+                        excelRowToInsert.push({ "text": material_code_ob });
                     }
                     if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text":process_order_ob});
-                    } else if (coal_shovel_seam[index-3][1].indexOf('TURRA') > -1 && threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text":process_order_turra_coal});
-                    } else if (coal_shovel_seam[index-3][1].indexOf('PUREVA') > -1 && threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text":process_order_purewa_coal});
+                        excelRowToInsert.push({ "text": process_order_ob });
+                    } else if (coal_shovel_seam[index - 3][1].indexOf('TURRA') > -1 && threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({ "text": process_order_turra_coal });
+                    } else if (coal_shovel_seam[index - 3][1].indexOf('PUREVA') > -1 && threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({ "text": process_order_purewa_coal });
                     }
-                    excelRowToInsert.push({"text":new Date($('#date').val())});
-                    excelRowToInsert.push({"text":$('#shift').val()});
+                    excelRowToInsert.push({ "text": new Date($('#date').val()) });
+                    excelRowToInsert.push({ "text": $('#shift').val() });
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text": coal_shovel_seam[index-3][0]});
-                        excelRowToInsert.push({"text": coal_shovel_seam[index-3][1]});
+                        excelRowToInsert.push({ "text": coal_shovel_seam[index - 3][0] });
+                        excelRowToInsert.push({ "text": coal_shovel_seam[index - 3][1] });
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text": ob_shovel_seam[index-4-coal_shovel_seam.length][0]});
-                        excelRowToInsert.push({"text": ob_shovel_seam[index-4-coal_shovel_seam.length][1]});
+                        excelRowToInsert.push({ "text": ob_shovel_seam[index - 4 - coal_shovel_seam.length][0] });
+                        excelRowToInsert.push({ "text": ob_shovel_seam[index - 4 - coal_shovel_seam.length][1] });
                     }
-                    excelRowToInsert.push({"text": threeFields[0]});
-                    excelRowToInsert.push({"text": parseInt(threeFields[2])});
+                    excelRowToInsert.push({ "text": threeFields[0] });
+                    excelRowToInsert.push({ "text": parseInt(threeFields[2]) });
                     //shovel operating time
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()] * 60)});
+                        excelRowToInsert.push({ "text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()] * 60) });
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()] * 60)});
+                        excelRowToInsert.push({ "text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()] * 60) });
                     }
-                    excelRowToInsert.push({"text":$(td).parent().children('td').eq(0).children('select, input').eq(0).val()});
-                    excelRowToInsert.push({"text":parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val())});
-                    excelRowToInsert.push({"text":parseInt(dumper_working_hour_distribution[$(td).parent().children('td').eq(0).children('select, input').eq(0).val()][$(td).children('select, input').eq(0).attr("name")] * 60)});
+                    excelRowToInsert.push({ "text": $(td).parent().children('td').eq(0).children('select, input').eq(0).val() });
+                    excelRowToInsert.push({ "text": parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val()) });
+                    excelRowToInsert.push({ "text": parseInt(dumper_working_hour_distribution[$(td).parent().children('td').eq(0).children('select, input').eq(0).val()][$(td).children('select, input').eq(0).attr("name")] * 60) });
                     var trips = $(td).children('select, input').eq(0).val();
-                    excelRowToInsert.push({"text":parseInt(trips)});
+                    excelRowToInsert.push({ "text": parseInt(trips) });
                     var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1]);
-                    excelRowToInsert.push({"text":parseInt(dumper_factor)});
+                    excelRowToInsert.push({ "text": parseInt(dumper_factor) });
                     var dumper_tonnage = trips * dumper_factor;
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({"text":parseInt(dumper_tonnage)});
-                        excelRowToInsert.push({"text":''});
+                        excelRowToInsert.push({ "text": parseInt(dumper_tonnage) });
+                        excelRowToInsert.push({ "text": '' });
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({"text":''});
-                        excelRowToInsert.push({"text":parseInt(dumper_tonnage)});
+                        excelRowToInsert.push({ "text": '' });
+                        excelRowToInsert.push({ "text": parseInt(dumper_tonnage) });
                     }
                     dataForPage[0].data.push(excelRowToInsert);
                 }
@@ -390,11 +390,11 @@ function get_dumper_factor(dumper_number, material_type) {
     CAT SERIES COAL 75 OB 50
     */
     if (dumper_number.indexOf('CN-') > -1) {
-        df = material_type == 'Coal' ? 45 : 32 ;
-    } else if (dumper_number.indexOf('C-') > -1 
-        || dumper_number.indexOf('K-') > -1 
+        df = material_type == 'Coal' ? 45 : 32;
+    } else if (dumper_number.indexOf('C-') > -1
+        || dumper_number.indexOf('K-') > -1
         || dumper_number.indexOf('D-') > -1) {
-            df = material_type == 'Coal' ? 40 : 27;
+        df = material_type == 'Coal' ? 40 : 27;
     } else if (dumper_number.indexOf('TX-') > -1) {
         df = material_type == 'Coal' ? 55 : 37;
     } else if (dumper_number.indexOf('KM-') > -1) {
@@ -409,58 +409,58 @@ function save_dumpers_get_excel_old() {
     //Create header
     dataForPage[0].data = [];
     var header = [];
-    header.push({"text":"Date"});
-    header.push({"text":"Shift"});
-    header.push({"text":"Section"});
+    header.push({ "text": "Date" });
+    header.push({ "text": "Shift" });
+    header.push({ "text": "Section" });
 
     var dumper_thead_th = $('#dumper_table > thead > tr > th');
-    header.push({"text":$(dumper_thead_th).eq(0).html()});
-    header.push({"text":$(dumper_thead_th).eq(1).html()});
-    header.push({"text":"Shovel No."});
-    header.push({"text":"Material Type"});
-    header.push({"text":"Shovel Operator"});
-    header.push({"text":"Seam"});
-    header.push({"text":"Working Hours (Shovel)"});
-    header.push({"text":"Working Hours (Dumper)"});
-    header.push({"text":"Production"});
-    header.push({"text":"Dump Location"});
+    header.push({ "text": $(dumper_thead_th).eq(0).html() });
+    header.push({ "text": $(dumper_thead_th).eq(1).html() });
+    header.push({ "text": "Shovel No." });
+    header.push({ "text": "Material Type" });
+    header.push({ "text": "Shovel Operator" });
+    header.push({ "text": "Seam" });
+    header.push({ "text": "Working Hours (Shovel)" });
+    header.push({ "text": "Working Hours (Dumper)" });
+    header.push({ "text": "Production" });
+    header.push({ "text": "Dump Location" });
 
     dataForPage[0].data.push(header);
 
     var dumper_tbody_tr = $('#dumper_table > tbody > tr');
-    $(dumper_tbody_tr).each(function(index, tr) {
+    $(dumper_tbody_tr).each(function (index, tr) {
         var excelData = [];
-        excelData.push({"text":new Date($('#date').val())});
-        excelData.push({"text":$('#shift').val()});
-        excelData.push({"text":$('#section').val()});
-        excelData.push({"text":$(tr).children('td').eq(0).children('select, input').eq(0).val()});
-        excelData.push({"text":parseInt($(tr).children('td').eq(1).children('select, input').eq(0).val())});
+        excelData.push({ "text": new Date($('#date').val()) });
+        excelData.push({ "text": $('#shift').val() });
+        excelData.push({ "text": $('#section').val() });
+        excelData.push({ "text": $(tr).children('td').eq(0).children('select, input').eq(0).val() });
+        excelData.push({ "text": parseInt($(tr).children('td').eq(1).children('select, input').eq(0).val()) });
         var excelRowToInsert;
         var threeFields;
-        $(tr).children('td').each(function(index1, td) {
-            if(index1 > 2
-                && $(td).children('select, input').eq(0).is('input') 
+        $(tr).children('td').each(function (index1, td) {
+            if (index1 > 2
+                && $(td).children('select, input').eq(0).is('input')
                 && $(td).children('select, input').eq(0).val() !== ''
             ) {
                 excelRowToInsert = [];
                 excelRowToInsert = excelData.slice();
                 threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
-                excelRowToInsert.push({"text": threeFields[0]});
-                excelRowToInsert.push({"text": threeFields[1]});
-                excelRowToInsert.push({"text": parseInt(threeFields[2])});
+                excelRowToInsert.push({ "text": threeFields[0] });
+                excelRowToInsert.push({ "text": threeFields[1] });
+                excelRowToInsert.push({ "text": parseInt(threeFields[2]) });
                 var dump_location;
                 if (threeFields[1] === 'Coal') {
-                    excelRowToInsert.push({"text": coal_shovel_seam[index1-3]});
-                    excelRowToInsert.push({"text": parseFloat(coal_shovel_working_hours[index1-3])});
+                    excelRowToInsert.push({ "text": coal_shovel_seam[index1 - 3] });
+                    excelRowToInsert.push({ "text": parseFloat(coal_shovel_working_hours[index1 - 3]) });
                     dump_location = $('select[name="coal_dump_location[]"]').eq(index).val();
                 } else if (threeFields[1] === 'OB') {
-                    excelRowToInsert.push({"text": "OVERBURDEN"});
-                    excelRowToInsert.push({"text": parseFloat(ob_shovel_working_hours[index1-4-coal_shovel_working_hours.length])});
+                    excelRowToInsert.push({ "text": "OVERBURDEN" });
+                    excelRowToInsert.push({ "text": parseFloat(ob_shovel_working_hours[index1 - 4 - coal_shovel_working_hours.length]) });
                     dump_location = $('select[name="ob_dump_location[]"]').eq(index).val();
                 }
-                excelRowToInsert.push({"text": parseFloat($(tr).children('td').eq(2).children('select, input').eq(0).val())});
-                excelRowToInsert.push({"text": parseFloat($(td).children('select, input').eq(0).val())});
-                excelRowToInsert.push({"text": dump_location});
+                excelRowToInsert.push({ "text": parseFloat($(tr).children('td').eq(2).children('select, input').eq(0).val()) });
+                excelRowToInsert.push({ "text": parseFloat($(td).children('select, input').eq(0).val()) });
+                excelRowToInsert.push({ "text": dump_location });
                 dataForPage[0].data.push(excelRowToInsert);
             }
         });
@@ -473,7 +473,7 @@ function save_dumpers_get_excel_old() {
 
 function setFocusOnNextElement() {
     var element = $(this).parent().next().children('input,select').eq(0);
-    if(element.is('input')) {
+    if (element.is('input')) {
         window.setTimeout(() => $(element).focus(), 0);
     } else if (element.is('select')) {
         window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
@@ -483,7 +483,7 @@ function setFocusOnNextElement() {
 
 function updateSeam() {
     var options = '';
-    if($(this).val() == 'Coal') {
+    if ($(this).val() == 'Coal') {
         options = "<option value='' selected disabled hidden>Select Seam</option> \
         <option value='PUREVA-TOP-COAL|PUREVA-TOP-COAL-EAST'>Purewa Top - East</option> \
         <option value='PUREVA-TOP-COAL|PUREVA-TOP-COAL-WEST'>Purewa Top - West</option> \
@@ -503,19 +503,19 @@ function updateSeam() {
     $(this).parent().next().children('select').eq(0).chosen().change(setFocusOnNextElement);
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
-    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
     $('#date').val(today);
-    
+
     $('.searchable').chosen().change(setFocusOnNextElement);
 
     $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
 
-    $(".add_row1").on('click', function() {
+    $(".add_row1").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
@@ -523,16 +523,16 @@ $(document).ready(function() {
         $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
         $('#dumperwise_entry').fadeOut(100);
     });
-    $(".add_row2").on('click', function() {
+    $(".add_row2").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
-        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length -2)).find('input').val('');
+        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length - 2)).find('input').val('');
         bind_total_event();
         $(table).find('select').chosen().change(setFocusOnNextElement);
-        $('td > input').on('keydown', function(e) {
+        $('td > input').on('keydown', function (e) {
             if (e.which === 13) {
                 var element = $(this).parent().next().children('input,select').eq(0);
-                if(element.is('input')) {
+                if (element.is('input')) {
                     window.setTimeout(() => $(element).focus(), 0);
                 } else if (element.is('select')) {
                     window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
@@ -541,14 +541,14 @@ $(document).ready(function() {
             }
         });
     });
-    $(".delete_row1").on('click', function() {
+    $(".delete_row1").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         if ($(table).find("tr").length > 2) {
             $(table).find("tr").last().remove();
         }
         $('#dumperwise_entry').fadeOut(100);
     });
-    $(".delete_row2").on('click', function() {
+    $(".delete_row2").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         if ($(table).find("tr").length > 3) {
             $(table).find("tr").eq(-2).remove();
@@ -560,11 +560,11 @@ $(document).ready(function() {
 
     $("#save_shovels").on('click', create_table);
 
-    $("form#shovels").on('change', function() {
+    $("form#shovels").on('change', function () {
         $('#dumperwise_entry').fadeOut(100);
     });
 
-    $('#re_edit_shovels').on('click', function() {
+    $('#re_edit_shovels').on('click', function () {
         $('#dummy').hide();
     });
 
