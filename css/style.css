@@ -110,14 +110,30 @@ table thead th {
     /* background:red; */
     border-top:1px solid lightgrey;
 }
+
 .ph-mid{
     float: left;
     margin-top: 20px;
 }
+
+.select-print {
+    display: none;
+}
+
 @media print
-{    
+{
     .no-print
     {
         display: none !important;
+    }
+    td select
+    {
+        display: none !important;
+    }
+    .chosen-container {
+        display: none !important;
+    }
+    .select-print {
+        display: block;
     }
 }

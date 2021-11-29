@@ -378,6 +378,15 @@ function get_sap_compatible_excel() {
     };
     Jhxlsx.export(dataForPage, options);
 
+    $(window).bind('beforeprint', function(){
+        $('select').each(function(){
+            $(this).after($('<span class="select-print">' 
+                + $(this).find('option:selected').text() + '</span>'));
+        });
+    });
+    $(window).bind('afterprint', function(){
+        $('.select-print').remove();
+    });
 }
 
 function get_dumper_factor(dumper_number, material_type) {
@@ -514,6 +523,17 @@ $(document).ready(function () {
     $('.searchable').chosen().change(setFocusOnNextElement);
 
     $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
+
+    $(window).bind('beforeprint', function(){
+        $('select').each(function(){
+            $(this).after($('<span class="select-print">' 
+                + $(this).find('option:selected').text() + '</span>'));
+        });
+    });
+
+    $(window).bind('afterprint', function(){
+        $('.select-print').remove();
+    });
 
     $(".add_row1").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
