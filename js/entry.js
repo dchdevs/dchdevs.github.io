@@ -485,18 +485,18 @@ function updateSeam() {
     var options = '';
     if($(this).val() == 'Coal') {
         options = "<option value='' selected disabled hidden>Select Seam</option> \
-        <option value='Purewa Top|Purewa Top - East'>Purewa Top - East</option> \
-        <option value='Purewa Top|Purewa Top - West'>Purewa Top - West</option> \
-        <option value='Purewa Bottom|Purewa Bottom - East'>Purewa Bottom - East</option> \
-        <option value='Purewa Bottom|Purewa Bottom - West'>Purewa Bottom - West</option> \
-        <option value='Turra|Turra - East'>Turra - East</option> \
-        <option value='Turra|Turra - West'>Turra - West</option>";
+        <option value='PUREVA-TOP-COAL|PUREVA-TOP-COAL-EAST'>Purewa Top - East</option> \
+        <option value='PUREVA-TOP-COAL|PUREVA-TOP-COAL-WEST'>Purewa Top - West</option> \
+        <option value='PUREVA-BOTM-COAL|PUREVA-BOTM-COAL-EAST'>Purewa Bottom - East</option> \
+        <option value='PUREVA-BOTM-COAL|PUREVA-BOTM-COAL-WEST'>Purewa Bottom - West</option> \
+        <option value='TURRA COAL|TURRA COAL-EAST'>Turra - East</option> \
+        <option value='TURRA COAL|TURRA COAL-WEST'>Turra - West</option>";
     } else if ($(this).val() == 'OB') {
         options = "<option value='' selected disabled hidden>Select Seam</option> \
-        <option value='OVERBURDEN|OB - Turra Band'>OB - Turra Band</option> \
-        <option value='OVERBURDEN|OB - SM Band'>OB - SM Band</option> \
-        <option value='OVERBURDEN|OB - Above Purewa Bottom - West'>OB - Above Purewa Bottom - West</option> \
-        <option value='OVERBURDEN|OB - Above Purewa Bottom - East'>OB - Above Purewa Bottom - East</option>";
+        <option value='OVERBURDEN|OVERBURDEN-Turra Band'>OB - Turra Band</option> \
+        <option value='OVERBURDEN|OVERBURDEN-SM Band'>OB - SM Band</option> \
+        <option value='OVERBURDEN|OVERBURDEN-B/W PUR TOP & BOT-WEST'>OB - Above Purewa Bottom - West</option> \
+        <option value='OVERBURDEN|OVERBURDEN-B/W PUR TOP & BOT-EAST'>OB - Above Purewa Bottom - East</option>";
     }
     $(this).parent().next().children('select').chosen('destroy').end();
     $(this).parent().next().children('select').eq(0).empty().append(options);
