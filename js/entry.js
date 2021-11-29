@@ -217,6 +217,27 @@ function working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
     return working_hours;
 }
 
+function get_pdf_report() {
+    $('select').each(function(){
+        $(this).after($('<span class="select-print">' 
+            + $(this).find('option:selected').text() + '</span>'));
+    });
+    $('input[type="number"],input[type="date"]').each(function(){
+        $(this).after($('<span class="select-print">' 
+            + $(this).val() + '</span>'));
+    });
+    $("head").append("<link id='printcss' href='css/print.css' type='text/css' rel='stylesheet' />");
+    var opt = {
+        margin:       0,
+        filename:     'myfile.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+      };
+
+    html2pdf().set(opt).from(document.body).save();
+}
+
 function get_sap_compatible_excel() {
     var check = check_mandatory_fields();
     if (check == true) {
@@ -377,21 +398,6 @@ function get_sap_compatible_excel() {
         fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
     };
     Jhxlsx.export(dataForPage, options);
-
-    $(window).bind('beforeprint', function(){
-        $('select').each(function(){
-            $(this).after($('<span class="select-print">' 
-                + $(this).find('option:selected').text() + '</span>'));
-        });
-        $('input[type="number"],input[type="date"]').each(function(){
-            $(this).after($('<span class="select-print">' 
-                + $(this).val() + '</span>'));
-        });
-    });
-
-    $(window).bind('afterprint', function(){
-        $('.select-print').remove();
-    });
 }
 
 function get_dumper_factor(dumper_number, material_type) {
@@ -529,21 +535,6 @@ $(document).ready(function () {
 
     $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
 
-    $(window).bind('beforeprint', function(){
-        $('select').each(function(){
-            $(this).after($('<span class="select-print">' 
-                + $(this).find('option:selected').text() + '</span>'));
-        });
-        $('input[type="number"],input[type="date"]').each(function(){
-            $(this).after($('<span class="select-print">' 
-                + $(this).val() + '</span>'));
-        });
-    });
-
-    $(window).bind('afterprint', function(){
-        $('.select-print').remove();
-    });
-
     $(".add_row1").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
@@ -598,5 +589,8 @@ $(document).ready(function () {
     });
 
     $("#save_dumpers").on('click', save_dumpers_get_excel_old);
+
     $("#save_dumpers_1").on('click', get_sap_compatible_excel);
+
+    $("#pdf_report").on('click', get_pdf_report);
 });

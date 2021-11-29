@@ -1,0 +1,17 @@
+.no-print
+{
+    display: none !important;
+}
+td select, td input
+{
+    display: none !important;
+}
+.chosen-container {
+    display: none !important;
+}
+.scroll_space {
+    display: none !important;
+}
+.select-print {
+    display: block;
+}
