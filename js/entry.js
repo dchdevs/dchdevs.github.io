@@ -383,7 +383,12 @@ function get_sap_compatible_excel() {
             $(this).after($('<span class="select-print">' 
                 + $(this).find('option:selected').text() + '</span>'));
         });
+        $('input[type="number"],input[type="date"]').each(function(){
+            $(this).after($('<span class="select-print">' 
+                + $(this).val() + '</span>'));
+        });
     });
+
     $(window).bind('afterprint', function(){
         $('.select-print').remove();
     });
@@ -528,6 +533,10 @@ $(document).ready(function () {
         $('select').each(function(){
             $(this).after($('<span class="select-print">' 
                 + $(this).find('option:selected').text() + '</span>'));
+        });
+        $('input[type="number"],input[type="date"]').each(function(){
+            $(this).after($('<span class="select-print">' 
+                + $(this).val() + '</span>'));
         });
     });
 

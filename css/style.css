@@ -126,7 +126,7 @@ table thead th {
     {
         display: none !important;
     }
-    td select
+    td select, td input
     {
         display: none !important;
     }
