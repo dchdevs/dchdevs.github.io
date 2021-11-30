@@ -248,11 +248,11 @@ function get_pdf_report() {
     });
     $("head").append("<link id='printcss' href='css/print.css' type='text/css' rel='stylesheet' />");
     var opt = {
-        margin:       0,
-        filename:     'myfile.pdf',
+        margin:       0.1,
+        filename:     $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val() + '.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
       };
 
     html2pdf().set(opt).from(document.body).save();
