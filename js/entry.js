@@ -151,7 +151,8 @@ function create_table() {
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i + coal_shovels_operating.length + 5) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                var sum_offset = coal_shovels_operating.length ? (i + coal_shovels_operating.length + 5) : (i+4);
+                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + sum_offset + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
                 total_quantity_html += '<td>0</td>';
             }
