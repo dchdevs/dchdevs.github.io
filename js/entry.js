@@ -122,12 +122,12 @@ function create_table() {
     var totals_html = '<tr class=totalColumn>'
         + '<td>Total Trips</td>'
         + '<td></td>'
-        + '<td>0</td>';
+        + '<td></td>';
 
     var total_quantity_html = '<tr class=totalQuantityColumn>'
         + '<td>Total Quantity</td>'
         + '<td></td>'
-        + '<td>0</td>';
+        + '<td></td>';
 
     $(dumper_tbody_tr).each(function (index, tr) {
         $(tr).find("input,select").val('');
@@ -191,7 +191,7 @@ function create_table() {
 }
 
 function bind_total_event() {
-    $('#dumper_table tr:not(.totalColumn) input').bind('keyup change', function () {
+    $('#dumper_table .shovel_dumper_trip').bind('keyup change', function () {
         calc_total(this);
     });
 }
@@ -215,11 +215,8 @@ function calc_total(obj) {
                 total_quantity += parseInt(trips) * parseInt(dumper_factor);
             }
         });
-
         $table.find('.totalColumn td:nth-child(' + thisNumber + ')').html(total);
-        if (total_quantity !== 0) {
-            $table.find('.totalQuantityColumn td:nth-child(' + thisNumber + ')').html(total_quantity);
-        }
+        $table.find('.totalQuantityColumn td:nth-child(' + thisNumber + ')').html(total_quantity);
     }
 }
 
