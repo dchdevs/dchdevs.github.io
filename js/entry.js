@@ -256,9 +256,10 @@ function get_pdf_report() {
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2 },
         jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-      };
-
-    html2pdf().set(opt).from(document.body).save();
+    };
+    html2pdf().set(opt).from(document.body).outputPdf().then(function(pdf) {
+        $('#printcss').remove();
+    }).save();
 }
 
 function get_sap_compatible_excel() {
