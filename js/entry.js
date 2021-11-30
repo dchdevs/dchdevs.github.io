@@ -2,7 +2,7 @@
 *
 * Generic Copyright
 *
-* Plug-ins used: jQuery for now
+* Libraries used: jQuery, jspdf, html2canvas, html2pdf, jhxlsx
 * Author: Atul Pratap Singh (https://github.com/atuldch)
 */
 
