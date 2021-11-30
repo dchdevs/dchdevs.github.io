@@ -208,12 +208,17 @@ function calc_total(obj) {
         $table.find('tr:not(.totalColumn) .shovel_dumper_trip.sum' + thisNumber).each(function () {
             var trips = +$(this).val();
             var material_name = $(this).attr("name").split('_')[1];
-            var dumper_factor = get_dumper_factor($(this).parent().parent().children('td').eq(0).children('select, input').eq(0).val(), material_name);
-            total_quantity += parseInt(trips) * parseInt(dumper_factor);
+            var dumper_number = $(this).parent().parent().children('td').eq(0).children('select, input').eq(0).val();
+            if (dumper_number !== null) {
+                var dumper_factor = get_dumper_factor(dumper_number, material_name);
+                total_quantity += parseInt(trips) * parseInt(dumper_factor);
+            }
         });
 
         $table.find('.totalColumn td:nth-child(' + thisNumber + ')').html(total);
-        $table.find('.totalQuantityColumn td:nth-child(' + thisNumber + ')').html(total_quantity);
+        if (total_quantity !== 0) {
+            $table.find('.totalQuantityColumn td:nth-child(' + thisNumber + ')').html(total_quantity);
+        }
     }
 }
 
