@@ -120,7 +120,12 @@ function create_table() {
     });
 
     var totals_html = '<tr class=totalColumn>'
-        + '<td>Total</td>'
+        + '<td>Total Trips</td>'
+        + '<td></td>'
+        + '<td>0</td>';
+
+    var total_quantity_html = '<tr class=totalQuantityColumn>'
+        + '<td>Total Quantity</td>'
         + '<td></td>'
         + '<td>0</td>';
 
@@ -131,6 +136,7 @@ function create_table() {
             if (coal_shovels_operating[i] && coal_shovel_operator[i]) {
                 $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i + 4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
+                total_quantity_html += '<td>0</td>';
             }
             if (i === coal_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable dump'>"
@@ -140,12 +146,14 @@ function create_table() {
                     + "<option value='Crusher Yard'>Crusher Yard</option>"
                     + "</select></td>");
                 totals_html += '<td></td>';
+                total_quantity_html += '<td></td>';
             }
         }
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
                 $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i + coal_shovels_operating.length + 5) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
+                total_quantity_html += '<td>0</td>';
             }
             if (i === ob_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable dump'>"
@@ -155,11 +163,14 @@ function create_table() {
                     + "<option value='Local OB Dump'>Local OB Dump</option>"
                     + "</select></td>");
                 totals_html += '<td></td>';
+                total_quantity_html += '<td></td>';
             }
         }
     });
     totals_html += '</tr>';
+    total_quantity_html += '</tr>';
     $('#dumper_table > tbody').append(totals_html);
+    $('#dumper_table > tbody').append(total_quantity_html);
     bind_total_event();
 
     $('#dumperwise_entry').fadeIn(300);
@@ -187,13 +198,22 @@ function bind_total_event() {
 function calc_total(obj) {
     var $table = $(obj).closest('table');
     var total = 0;
+    var total_quantity = 0;
     var thisNumber = $(obj).attr('class').slice(-1);
 
     if (!isNaN(thisNumber)) {
         $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function () {
             total += +$(this).val();
         });
+        $table.find('tr:not(.totalColumn) .shovel_dumper_trip.sum' + thisNumber).each(function () {
+            var trips = +$(this).val();
+            var material_name = $(this).attr("name").split('_')[1];
+            var dumper_factor = get_dumper_factor($(this).parent().parent().children('td').eq(0).children('select, input').eq(0).val(), material_name);
+            total_quantity += parseInt(trips) * parseInt(dumper_factor);
+        });
+
         $table.find('.totalColumn td:nth-child(' + thisNumber + ')').html(total);
+        $table.find('.totalQuantityColumn td:nth-child(' + thisNumber + ')').html(total_quantity);
     }
 }
 
@@ -546,7 +566,7 @@ $(document).ready(function () {
     $(".add_row2").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
-        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length - 2)).find('input').val('');
+        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length - 3)).find('input').val('');
         bind_total_event();
         $(table).find('select').chosen().change(setFocusOnNextElement);
         $('td > input').on('keydown', function (e) {
@@ -570,8 +590,8 @@ $(document).ready(function () {
     });
     $(".delete_row2").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
-        if ($(table).find("tr").length > 3) {
-            $(table).find("tr").eq(-2).remove();
+        if ($(table).find("tr").length > 4) {
+            $(table).find("tr").eq(-3).remove();
             $('#dumper_table tr:not(.totalColumn) input').each(function () {
                 calc_total(this);
             });
