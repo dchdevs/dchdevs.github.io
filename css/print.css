@@ -46,3 +46,6 @@ td select, td input
 .printpdf span{
     margin-left: 30px;
 }
+#entry {
+    padding-left:0em !important;
+}

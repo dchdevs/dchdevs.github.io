@@ -64,7 +64,10 @@ table thead th {
 .printpdf_bottom {
     display: none !important;
 }
-
+#entry {
+    padding-left:2em;
+    padding-top: 1em;
+}
 
 /* //////////////////////CUSTOM STYLES */
 *{
