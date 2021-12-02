@@ -120,12 +120,12 @@ function create_table() {
     });
 
     var totals_html = '<tr class=totalColumn>'
-        + '<td>Total Trips</td>'
+        + '<td style="font-weight:bold;">Total Trips</td>'
         + '<td></td>'
         + '<td></td>';
 
     var total_quantity_html = '<tr class=totalQuantityColumn>'
-        + '<td>Total Quantity</td>'
+        + '<td style="font-weight:bold;">Total Quantity</td>'
         + '<td></td>'
         + '<td></td>';
 
