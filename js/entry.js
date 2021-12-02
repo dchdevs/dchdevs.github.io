@@ -200,7 +200,8 @@ function calc_total(obj) {
     var $table = $(obj).closest('table');
     var total = 0;
     var total_quantity = 0;
-    var thisNumber = $(obj).attr('class').slice(-1);
+    var classes = $(obj).attr('class');
+    var thisNumber = classes.substring(classes.indexOf('sum') + 3);
 
     if (!isNaN(thisNumber)) {
         $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function () {
