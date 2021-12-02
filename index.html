@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <div class="printpdf"><span id="print_time"></span><span>Dudhicua Project, Northern Coalfields Limited</span></div>
     <div class="page-head">
         <div class="ph-left">
             <div class="page-logo">
@@ -106,9 +107,7 @@
         <div id="entry" style="padding-left:2em;padding-top: 1em;">
 
             <div style="position:relative; width:fit-content;">
-                <label
-                    style="font-weight: bold; background-color:rgb(230, 236, 255);">----------------------------------------------Shovels
-                    Table:----------------------------------------------</label>
+                <label style="font-weight: bold; background-color:rgb(230, 236, 255);">-----------------------------------------------Shovels Operating:-----------------------------------------------</label>
                 <br>
                 <br>
                 <form id='shovels'>
@@ -260,8 +259,10 @@
                 <div style="float:left; margin:0 15px 0 0;">
                     <input type="button" value="Delete Row" class="no-print delete_row1 btn btn-danger" />
                 </div>
-                <br>
-                <br>
+                <div class='scroll_space'>
+                    <br>
+                    <br>
+                </div>
                 <div style="float:left; margin:0 15px 0 0;">
                     <input type="button" value="Create Dumper-wise Table" id="save_shovels"
                         class="no-print btn btn-primary" />
@@ -274,9 +275,7 @@
                 <br>
             </div>
             <div id="dumperwise_entry" style="display: none;">
-                <label
-                    style="font-weight: bold; background-color:rgb(230, 236, 255);">-------------------------------------------Dumper-wise
-                    table:-------------------------------------------</label>
+                <label style="font-weight: bold; background-color:rgb(230, 236, 255);">----------------------------------------Dumpers operating per shovel:----------------------------------------</label>
                 <br>
                 <br>
                 <form id='pageData'>
@@ -647,7 +646,6 @@
                     </div>
                 </form>
                 <div class='scroll_space'>
-                    <!-- provide scroll space -->
                     <br>
                     <br>
                     <br>
@@ -659,6 +657,7 @@
             </div>
         </div>
     </div>
+    <div class="printpdf_bottom"><span>Digitally generated and verified by Shift Incharge.<img src="images/check.png" style='vertical-align:middle; height: 1em;' alt="signed" /></span></div>
     <!-- page-body ends here -->
     <script src="js/jquery-3.6.0.js"></script>
     <script src="js/jquery-ui.js"></script>

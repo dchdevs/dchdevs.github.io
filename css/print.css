@@ -31,5 +31,18 @@ td select, td input
     display: none !important;
 }
 .select-print {
-    display: block;
+    display: block !important;
+}
+.printpdf {
+    font-size: xx-small;
+    vertical-align: middle;
+    display:inline !important;
+}
+.printpdf_bottom {
+    font-size: small;
+    vertical-align: middle;
+    display:inline !important;
+}
+.printpdf span{
+    margin-left: 30px;
 }

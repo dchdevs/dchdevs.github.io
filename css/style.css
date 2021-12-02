@@ -58,6 +58,12 @@ table thead th {
 .inp1{
     width:70px;
 }
+.printpdf {
+    display: none !important;
+}
+.printpdf_bottom {
+    display: none !important;
+}
 
 
 /* //////////////////////CUSTOM STYLES */

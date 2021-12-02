@@ -249,9 +249,10 @@ function get_pdf_report() {
         $(this).after($('<span class="select-print">' 
             + $(this).val() + '</span>'));
     });
+    $('#print_time').text('Generated on: ' + new Date().toLocaleString());
     $("head").append("<link id='printcss' href='css/print.css' type='text/css' rel='stylesheet' />");
     var opt = {
-        margin:       0.1,
+        margin:       [0.2,0.1,0.2,0.1],
         filename:     $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val() + '.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2 },
@@ -259,6 +260,7 @@ function get_pdf_report() {
     };
     html2pdf().set(opt).from(document.body).outputPdf().then(function(pdf) {
         $('#printcss').remove();
+        $('.select-print').remove();
     }).save();
 }
 
