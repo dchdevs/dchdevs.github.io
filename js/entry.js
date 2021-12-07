@@ -391,11 +391,13 @@ function get_sap_compatible_excel() {
                     excelRowToInsert.push({ "text": new Date($('#date').val()) });
                     excelRowToInsert.push({ "text": $('#shift').val() });
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({ "text": coal_shovel_seam[index - 3][0] });
-                        excelRowToInsert.push({ "text": coal_shovel_seam[index - 3][1] });
+                        var coal_seam_offset = index - 3;
+                        excelRowToInsert.push({ "text": coal_shovel_seam[coal_seam_offset][0] });
+                        excelRowToInsert.push({ "text": coal_shovel_seam[coal_seam_offset][1] });
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({ "text": ob_shovel_seam[index - 4 - coal_shovel_seam.length][0] });
-                        excelRowToInsert.push({ "text": ob_shovel_seam[index - 4 - coal_shovel_seam.length][1] });
+                        var ob_seam_offset = coal_shovel_seam.length ? (index - 4 - coal_shovel_seam.length) : (index - 3);
+                        excelRowToInsert.push({ "text": ob_shovel_seam[ob_seam_offset][0] });
+                        excelRowToInsert.push({ "text": ob_shovel_seam[ob_seam_offset][1] });
                     }
                     excelRowToInsert.push({ "text": threeFields[0] });
                     excelRowToInsert.push({ "text": parseInt(threeFields[2]) });
