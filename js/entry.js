@@ -114,7 +114,7 @@ function create_table() {
                 $("<th class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));
             }
             if (i === ob_shovels_operating.length - 1) {
-                $("<th>Dump Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
+                $("<th>Dump Location<br>(OB)</th><th></th>").insertAfter($(tr).find("th:last"));
             }
         }
     });
@@ -162,9 +162,10 @@ function create_table() {
                     + "<option value='OB Dump East'>OB Dump East</option>"
                     + "<option value='OB Dump West'>OB Dump West</option>"
                     + "<option value='Local OB Dump'>Local OB Dump</option>"
-                    + "</select></td>");
-                totals_html += '<td></td>';
-                total_quantity_html += '<td></td>';
+                    + "</select></td>"
+                    + "<td><div style='float:left; margin:0 15px 0 0;' ><input type='button' value='X' class='no-print delete_row2  btn btn-danger' /></div></td>");
+                totals_html += '<td></td><td></td>';
+                total_quantity_html += '<td></td><td></td>';
             }
         }
     });
@@ -568,6 +569,13 @@ $(document).ready(function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
+        $(".delete_row1").on('click', function () {
+            var tbody = $(this).closest("tbody");
+            if ($(tbody).children("tr").length > 1) {
+                $(this).closest('tr').remove();
+            }
+            $('#dumperwise_entry').fadeOut(100);
+        });
         $(table).find('select').chosen().change(setFocusOnNextElement);
         $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
         $('#dumperwise_entry').fadeOut(100);
@@ -575,7 +583,7 @@ $(document).ready(function () {
     $(".add_row2").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
-        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length - 3)).find('input').val('');
+        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length - 3)).find('input').not(':input[type=button]').val('');
         bind_total_event();
         $(table).find('select').chosen().change(setFocusOnNextElement);
         $('td > input').on('keydown', function (e) {
@@ -589,18 +597,27 @@ $(document).ready(function () {
                 return false;
             }
         });
+        $(".delete_row2").on('click', function () {
+            var tbody = $(this).closest("tbody");
+            if ($(tbody).children("tr").length > 3) {
+                $(this).closest('tr').remove();
+                $('#dumper_table tr:not(.totalColumn) input').each(function () {
+                    calc_total(this);
+                });
+            }
+        });
     });
     $(".delete_row1").on('click', function () {
-        var table = $(this).parent().parent().find("table").first();
-        if ($(table).find("tr").length > 2) {
-            $(table).find("tr").last().remove();
+        var tbody = $(this).closest("tbody");
+        if ($(tbody).children("tr").length > 1) {
+            $(this).closest('tr').remove();
         }
         $('#dumperwise_entry').fadeOut(100);
     });
     $(".delete_row2").on('click', function () {
-        var table = $(this).parent().parent().find("table").first();
-        if ($(table).find("tr").length > 4) {
-            $(table).find("tr").eq(-3).remove();
+        var tbody = $(this).closest("tbody");
+        if ($(tbody).children("tr").length > 3) {
+            $(this).closest('tr').remove();
             $('#dumper_table tr:not(.totalColumn) input').each(function () {
                 calc_total(this);
             });
