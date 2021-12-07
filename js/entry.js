@@ -114,9 +114,10 @@ function create_table() {
                 $("<th class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));
             }
             if (i === ob_shovels_operating.length - 1) {
-                $("<th>Dump Location<br>(OB)</th><th></th>").insertAfter($(tr).find("th:last"));
+                $("<th>Dump Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
             }
         }
+        $("<th></th>").insertAfter($(tr).find("th:last"));
     });
 
     var totals_html = '<tr class=totalColumn>'
@@ -162,12 +163,14 @@ function create_table() {
                     + "<option value='OB Dump East'>OB Dump East</option>"
                     + "<option value='OB Dump West'>OB Dump West</option>"
                     + "<option value='Local OB Dump'>Local OB Dump</option>"
-                    + "</select></td>"
-                    + "<td><div style='float:left; margin:0 15px 0 0;' ><input type='button' value='X' class='no-print delete_row2  btn btn-danger' /></div></td>");
-                totals_html += '<td></td><td></td>';
-                total_quantity_html += '<td></td><td></td>';
+                    + "</select></td>");
+                    totals_html += '<td></td>';
+                total_quantity_html += '<td></td>';
             }
         }
+        totals_html += '<td></td>';
+        total_quantity_html += '<td></td>';
+        $(tr).append("<td><div style='float:left; margin:0 15px 0 0;' ><input type='button' value='X' class='no-print delete_row2  btn btn-danger' /></div></td>");
     });
     totals_html += '</tr>';
     total_quantity_html += '</tr>';
