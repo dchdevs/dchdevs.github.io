@@ -447,7 +447,7 @@ function get_dumper_factor(dumper_number, material_type) {
     } else if (dumper_number.indexOf('KM-') > -1) {
         df = material_type == 'Coal' ? 45 : 32;
     } else if (dumper_number.indexOf('CAT-') > -1) {
-        df = material_type == 'Coal' ? 70 : 50;
+        df = material_type == 'Coal' ? 75 : 50;
     }
     return df;
 }
