@@ -380,7 +380,7 @@ function get_sap_compatible_excel() {
                         excelRowToInsert.push({ "text": process_order_ob });
                     } else if (coal_shovel_seam[index - 3][1].indexOf('TURRA') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_turra_coal });
-                    } else if (coal_shovel_seam[index - 3][1].indexOf('PUREVA') > -1 && threeFields[1] === 'Coal') {
+                    } else if (coal_shovel_seam[index - 3][1].indexOf('PURVA') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_purewa_coal });
                     }
                     excelRowToInsert.push({ "text": new Date($('#date').val()) });
