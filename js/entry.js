@@ -141,7 +141,7 @@ function create_table() {
                 total_quantity_html += '<td>0</td>';
             }
             if (i === coal_shovels_operating.length - 1) {
-                $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable dump'>"
+                $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable coal_dump'>"
                     + "<option value='' selected disabled hidden>Select Dump</option>"
                     + "<option value='East Coal Yard'>East Coal Yard</option>"
                     + "<option value='West Coal Yard'>West Coal Yard</option>"
@@ -159,7 +159,7 @@ function create_table() {
                 total_quantity_html += '<td>0</td>';
             }
             if (i === ob_shovels_operating.length - 1) {
-                $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable dump'>"
+                $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable ob_dump'>"
                     + "<option value='' selected disabled hidden>Select Dump</option>"
                     + "<option value='OB Dump East'>OB Dump East</option>"
                     + "<option value='OB Dump West'>OB Dump West</option>"
@@ -296,6 +296,7 @@ function get_sap_compatible_excel() {
     header.push({ "text": "Dumper_Factor" });
     header.push({ "text": "Dumper_Tonnage" });
     header.push({ "text": "Dumper_Volume" });
+    header.push({ "text": "Dump_Location" });
 
     dataForPage[0].data.push(header);
 
@@ -394,10 +395,12 @@ function get_sap_compatible_excel() {
                         var coal_seam_offset = index - 3;
                         excelRowToInsert.push({ "text": coal_shovel_seam[coal_seam_offset][0] });
                         excelRowToInsert.push({ "text": coal_shovel_seam[coal_seam_offset][1] });
+                        var dump_loc = $(td).parent().find('select.coal_dump').val();
                     } else if (threeFields[1] === 'OB') {
                         var ob_seam_offset = coal_shovel_seam.length ? (index - 4 - coal_shovel_seam.length) : (index - 3);
                         excelRowToInsert.push({ "text": ob_shovel_seam[ob_seam_offset][0] });
                         excelRowToInsert.push({ "text": ob_shovel_seam[ob_seam_offset][1] });
+                        var dump_loc = $(td).parent().find('select.ob_dump').val();
                     }
                     excelRowToInsert.push({ "text": threeFields[0] });
                     excelRowToInsert.push({ "text": parseInt(threeFields[2]) });
@@ -422,6 +425,7 @@ function get_sap_compatible_excel() {
                         excelRowToInsert.push({ "text": '' });
                         excelRowToInsert.push({ "text": parseInt(dumper_tonnage) });
                     }
+                    excelRowToInsert.push({ "text": dump_loc });
                     dataForPage[0].data.push(excelRowToInsert);
                 }
             });
