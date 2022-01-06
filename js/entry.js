@@ -143,9 +143,9 @@ function create_table() {
             if (i === coal_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable coal_dump'>"
                     + "<option value='' selected disabled hidden>Select Dump</option>"
-                    + "<option value='East Coal Yard'>East Coal Yard</option>"
-                    + "<option value='West Coal Yard'>West Coal Yard</option>"
-                    + "<option value='Crusher Yard'>Crusher Yard</option>"
+                    + "<option value='U022'>East Coal Yard</option>"
+                    + "<option value='U024'>West Coal Yard</option>"
+                    + "<option value='U023'>Crusher Yard</option>"
                     + "</select></td>");
                 totals_html += '<td></td>';
                 total_quantity_html += '<td></td>';
@@ -161,9 +161,9 @@ function create_table() {
             if (i === ob_shovels_operating.length - 1) {
                 $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable ob_dump'>"
                     + "<option value='' selected disabled hidden>Select Dump</option>"
-                    + "<option value='OB Dump East'>OB Dump East</option>"
-                    + "<option value='OB Dump West'>OB Dump West</option>"
-                    + "<option value='Local OB Dump'>Local OB Dump</option>"
+                    + "<option value='OB01'>OB Dump East</option>"
+                    + "<option value='OB12'>OB Dump West</option>"
+                    + "<option value='OB01'>Local OB Dump</option>"
                     + "</select></td>");
                     totals_html += '<td></td>';
                 total_quantity_html += '<td></td>';
