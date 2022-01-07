@@ -21,6 +21,27 @@ var process_order_purewa_coal = 60005616;
 var process_order_turra_coal = 60005617;
 var process_order_ob = 70004139;
 
+function check_mandatory_fields_shovel() {
+    var flag = false;
+    $('#shovel_table > tbody > tr select.shv').each(function () {
+        if (!$(this).val()) {
+            flag = true;
+            $(this).parent().addClass("error_in_field");
+        } else {
+            $(this).parent().removeClass("error_in_field");
+        }
+    });
+    $('#shovel_table > tbody > tr input.shv').each(function () {
+        if (!$(this).val() || parseFloat($(this).val()) <= 0) {
+            flag = true;
+            $(this).parent().addClass("error_in_field");
+        } else {
+            $(this).parent().removeClass("error_in_field");
+        }
+    });
+    return flag;
+}
+
 function check_mandatory_fields() {
     var flag = false;
     $('#dumper_table select.dumper_n').each(function () {
@@ -89,6 +110,10 @@ var dataForPage = [
 ];
 
 function create_table() {
+    if (check_mandatory_fields_shovel()) {
+        return;
+    }
+
     $('#dumperwise_entry').fadeOut(100);
     coal_shovels_operating = [];
     coal_shovel_operator = [];
@@ -120,11 +145,6 @@ function create_table() {
             ob_shovel_seam.push([$('select[name="seam[]"]').eq(index).val().split('|')[0], $('select[name="seam[]"]').eq(index).val().split('|')[1]]);
         }
     });
-
-    if (!coal_shovels_operating.length && !ob_shovels_operating.length) {
-        alert('ERROR: Empty fields in SHOVEL TABLE!');
-        return;
-    }
 
     $('#dumper_table').find(".searchable").chosen('destroy').end();
     $('#dumper_table > tbody').find("tr:gt(0)").remove();
@@ -610,7 +630,8 @@ $(document).ready(function () {
         $('#dummy').hide();
     });
 
-    $("#validate").on('click', check_mandatory_fields);
+    $("#validate1").on('click', check_mandatory_fields_shovel);
+    $("#validate2").on('click', check_mandatory_fields);
 
     $("#save_dumpers_1").on('click', get_sap_compatible_excel);
 
