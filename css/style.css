@@ -68,6 +68,9 @@ table thead th {
     padding-left:2em;
     padding-top: 1em;
 }
+.error_in_field{
+    background-image: linear-gradient(red, orange) !important;
+}
 
 /* //////////////////////CUSTOM STYLES */
 *{

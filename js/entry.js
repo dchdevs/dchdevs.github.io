@@ -25,20 +25,58 @@ var process_order_ob = 70004139;
 
 function check_mandatory_fields() {
     var flag = false;
-    $('#dumper_table select').each(function () {
-        if (($(this).val() == ''
-            || $(this).val() == null)
-            && !$(this).hasClass('dump')
-        ) {
+    $('#dumper_table select.dumper_n').each(function () {
+        if (!$(this).val()) {
             flag = true;
+            $(this).parent().addClass("error_in_field");
+        } else {
+            $(this).parent().removeClass("error_in_field");
         }
     });
-    $('#dumper_table input[name="dumper_working_hours[]"]').each(function () {
-        if ($(this).val() == ''
-            || $(this).val() == null
-            || $(this).val() == '0'
-        ) {
+    $('#dumper_table select.dumper_op').each(function () {
+        if (!$(this).val()) {
             flag = true;
+            $(this).parent().addClass("error_in_field");
+        } else {
+            $(this).parent().removeClass("error_in_field");
+        }
+    });
+    $('#dumper_table input.dumper_wh').each(function () {
+        if (!$(this).val() || parseFloat($(this).val()) <= 0) {
+            flag = true;
+            $(this).parent().addClass("error_in_field");
+        } else {
+            $(this).parent().removeClass("error_in_field");
+        }
+    });
+    $('#dumper_table select.coal_dump').each(function () {
+        var preceding_trips = $(this).parent().parent().find('input.coal_inp');
+        var trip_entered = false;
+        $(preceding_trips).each(function() {
+            if ($(this).val() && parseFloat($(this).val()) > 0) {
+                trip_entered = true;
+            }
+        });
+        if(trip_entered && !$(this).val()) {
+            flag = true;
+            $(this).parent().addClass("error_in_field");
+        } else {
+            $(this).parent().removeClass("error_in_field");
+        }
+    });
+    $('#dumper_table select.ob_dump').each(function () {
+        var preceding_trips = $(this).parent().parent().find('input.ob_inp');
+        var trip_entered = false;
+        $(preceding_trips).each(function() {
+            if ($(this).val() && parseFloat($(this).val()) > 0) {
+                trip_entered = true;
+            }
+        });
+        if(trip_entered && !$(this).val()) {
+            flag = true;
+            $(this).parent().addClass("error_in_field");
+        } else {
+            $(this).parent().removeClass("error_in_field");
         }
     });
     return flag;
@@ -136,7 +174,7 @@ function create_table() {
         $(tr).find("td:gt(2)").remove();
         for (var i = 0; i < coal_shovels_operating.length; i++) {
             if (coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + (i + 4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum" + (i + 4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
                 total_quantity_html += '<td>0</td>';
             }
@@ -154,7 +192,7 @@ function create_table() {
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
                 var sum_offset = coal_shovels_operating.length ? (i + coal_shovels_operating.length + 5) : (i+4);
-                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip inp " + "sum" + sum_offset + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + sum_offset + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
                 total_quantity_html += '<td>0</td>';
             }
