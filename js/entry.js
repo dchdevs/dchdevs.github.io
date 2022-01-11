@@ -348,7 +348,9 @@ function get_sap_compatible_excel() {
     header.push({ "text": "Dumper_Factor" });
     header.push({ "text": "Dumper_Tonnage" });
     header.push({ "text": "Dumper_Volume" });
+    header.push({ "text": "indicator" });
     header.push({ "text": "Dump_Location" });
+    header.push({ "text": "bd time" });
 
     dataForPage[0].data.push(header);
 
@@ -477,7 +479,9 @@ function get_sap_compatible_excel() {
                         excelRowToInsert.push({ "text": '' });
                         excelRowToInsert.push({ "text": parseInt(dumper_tonnage) });
                     }
+                    excelRowToInsert.push({ "text": '' });
                     excelRowToInsert.push({ "text": dump_loc });
+                    excelRowToInsert.push({ "text": '' });
                     dataForPage[0].data.push(excelRowToInsert);
                 }
             });
