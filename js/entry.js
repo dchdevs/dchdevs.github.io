@@ -17,9 +17,9 @@ var coal_shovel_seam = [];
 var ob_shovel_seam = [];
 var material_code_coal = 4900000014;
 var material_code_ob = 4900000011;
-var process_order_purewa_coal = 60005616;
-var process_order_turra_coal = 60005617;
-var process_order_ob = 70004139;
+var process_order_purewa_coal = 60006190;
+var process_order_turra_coal = 60006191;
+var process_order_ob = 70004452;
 
 function check_mandatory_fields_shovel() {
     var flag = false;
