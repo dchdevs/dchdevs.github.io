@@ -544,7 +544,9 @@ $(document).ready(function () {
     $(".add_row1").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
-        $(table).find("tr").eq(1).clone().appendTo($(table)).find('.create-dumper-column').val('Add to Dumper Table').css('background-color','#0d6efd');
+        $added_line = $(table).find("tr").eq(1).clone().appendTo($(table));
+        $added_line.find('.create-dumper-column').val('Add to Dumper Table').css('background-color','#0d6efd');
+        $added_line.find('.shovel_work_hour').val('');
         $(".create-dumper-column").on('click', create_corresponding_dumper_column);
         $(".delete_row1").on('click', function () {
             var tbody = $(this).closest("tbody");
