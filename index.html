@@ -256,8 +256,7 @@
                                 </td>
                                 <td>
                                     <div style="float:left; margin:0 15px 0 0;">
-                                        <input type="button" value="Add to Dumper Table" id="save_shovels"
-                                            class="no-print btn btn-primary" />
+                                        <input type="button" value="Add to Dumper Table" class="no-print btn btn-primary create-dumper-column" />
                                     </div>
                                 </td>
                                 <td>
@@ -298,9 +297,7 @@
                             <tr>
                                 <th>Dumper No.</th>
                                 <th>Dumper Operator</th>
-                                <th>Work Hrs.</th>
-                                <th id='coal_header' style="background-color: rgb(81, 110, 190);">Coal Shovel</th>
-                                <th id='ob_header'>OB Shovel</th>
+                                <th class="work_hours_dumper_head">Work Hrs.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -666,20 +663,13 @@
                                         <option value='26396051'>VIPAYCHAND VISHWAKARMA -- 26396051</option>
                                     </select>
                                 </td>
-                                <td>
+                                <td class="work_hours_dumper_body">
                                     <input name="dumper_working_hours[]" class='inp1 dumper_wh' required="required"
                                         maxlength="128" type="number" value="" min="1" max="7.5" placeholder=""
                                         data-rule-required="true" data-msg-required="Please enter a valid number">
                                 </td>
-                                <td>
-                                    <input class="inp" name="coal_shovel[]" required="required" maxlength="128"
-                                        type="number" value="" min="0" placeholder="" data-rule-required="true"
-                                        data-msg-required="Please enter a valid number">
-                                </td>
-                                <td>
-                                    <input class="inp" name="ob_shovel[]" required="required" maxlength="128"
-                                        type="number" value="" min="0" placeholder="" data-rule-required="true"
-                                        data-msg-required="Please enter a valid number">
+                                <td class="dumper_row_delete_button">
+                                    <div style='float:left; margin:0 15px 0 0;' ><input type='button' value='X' class='no-print delete_row2  btn btn-danger' /></div>
                                 </td>
                             </tr>
                         </tbody>

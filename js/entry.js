@@ -9,12 +9,8 @@
 var date = 'today';
 var shift = 1;
 var section = 1;
-var coal_shovels_operating = [];
-var coal_shovel_operator = [];
-var ob_shovels_operating = [];
-var ob_shovel_operator = [];
-var coal_shovel_seam = [];
-var ob_shovel_seam = [];
+var coal_shovel_seam = {};
+var ob_shovel_seam = {};
 var material_code_coal = 4900000014;
 var material_code_ob = 4900000011;
 var process_order_purewa_coal = 60006912;
@@ -113,66 +109,63 @@ function create_corresponding_dumper_column() {
     if (check_mandatory_fields_shovel()) {
         return;
     }
+
+    let dumper_thead_tr = $('#dumper_table > thead > tr');
+    let dumper_tbody_tr = $('#dumper_table > tbody > tr');
+    let shovel_table_row = $(this).parent().parent().parent();
+
     $('#dumperwise_entry').fadeOut(100);
-    
-    coal_shovels_operating = [];
-    coal_shovel_operator = [];
-    ob_shovels_operating = [];
-    ob_shovel_operator = [];
-    coal_shovel_seam = [];
-    ob_shovel_seam = [];
 
-    var shovel_table_row = $('#shovel_table > tbody > tr');
+    let shovel_unique_id = '';
+    let seam_column = $(shovel_table_row).find('select[name="seam[]"]').val();
 
-    $(shovel_table_row).each(function (index, tr) {
-        if ($('select[name="material_type[]"]').eq(index).val() === 'Coal'
-            && $('select[name="shovel_no[]"]').eq(index).val()
-            && $('select[name="shovel_operator[]"]').eq(index).val()
-            && $('select[name="seam[]"]').eq(index).val()
-            && $('input[name="shovel_working_hours[]"]').eq(index).val()
-        ) {
-            coal_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
-            coal_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
-            coal_shovel_seam.push([$('select[name="seam[]"]').eq(index).val().split('|')[0], $('select[name="seam[]"]').eq(index).val().split('|')[1]]);
-        } else if ($('select[name="material_type[]"]').eq(index).val() === 'OB'
-            && $('select[name="shovel_no[]"]').eq(index).val()
-            && $('select[name="shovel_operator[]"]').eq(index).val()
-            && $('select[name="seam[]"]').eq(index).val()
-            && $('input[name="shovel_working_hours[]"]').eq(index).val()
-        ) {
-            ob_shovels_operating.push($('select[name="shovel_no[]"]').eq(index).val());
-            ob_shovel_operator.push($('select[name="shovel_operator[]"]').eq(index).val());
-            ob_shovel_seam.push([$('select[name="seam[]"]').eq(index).val().split('|')[0], $('select[name="seam[]"]').eq(index).val().split('|')[1]]);
+    if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'Coal' ) {
+        shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_Coal';       
+        if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
+            $('#dumperwise_entry').fadeIn(300);
+            return;
         }
-    });
-
-    $('#dumper_table').find(".searchable").chosen('destroy').end();
-    $('#dumper_table > tbody').find("tr:gt(0)").remove();
-
-    var dumper_thead_tr = $('#dumper_table > thead > tr');
-    var dumper_tbody_tr = $('#dumper_table > tbody > tr');
-
-    $(dumper_thead_tr).each(function (index, tr) {
-        $(tr).find("th:gt(2)").remove();
-        for (var i = 0; i < coal_shovels_operating.length; i++) {
-            if (coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $("<th class='shovel_column'>" + coal_shovels_operating[i] + "<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
-            }
-            if (i === coal_shovels_operating.length - 1) {
-                $("<th>Dump Location<br>(Coal)</th>").insertAfter($(tr).find("th:last"));
-            }
+        coal_shovel_seam[shovel_unique_id] = [seam_column.split('|')[0], seam_column.split('|')[1]];
+        if ($(dumper_thead_tr).find('.coal_dump_column_exists').length <= 0) {
+            $("<th><div class='coal_dump_column_exists'>Dump Location<br>(Coal)</div></th>").insertAfter($(dumper_thead_tr).find('.work_hours_dumper_head'));
         }
-        for (i = 0; i < ob_shovels_operating.length; i++) {
-            if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                $("<th class='shovel_column'>" + ob_shovels_operating[i] + "<br>(OB)</th>").insertAfter($(tr).find("th:last"));
-            }
-            if (i === ob_shovels_operating.length - 1) {
-                $("<th>Dump Location<br>(OB)</th>").insertAfter($(tr).find("th:last"));
-            }
+        $(dumper_thead_tr).find('.coal_dump_column_exists').parent().before("<th class='shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(Coal)</th>");
+        if ($(dumper_tbody_tr).find('.coal_dump_column_exists').length <= 0) {
+            $("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable coal_dump coal_dump_column_exists'>"
+                + "<option value='' selected disabled hidden>Select Dump</option>"
+                + "<option value='U022'>East Coal Yard</option>"
+                + "<option value='U024'>West Coal Yard</option>"
+                + "<option value='U023'>Crusher Yard</option>"
+                + "</select></td>").insertAfter(
+                    $(dumper_tbody_tr).find('.work_hours_dumper_body')
+                );
         }
-        $("<th></th>").insertAfter($(tr).find("th:last"));
-    });
+        $(dumper_tbody_tr).find('.coal_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_Coal_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+    } else if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'OB') {
+        shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_OB';
+        if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
+            $('#dumperwise_entry').fadeIn(300);
+            return;
+        }
+        ob_shovel_seam[shovel_unique_id] = [seam_column.split('|')[0], seam_column.split('|')[1]];
+        if ($(dumper_thead_tr).find('.ob_dump_column_exists').length <= 0) {
+            $(dumper_thead_tr).append("<th><div class='ob_dump_column_exists'>Dump Location<br>(OB)</div></th>");
+        }
+        $(dumper_thead_tr).find('.ob_dump_column_exists').parent().before("<th class='shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(OB)</th>");
+        if ($(dumper_tbody_tr).find('.ob_dump_column_exists').length <= 0) {
+            $(dumper_tbody_tr).find('.dumper_row_delete_button').before("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable ob_dump ob_dump_column_exists'>"
+                + "<option value='' selected disabled hidden>Select Dump</option>"
+                + "<option value='OB01'>OB Dump East</option>"
+                + "<option value='OB12'>OB Dump West</option>"
+                + "<option value='OB01'>Local OB Dump</option>"
+                + "</select></td>");
+        }
+        $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+    }
+    $(this).val('Added');
+    $('#dumperwise_entry').fadeIn(300);
 
+/*
     var totals_html = '<tr class=totalColumn>'
         + '<td style="font-weight:bold;">Total Trips</td>'
         + '<td></td>'
@@ -183,22 +176,12 @@ function create_corresponding_dumper_column() {
         + '<td></td>'
         + '<td></td>';
 
-    $(dumper_tbody_tr).each(function (index, tr) {
-        $(tr).find("input,select").val('');
-        $(tr).find("td:gt(2)").remove();
-        for (var i = 0; i < coal_shovels_operating.length; i++) {
-            if (coal_shovels_operating[i] && coal_shovel_operator[i]) {
-                $(tr).append("<td><input name='" + coal_shovels_operating[i] + "_Coal_" + coal_shovel_operator[i] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum" + (i + 4) + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
-                totals_html += '<td>0</td>';
+    
+    totals_html += '<td>0</td>';
                 total_quantity_html += '<td>0</td>';
             }
             if (i === coal_shovels_operating.length - 1) {
-                $(tr).append("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable coal_dump'>"
-                    + "<option value='' selected disabled hidden>Select Dump</option>"
-                    + "<option value='U022'>East Coal Yard</option>"
-                    + "<option value='U024'>West Coal Yard</option>"
-                    + "<option value='U023'>Crusher Yard</option>"
-                    + "</select></td>");
+                
                 totals_html += '<td></td>';
                 total_quantity_html += '<td></td>';
             }
@@ -206,24 +189,17 @@ function create_corresponding_dumper_column() {
         for (var i = 0; i < ob_shovels_operating.length; i++) {
             if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
                 var sum_offset = coal_shovels_operating.length ? (i + coal_shovels_operating.length + 5) : (i+4);
-                $(tr).append("<td><input name='" + ob_shovels_operating[i] + "_OB_" + ob_shovel_operator[i] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + sum_offset + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
                 totals_html += '<td>0</td>';
                 total_quantity_html += '<td>0</td>';
             }
             if (i === ob_shovels_operating.length - 1) {
-                $(tr).append("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable ob_dump'>"
-                    + "<option value='' selected disabled hidden>Select Dump</option>"
-                    + "<option value='OB01'>OB Dump East</option>"
-                    + "<option value='OB12'>OB Dump West</option>"
-                    + "<option value='OB01'>Local OB Dump</option>"
-                    + "</select></td>");
                     totals_html += '<td></td>';
                 total_quantity_html += '<td></td>';
             }
         }
         totals_html += '<td></td>';
         total_quantity_html += '<td></td>';
-        $(tr).append("<td><div style='float:left; margin:0 15px 0 0;' ><input type='button' value='X' class='no-print delete_row2  btn btn-danger' /></div></td>");
+        $(tr).append("");
     });
     totals_html += '</tr>';
     total_quantity_html += '</tr>';
@@ -231,7 +207,6 @@ function create_corresponding_dumper_column() {
     $('#dumper_table > tbody').append(total_quantity_html);
     bind_total_event();
 
-    $('#dumperwise_entry').fadeIn(300);
     $('#dummy').show();
     $('#dumper_table').find(".searchable").chosen().change(setFocusOnNextElement);
     $('td > input').on('keydown', function (e) {
@@ -245,6 +220,7 @@ function create_corresponding_dumper_column() {
             return false;
         }
     });
+    */
 }
 
 function bind_total_event() {
@@ -569,16 +545,15 @@ $(document).ready(function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
         $(table).find("tr").eq(1).clone().appendTo($(table));
+        $(".create-dumper-column").on('click', create_corresponding_dumper_column);
         $(".delete_row1").on('click', function () {
             var tbody = $(this).closest("tbody");
             if ($(tbody).children("tr").length > 1) {
                 $(this).closest('tr').remove();
             }
-            $('#dumperwise_entry').fadeOut(100);
         });
         $(table).find('select').chosen().change(setFocusOnNextElement);
         $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
-        $('#dumperwise_entry').fadeOut(100);
     });
     $(".add_row2").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
@@ -612,7 +587,6 @@ $(document).ready(function () {
         if ($(tbody).children("tr").length > 1) {
             $(this).closest('tr').remove();
         }
-        $('#dumperwise_entry').fadeOut(100);
     });
     $(".delete_row2").on('click', function () {
         var tbody = $(this).closest("tbody");
@@ -624,10 +598,9 @@ $(document).ready(function () {
         }
     });
 
-    $("#save_shovels").on('click', create_table);
+    $(".create-dumper-column").on('click', create_corresponding_dumper_column);
 
     $("form#shovels").on('change', function () {
-        $('#dumperwise_entry').fadeOut(100);
     });
 
     $('#re_edit_shovels').on('click', function () {
