@@ -334,23 +334,23 @@ function get_sap_compatible_excel() {
     header.push({ "text": "Plant" });
     header.push({ "text": "Materialcode" });
     header.push({ "text": "Process_Order" });
-    header.push({ "text": "Production_Date" });
-    header.push({ "text": "Shift" });
-    header.push({ "text": "Seam" });
+    header.push({ "text": "Production_Dates" });
+    header.push({ "text": "shift" });
+    header.push({ "text": "SEAM" });
     header.push({ "text": "Bench" });
-    header.push({ "text": "Shovel_Number" });
-    header.push({ "text": "Shovel_Operator" });
-    header.push({ "text": "Shovel_Operating_Time" });
+    header.push({ "text": "Shovel_number" });
+    header.push({ "text": "Operator" });
+    header.push({ "text": "Shovel_operating_Time" });
     header.push({ "text": "Dumper_Number" });
-    header.push({ "text": "Dumper_Operator" });
+    header.push({ "text": "Operator" });
     header.push({ "text": "Dumper_Operating_Time" });
     header.push({ "text": "Dumper_Number_of_Trips" });
-    header.push({ "text": "Dumper_Factor" });
-    header.push({ "text": "Dumper_Tonnage" });
     header.push({ "text": "Dumper_Volume" });
-    header.push({ "text": "indicator" });
-    header.push({ "text": "Dump_Location" });
-    header.push({ "text": "bd time" });
+    header.push({ "text": "Coal dumped" });
+    header.push({ "text": "OB Dumped" });
+    header.push({ "text": "Rehandling indicator" });
+    header.push({ "text": "DUMPYARD CODE" });
+    header.push({ "text": "Breakdown Time" });
 
     dataForPage[0].data.push(header);
 
