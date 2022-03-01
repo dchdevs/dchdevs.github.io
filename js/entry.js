@@ -529,6 +529,18 @@ function updateSeam() {
     $(this).parent().next().children('select').eq(0).chosen().change(setFocusOnNextElement);
 }
 
+function delete_synchrnous_row_and_column() {
+    var tbody = $(this).closest("tbody");
+    if ($(tbody).children("tr").length > 1) {
+        let dumper_thead_tr = $('#dumper_table > thead > tr');
+        let dumper_tbody = $('#dumper_table > tbody');
+        let shovel_table_row = $(this).closest('tr');
+        let shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_' + $(shovel_table_row).find('select[name="material_type[]"]').val();
+        $(dumper_tbody).find('.' + shovel_unique_id).remove();
+        $(dumper_thead_tr).find('.' + shovel_unique_id).remove();
+        $(shovel_table_row).remove();
+    }
+}
 $(document).ready(function () {
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
@@ -548,12 +560,7 @@ $(document).ready(function () {
         $added_line.find('.create-dumper-column').val('Add to Dumper Table').css('background-color','#0d6efd');
         $added_line.find('.shovel_work_hour').val('');
         $(".create-dumper-column").on('click', create_corresponding_dumper_column);
-        $(".delete_row1").on('click', function () {
-            var tbody = $(this).closest("tbody");
-            if ($(tbody).children("tr").length > 1) {
-                $(this).closest('tr').remove();
-            }
-        });
+        $(".delete_row1").on('click', delete_synchrnous_row_and_column);
         $(table).find('select').chosen().change(setFocusOnNextElement);
         $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
     });
@@ -584,12 +591,7 @@ $(document).ready(function () {
             }
         });
     });
-    $(".delete_row1").on('click', function () {
-        var tbody = $(this).closest("tbody");
-        if ($(tbody).children("tr").length > 1) {
-            $(this).closest('tr').remove();
-        }
-    });
+    $(".delete_row1").on('click', delete_synchrnous_row_and_column);
     $(".delete_row2").on('click', function () {
         var tbody = $(this).closest("tbody");
         if ($(tbody).children("tr").length > 3) {
