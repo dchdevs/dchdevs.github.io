@@ -109,12 +109,12 @@ var dataForPage = [
     }
 ];
 
-function create_table() {
+function create_corresponding_dumper_column() {
     if (check_mandatory_fields_shovel()) {
         return;
     }
-
     $('#dumperwise_entry').fadeOut(100);
+    
     coal_shovels_operating = [];
     coal_shovel_operator = [];
     ob_shovels_operating = [];
