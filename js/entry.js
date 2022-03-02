@@ -165,45 +165,6 @@ function create_corresponding_dumper_column() {
     $('#dumperwise_entry').fadeIn(200);
 
 /*
-    var totals_html = '<tr class=totalColumn>'
-        + '<td style="font-weight:bold;">Total Trips</td>'
-        + '<td></td>'
-        + '<td></td>';
-
-    var total_quantity_html = '<tr class=totalQuantityColumn>'
-        + '<td style="font-weight:bold;">Total Quantity</td>'
-        + '<td></td>'
-        + '<td></td>';
-
-    
-    totals_html += '<td>0</td>';
-                total_quantity_html += '<td>0</td>';
-            }
-            if (i === coal_shovels_operating.length - 1) {
-                
-                totals_html += '<td></td>';
-                total_quantity_html += '<td></td>';
-            }
-        }
-        for (var i = 0; i < ob_shovels_operating.length; i++) {
-            if (ob_shovels_operating[i] && ob_shovel_operator[i]) {
-                var sum_offset = coal_shovels_operating.length ? (i + coal_shovels_operating.length + 5) : (i+4);
-                totals_html += '<td>0</td>';
-                total_quantity_html += '<td>0</td>';
-            }
-            if (i === ob_shovels_operating.length - 1) {
-                    totals_html += '<td></td>';
-                total_quantity_html += '<td></td>';
-            }
-        }
-        totals_html += '<td></td>';
-        total_quantity_html += '<td></td>';
-        $(tr).append("");
-    });
-    totals_html += '</tr>';
-    total_quantity_html += '</tr>';
-    $('#dumper_table > tbody').append(totals_html);
-    $('#dumper_table > tbody').append(total_quantity_html);
     bind_total_event();
 
     $('#dummy').show();
