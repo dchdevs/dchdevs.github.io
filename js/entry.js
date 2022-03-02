@@ -148,7 +148,7 @@ function create_corresponding_dumper_column() {
         }
         ob_shovel_seam[shovel_unique_id] = [seam_column.split('|')[0], seam_column.split('|')[1]];
         if ($(dumper_thead_tr).find('.ob_dump_column_exists').length <= 0) {
-            $(dumper_thead_tr).append("<th><div class='ob_dump_column_exists'>Dump Location<br>(OB)</div></th>");
+            $(dumper_thead_tr).find('.dumper_row_delete_button').before("<th><div class='ob_dump_column_exists'>Dump Location<br>(OB)</div></th>");
         }
         $(dumper_thead_tr).find('.ob_dump_column_exists').parent().before("<th class='ob shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(OB)</th>");
         if ($(dumper_tbody_tr).find('.ob_dump_column_exists').length <= 0) {
@@ -162,7 +162,7 @@ function create_corresponding_dumper_column() {
         $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     }
     $(this).val('Added').removeClass('btn-primary').addClass('btn-success');
-    $('#dumperwise_entry').fadeIn(300);
+    $('#dumperwise_entry').fadeIn(200);
 
 /*
     var totals_html = '<tr class=totalColumn>'
