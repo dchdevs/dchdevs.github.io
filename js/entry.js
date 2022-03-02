@@ -113,15 +113,12 @@ function create_corresponding_dumper_column() {
     let dumper_tbody_tr = $('#dumper_table > tbody > tr');
     let shovel_table_row = $(this).parent().parent().parent();
 
-    $('#dumperwise_entry').fadeOut(100);
-
     let shovel_unique_id = '';
     let seam_column = $(shovel_table_row).find('select[name="seam[]"]').val();
 
     if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'Coal' ) {
         shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_Coal';       
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
-            $('#dumperwise_entry').fadeIn(300);
             return;
         }
         coal_shovel_seam[shovel_unique_id] = [seam_column.split('|')[0], seam_column.split('|')[1]];
@@ -129,8 +126,9 @@ function create_corresponding_dumper_column() {
             $("<th><div class='coal_dump_column_exists'>Dump Location<br>(Coal)</div></th>").insertAfter($(dumper_thead_tr).find('.work_hours_dumper_head'));
         }
         $(dumper_thead_tr).find('.coal_dump_column_exists').parent().before("<th class='coal shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(Coal)</th>");
-        $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
-        $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
+        let ind_trip = $(dumper_thead_tr).find('.' + shovel_unique_id).index();
+        $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_trip - 1).after("<td>0</td>");
+        $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_trip - 1).after("<td>0</td>");
         if ($(dumper_tbody_tr).find('.coal_dump_column_exists').length <= 0) {
             $("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable coal_dump coal_dump_column_exists'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
@@ -140,14 +138,14 @@ function create_corresponding_dumper_column() {
                 + "</select></td>").insertAfter(
                     $(dumper_tbody_tr).find('.work_hours_dumper_body')
                 );
-                $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.coal_dump_column_exists').parent().index() - 1).after("<td></td>");
-                $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.coal_dump_column_exists').parent().index() - 1).after("<td></td>");
+                let ind_dump = $(dumper_thead_tr).find('.coal_dump_column_exists').parent().index();
+                $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_dump - 1).after("<td></td>");
+                $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump - 1).after("<td></td>");
         }
-        $(dumper_tbody_tr).find('.coal_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_Coal_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+        $(dumper_tbody_tr).find('.coal_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_Coal_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum" + ind_trip + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     } else if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'OB') {
         shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_OB';
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
-            $('#dumperwise_entry').fadeIn(300);
             return;
         }
         ob_shovel_seam[shovel_unique_id] = [seam_column.split('|')[0], seam_column.split('|')[1]];
@@ -155,8 +153,9 @@ function create_corresponding_dumper_column() {
             $(dumper_thead_tr).find('.dumper_row_delete_button').before("<th><div class='ob_dump_column_exists'>Dump Location<br>(OB)</div></th>");
         }
         $(dumper_thead_tr).find('.ob_dump_column_exists').parent().before("<th class='ob shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(OB)</th>");
-        $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
-        $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
+        let ind_trip = $(dumper_thead_tr).find('.' + shovel_unique_id).index();
+        $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_trip - 1).after("<td>0</td>");
+        $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_trip - 1).after("<td>0</td>");
         if ($(dumper_tbody_tr).find('.ob_dump_column_exists').length <= 0) {
             $(dumper_tbody_tr).find('.dumper_row_delete_button').before("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable ob_dump ob_dump_column_exists'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
@@ -164,19 +163,16 @@ function create_corresponding_dumper_column() {
                 + "<option value='OB12'>OB Dump West</option>"
                 + "<option value='OB01'>Local OB Dump</option>"
                 + "</select></td>");
-                $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.ob_dump_column_exists').parent().index() - 1).after("<td></td>");
-                $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.ob_dump_column_exists').parent().index() - 1).after("<td></td>");
+            let ind_dump = $(dumper_thead_tr).find('.ob_dump_column_exists').parent().index();
+            $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_dump - 1).after("<td></td>");
+            $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump - 1).after("<td></td>");
         }
-        $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+        $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + ind_trip + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     }
     $(this).val('Added').removeClass('btn-primary').addClass('btn-success');
-    $('#dumperwise_entry').fadeIn(200);
-
-/*
+    $('#dumper_table').find(".searchable").chosen().change(setFocusOnNextElement);
     bind_total_event();
 
-    $('#dummy').show();
-    $('#dumper_table').find(".searchable").chosen().change(setFocusOnNextElement);
     $('td > input').on('keydown', function (e) {
         if (e.which === 13) {
             var element = $(this).parent().next().children('input,select').eq(0);
@@ -188,7 +184,6 @@ function create_corresponding_dumper_column() {
             return false;
         }
     });
-    */
 }
 
 function bind_total_event() {
@@ -590,10 +585,6 @@ $(document).ready(function () {
     $(".create-dumper-column").on('click', create_corresponding_dumper_column);
 
     $("form#shovels").on('change', function () {
-    });
-
-    $('#re_edit_shovels').on('click', function () {
-        $('#dummy').hide();
     });
 
     $("#validate1").on('click', check_mandatory_fields_shovel);
