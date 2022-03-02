@@ -196,14 +196,13 @@ function calc_total(obj) {
     var $table = $(obj).closest('table');
     var total = 0;
     var total_quantity = 0;
-    var classes = $(obj).attr('class');
-    var thisNumber = classes.substring(classes.indexOf('sum') + 3);
+    var thisNumber = $(obj).closest('td').index();
 
     if (!isNaN(thisNumber)) {
         $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function () {
             total += +$(this).val();
         });
-        $table.find('tr:not(.totalColumn) .shovel_dumper_trip.sum' + thisNumber).each(function () {
+        $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function () {
             var trips = +$(this).val();
             var material_name = $(this).attr("name").split('_')[1];
             var dumper_number = $(this).parent().parent().children('td').eq(0).children('select, input').eq(0).val();
@@ -212,8 +211,8 @@ function calc_total(obj) {
                 total_quantity += parseInt(trips) * parseInt(dumper_factor);
             }
         });
-        $table.find('.totalColumn td:nth-child(' + thisNumber + ')').html(total);
-        $table.find('.totalQuantityColumn td:nth-child(' + thisNumber + ')').html(total_quantity);
+        $table.find('tr.totalColumn').children().eq(thisNumber).html(total);
+        $table.find('tr.totalQuantityColumn').children().eq(thisNumber).html(total_quantity);
     }
 }
 
