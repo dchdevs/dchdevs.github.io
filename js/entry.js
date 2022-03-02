@@ -169,7 +169,12 @@ function create_corresponding_dumper_column() {
         }
         $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + ind_trip + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     }
-    $(this).val('Added').removeClass('btn-primary').addClass('btn-success');
+    //disable for further edit
+    $(this).val('Added -- EDIT?').removeClass('btn-primary').addClass('btn-success');
+    $(this).parent().parent().prevAll().find('input').prop('disabled', true);
+    $(this).parent().parent().prevAll().find('select').chosen('destroy').end();
+    $(this).parent().parent().prevAll().find('select').prop('disabled', true);
+
     $('#dumper_table').find(".searchable").chosen().change(setFocusOnNextElement);
     bind_total_event();
 
@@ -538,6 +543,7 @@ $(document).ready(function () {
         $added_line = $(table).find("tr").eq(1).clone().appendTo($(table));
         $added_line.find('.create-dumper-column').val('Add to Dumper Table').removeClass('btn-success').addClass('btn-primary');
         $added_line.find('.shovel_work_hour').val('');
+        $added_line.find('input,select').prop('disabled', false);
         $(".create-dumper-column").on('click', create_corresponding_dumper_column);
         $(".delete_row1").on('click', delete_synchrnous_row_and_column);
         $(table).find('select').chosen().change(setFocusOnNextElement);
