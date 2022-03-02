@@ -128,7 +128,7 @@ function create_corresponding_dumper_column() {
         if ($(dumper_thead_tr).find('.coal_dump_column_exists').length <= 0) {
             $("<th><div class='coal_dump_column_exists'>Dump Location<br>(Coal)</div></th>").insertAfter($(dumper_thead_tr).find('.work_hours_dumper_head'));
         }
-        $(dumper_thead_tr).find('.coal_dump_column_exists').parent().before("<th class='shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(Coal)</th>");
+        $(dumper_thead_tr).find('.coal_dump_column_exists').parent().before("<th class='coal shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(Coal)</th>");
         if ($(dumper_tbody_tr).find('.coal_dump_column_exists').length <= 0) {
             $("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable coal_dump coal_dump_column_exists'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
@@ -150,7 +150,7 @@ function create_corresponding_dumper_column() {
         if ($(dumper_thead_tr).find('.ob_dump_column_exists').length <= 0) {
             $(dumper_thead_tr).append("<th><div class='ob_dump_column_exists'>Dump Location<br>(OB)</div></th>");
         }
-        $(dumper_thead_tr).find('.ob_dump_column_exists').parent().before("<th class='shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(OB)</th>");
+        $(dumper_thead_tr).find('.ob_dump_column_exists').parent().before("<th class='ob shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(OB)</th>");
         if ($(dumper_tbody_tr).find('.ob_dump_column_exists').length <= 0) {
             $(dumper_tbody_tr).find('.dumper_row_delete_button').before("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable ob_dump ob_dump_column_exists'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
@@ -538,6 +538,14 @@ function delete_synchrnous_row_and_column() {
         $(dumper_tbody).find('.' + shovel_unique_id).remove();
         $(dumper_thead_tr).find('.' + shovel_unique_id).remove();
         $(shovel_table_row).remove();
+        if($(dumper_thead_tr).find('.coal').length <= 0) {
+            $(dumper_thead_tr).find('.coal_dump_column_exists').parent().remove();
+            $(dumper_tbody).find('.coal_dump_column_exists').parent().remove();
+        }
+        if($(dumper_thead_tr).find('.ob').length <= 0) {
+            $(dumper_thead_tr).find('.ob_dump_column_exists').parent().remove();
+            $(dumper_tbody).find('.ob_dump_column_exists').parent().remove();
+        }
     }
 }
 $(document).ready(function () {
