@@ -129,6 +129,8 @@ function create_corresponding_dumper_column() {
             $("<th><div class='coal_dump_column_exists'>Dump Location<br>(Coal)</div></th>").insertAfter($(dumper_thead_tr).find('.work_hours_dumper_head'));
         }
         $(dumper_thead_tr).find('.coal_dump_column_exists').parent().before("<th class='coal shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(Coal)</th>");
+        $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
+        $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
         if ($(dumper_tbody_tr).find('.coal_dump_column_exists').length <= 0) {
             $("<td><select style='width: 110px;' name='coal_dump_location[]' class='searchable coal_dump coal_dump_column_exists'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
@@ -138,6 +140,8 @@ function create_corresponding_dumper_column() {
                 + "</select></td>").insertAfter(
                     $(dumper_tbody_tr).find('.work_hours_dumper_body')
                 );
+                $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.coal_dump_column_exists').parent().index() - 1).after("<td></td>");
+                $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.coal_dump_column_exists').parent().index() - 1).after("<td></td>");
         }
         $(dumper_tbody_tr).find('.coal_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_Coal_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     } else if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'OB') {
@@ -151,6 +155,8 @@ function create_corresponding_dumper_column() {
             $(dumper_thead_tr).find('.dumper_row_delete_button').before("<th><div class='ob_dump_column_exists'>Dump Location<br>(OB)</div></th>");
         }
         $(dumper_thead_tr).find('.ob_dump_column_exists').parent().before("<th class='ob shovel_column " + shovel_unique_id + "'>" + shovel_unique_id.split('_')[0] + "<br>(OB)</th>");
+        $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
+        $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.' + shovel_unique_id).index() - 1).after("<td>0</td>");
         if ($(dumper_tbody_tr).find('.ob_dump_column_exists').length <= 0) {
             $(dumper_tbody_tr).find('.dumper_row_delete_button').before("<td><select style='width: 110px;' name='ob_dump_location[]' class='searchable ob_dump ob_dump_column_exists'>"
                 + "<option value='' selected disabled hidden>Select Dump</option>"
@@ -158,6 +164,8 @@ function create_corresponding_dumper_column() {
                 + "<option value='OB12'>OB Dump West</option>"
                 + "<option value='OB01'>Local OB Dump</option>"
                 + "</select></td>");
+                $('#dumper_table > tbody').find('.totalColumn').children().eq($(dumper_thead_tr).find('.ob_dump_column_exists').parent().index() - 1).after("<td></td>");
+                $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq($(dumper_thead_tr).find('.ob_dump_column_exists').parent().index() - 1).after("<td></td>");
         }
         $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     }
@@ -496,14 +504,23 @@ function delete_synchrnous_row_and_column() {
         let dumper_tbody = $('#dumper_table > tbody');
         let shovel_table_row = $(this).closest('tr');
         let shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_' + $(shovel_table_row).find('select[name="material_type[]"]').val();
+        let ind_trip = $(dumper_thead_tr).find('.' + shovel_unique_id).index();
+        $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_trip).remove();
+        $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_trip).remove();
         $(dumper_tbody).find('.' + shovel_unique_id).remove();
         $(dumper_thead_tr).find('.' + shovel_unique_id).remove();
         $(shovel_table_row).remove();
-        if($(dumper_thead_tr).find('.coal').length <= 0) {
+        if($(dumper_thead_tr).find('.coal').length <= 0 && $(dumper_thead_tr).find('.coal_dump_column_exists').length > 0) {
+            let ind_dump = $(dumper_thead_tr).find('.coal_dump_column_exists').parent().index();
+            $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_dump).remove();
+            $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump).remove();
             $(dumper_thead_tr).find('.coal_dump_column_exists').parent().remove();
             $(dumper_tbody).find('.coal_dump_column_exists').parent().remove();
         }
-        if($(dumper_thead_tr).find('.ob').length <= 0) {
+        if($(dumper_thead_tr).find('.ob').length <= 0 && $(dumper_thead_tr).find('.ob_dump_column_exists').length > 0) {
+            let ind_dump = $(dumper_thead_tr).find('.ob_dump_column_exists').parent().index();
+            $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_dump).remove();
+            $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump).remove();
             $(dumper_thead_tr).find('.ob_dump_column_exists').parent().remove();
             $(dumper_tbody).find('.ob_dump_column_exists').parent().remove();
         }
