@@ -109,7 +109,6 @@ function create_corresponding_dumper_column() {
     if (check_mandatory_fields_shovel()) {
         return;
     }
-
     let dumper_thead_tr = $('#dumper_table > thead > tr');
     let dumper_tbody_tr = $('#dumper_table > tbody > tr');
     let shovel_table_row = $(this).parent().parent().parent();
@@ -162,7 +161,7 @@ function create_corresponding_dumper_column() {
         }
         $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + "4" + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     }
-    $(this).val('Added').css('background-color','#157347');
+    $(this).val('Added').removeClass('btn-primary').addClass('btn-success');
     $('#dumperwise_entry').fadeIn(300);
 
 /*
@@ -557,7 +556,7 @@ $(document).ready(function () {
         var table = $(this).parent().parent().find("table").first();
         $(table).find('select').chosen('destroy').end();
         $added_line = $(table).find("tr").eq(1).clone().appendTo($(table));
-        $added_line.find('.create-dumper-column').val('Add to Dumper Table').css('background-color','#0d6efd');
+        $added_line.find('.create-dumper-column').val('Add to Dumper Table').removeClass('btn-success').addClass('btn-primary');
         $added_line.find('.shovel_work_hour').val('');
         $(".create-dumper-column").on('click', create_corresponding_dumper_column);
         $(".delete_row1").on('click', delete_synchrnous_row_and_column);
