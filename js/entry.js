@@ -570,7 +570,7 @@ $(document).ready(function () {
             var tbody = $(this).closest("tbody");
             if ($(tbody).children("tr").length > 3) {
                 $(this).closest('tr').remove();
-                $('#dumper_table tr:not(.totalColumn) input').each(function () {
+                $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
                     calc_total(this);
                 });
             }
@@ -581,7 +581,7 @@ $(document).ready(function () {
         var tbody = $(this).closest("tbody");
         if ($(tbody).children("tr").length > 3) {
             $(this).closest('tr').remove();
-            $('#dumper_table tr:not(.totalColumn) input').each(function () {
+            $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
                 calc_total(this);
             });
         }
