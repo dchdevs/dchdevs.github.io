@@ -17,9 +17,9 @@ var process_order_purewa_coal = 60006912;
 var process_order_turra_coal = 60006914;
 var process_order_ob = 70004778;
 
-function check_mandatory_fields_shovel() {
+function check_mandatory_fields_shovel(objj) {
     var flag = false;
-    $('#shovel_table > tbody > tr select.shv').each(function () {
+    $(objj).find('select.shv').each(function () {
         if (!$(this).val()) {
             flag = true;
             $(this).parent().addClass("error_in_field");
@@ -27,7 +27,7 @@ function check_mandatory_fields_shovel() {
             $(this).parent().removeClass("error_in_field");
         }
     });
-    $('#shovel_table > tbody > tr input.shv').each(function () {
+    $(objj).find('input.shv').each(function () {
         if (!$(this).val() || parseFloat($(this).val()) <= 0) {
             flag = true;
             $(this).parent().addClass("error_in_field");
@@ -106,7 +106,7 @@ var dataForPage = [
 ];
 
 function create_corresponding_dumper_column() {
-    if (check_mandatory_fields_shovel()) {
+    if (check_mandatory_fields_shovel($(this).parent().parent().parent())) {
         return;
     }
     let dumper_thead_tr = $('#dumper_table > thead > tr');
@@ -587,7 +587,6 @@ $(document).ready(function () {
     });
 
     $(".create-dumper-column").on('click', create_corresponding_dumper_column);
-    $("#validate1").on('click', check_mandatory_fields_shovel);
     $("#validate2").on('click', check_mandatory_fields);
     $("#save_dumpers_1").on('click', get_sap_compatible_excel);
     $("#pdf_report").on('click', get_pdf_report);
