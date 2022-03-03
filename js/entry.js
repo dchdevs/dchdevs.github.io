@@ -587,14 +587,8 @@ $(document).ready(function () {
     });
 
     $(".create-dumper-column").on('click', create_corresponding_dumper_column);
-
-    $("form#shovels").on('change', function () {
-    });
-
     $("#validate1").on('click', check_mandatory_fields_shovel);
     $("#validate2").on('click', check_mandatory_fields);
-
     $("#save_dumpers_1").on('click', get_sap_compatible_excel);
-
     $("#pdf_report").on('click', get_pdf_report);
 });
