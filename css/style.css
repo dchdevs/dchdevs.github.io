@@ -18,7 +18,7 @@ table thead th {
     background: linear-gradient(to top, rgb(255, 255, 255), rgb(153, 173, 231));
     position:sticky;
     top:0;
-    z-index: 10000;
+    z-index: 1000;
 }
 .edit {
     display:    none;
