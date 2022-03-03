@@ -170,7 +170,7 @@ function create_corresponding_dumper_column() {
         $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + ind_trip + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     }
     //disable for further edit
-    $(this).val('Added -- EDIT?').removeClass('btn-primary').addClass('btn-success');
+    $(this).val('Added').removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
     $(this).parent().parent().prevAll().find('input').prop('disabled', true);
     $(this).parent().parent().prevAll().find('select').chosen('destroy').end();
     $(this).parent().parent().prevAll().find('select').prop('disabled', true);
@@ -374,6 +374,7 @@ function get_sap_compatible_excel() {
                     excelRowToInsert = [];
                     excelRowToInsert = excelData.slice();
                     threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
+                    let shovel_unique_id = threeFields[0]  + '_' +  threeFields[2].slice(0,-2)  + '_' +  threeFields[1];
                     if (threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": material_code_coal });
                     } else if (threeFields[1] === 'OB') {
@@ -381,22 +382,20 @@ function get_sap_compatible_excel() {
                     }
                     if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({ "text": process_order_ob });
-                    } else if (coal_shovel_seam[index - 3][1].indexOf('TURRA') > -1 && threeFields[1] === 'Coal') {
+                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('TURRA') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_turra_coal });
-                    } else if (coal_shovel_seam[index - 3][1].indexOf('PURVA') > -1 && threeFields[1] === 'Coal') {
+                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('PURVA') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_purewa_coal });
                     }
                     excelRowToInsert.push({ "text": new Date($('#date').val()) });
                     excelRowToInsert.push({ "text": $('#shift').val() });
                     if (threeFields[1] === 'Coal') {
-                        var coal_seam_offset = index - 3;
-                        excelRowToInsert.push({ "text": coal_shovel_seam[coal_seam_offset][0] });
-                        excelRowToInsert.push({ "text": coal_shovel_seam[coal_seam_offset][1] });
+                        excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][0] });
+                        excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][1] });
                         var dump_loc = $(td).parent().find('select.coal_dump').val();
                     } else if (threeFields[1] === 'OB') {
-                        var ob_seam_offset = coal_shovel_seam.length ? (index - 4 - coal_shovel_seam.length) : (index - 3);
-                        excelRowToInsert.push({ "text": ob_shovel_seam[ob_seam_offset][0] });
-                        excelRowToInsert.push({ "text": ob_shovel_seam[ob_seam_offset][1] });
+                        excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][0] });
+                        excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][1] });
                         var dump_loc = $(td).parent().find('select.ob_dump').val();
                     }
                     excelRowToInsert.push({ "text": threeFields[0] });
