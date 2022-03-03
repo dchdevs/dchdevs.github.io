@@ -1,6 +1,6 @@
-/* Dudhichua shift wise entry
+/* Dudhichua shift wise entry v2.0
 *
-* Generic Copyright
+* Copyright - GPL Version 3
 *
 * Libraries used: jQuery, jspdf, html2canvas, html2pdf, jhxlsx
 * Author: Atul Pratap Singh (https://github.com/atuldch)
