@@ -142,7 +142,7 @@ function create_corresponding_dumper_column() {
             $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_dump - 1).after("<td></td>");
             $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump - 1).after("<td></td>");
         }
-        $(dumper_tbody_tr).find('.coal_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_Coal_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum" + ind_trip + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+        $(dumper_tbody_tr).find('.coal_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_Coal_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum_" + shovel_unique_id + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     } else if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'OB') {
         shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_OB';
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
@@ -167,7 +167,7 @@ function create_corresponding_dumper_column() {
             $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_dump - 1).after("<td></td>");
             $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump - 1).after("<td></td>");
         }
-        $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum" + ind_trip + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+        $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum_" + shovel_unique_id + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
     }
     //disable for further edit
     $(this).val('Added').removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
@@ -198,16 +198,19 @@ function bind_total_event() {
 }
 
 function calc_total(obj) {
-    var $table = $(obj).closest('table');
-    var total = 0;
-    var total_quantity = 0;
-    var thisNumber = $(obj).closest('td').index();
+    let $table = $(obj).closest('table');
+    let total = 0;
+    let total_quantity = 0;
+    let ind = $(obj).closest('td').index();
+    var name_attr = $(obj).attr("name").split('_');
+    let shovel_unique_id = name_attr[0]  + '_' +  name_attr[2].slice(0,-2)  + '_' +  name_attr[1];
 
-    if (!isNaN(thisNumber)) {
-        $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function () {
+
+    if (shovel_unique_id && shovel_unique_id.length > 0) {
+        $table.find('tr:not(.totalColumn) .sum_' + shovel_unique_id).each(function () {
             total += +$(this).val();
         });
-        $table.find('tr:not(.totalColumn) .sum' + thisNumber).each(function () {
+        $table.find('tr:not(.totalColumn) .sum_' + shovel_unique_id).each(function () {
             var trips = +$(this).val();
             var material_name = $(this).attr("name").split('_')[1];
             var dumper_number = $(this).parent().parent().children('td').eq(0).children('select, input').eq(0).val();
@@ -216,8 +219,8 @@ function calc_total(obj) {
                 total_quantity += parseInt(trips) * parseInt(dumper_factor);
             }
         });
-        $table.find('tr.totalColumn').children().eq(thisNumber).html(total);
-        $table.find('tr.totalQuantityColumn').children().eq(thisNumber).html(total_quantity);
+        $table.find('tr.totalColumn').children().eq(ind).html(total);
+        $table.find('tr.totalQuantityColumn').children().eq(ind).html(total_quantity);
     }
 }
 
