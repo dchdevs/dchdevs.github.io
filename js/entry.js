@@ -119,6 +119,8 @@ function create_corresponding_dumper_column() {
     if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'Coal') {
         shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_Coal';
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
+            alert('Such shovel combination already exists!');
+            $(shovel_table_row).remove();
             return;
         }
         coal_shovel_seam[shovel_unique_id] = [seam_column.split('|')[0], seam_column.split('|')[1]];
@@ -146,6 +148,8 @@ function create_corresponding_dumper_column() {
     } else if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'OB') {
         shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_OB';
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
+            alert('Such shovel combination already exists!');
+            $(shovel_table_row).remove();
             return;
         }
         ob_shovel_seam[shovel_unique_id] = [seam_column.split('|')[0], seam_column.split('|')[1]];
