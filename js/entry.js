@@ -502,12 +502,16 @@ function delete_synchrnous_row_and_column() {
         let dumper_tbody = $('#dumper_table > tbody');
         let shovel_table_row = $(this).closest('tr');
         let shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_' + $(shovel_table_row).find('select[name="material_type[]"]').val();
+        shovel_unique_id = shovel_unique_id.trim();
         let ind_trip = $(dumper_thead_tr).find('.' + shovel_unique_id).index();
+        $(shovel_table_row).remove();
+        if ($(dumper_thead_tr).find('.' + shovel_unique_id).length <= 0) {
+            return;
+        }        
         $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_trip).remove();
         $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_trip).remove();
         $(dumper_tbody).find('.' + shovel_unique_id).remove();
         $(dumper_thead_tr).find('.' + shovel_unique_id).remove();
-        $(shovel_table_row).remove();
         if ($(dumper_thead_tr).find('.coal').length <= 0 && $(dumper_thead_tr).find('.coal_dump_column_exists').length > 0) {
             let ind_dump = $(dumper_thead_tr).find('.coal_dump_column_exists').parent().index();
             $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_dump).remove();
