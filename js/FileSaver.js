@@ -105,7 +105,7 @@ var saveAs = saveAs
 						if(navigator.userAgent.match(/7\.[\d\s\.]+Safari/)	// is Safari 7.x
 								&& typeof window.FileReader !== "undefined"			// can convert to base64
 								&& blob.size <= 1024*1024*150										// file size max 150MB
-								) {	
+								) {
 							var reader = new window.FileReader();
 							reader.readAsDataURL(blob);
 							reader.onloadend = function() {

@@ -514,7 +514,7 @@ function delete_synchrnous_row_and_column() {
         $(shovel_table_row).remove();
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length <= 0) {
             return;
-        }        
+        }
         $('#dumper_table > tbody').find('.totalColumn').children().eq(ind_trip).remove();
         $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_trip).remove();
         $(dumper_tbody).find('.' + shovel_unique_id).remove();

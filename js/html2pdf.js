@@ -5614,9 +5614,9 @@ var Promise$1 = function () {
   /**
     `finally` will be invoked regardless of the promise's fate just as native
     try/catch/finally behaves
-  
+
     Synchronous example:
-  
+
     ```js
     findAuthor() {
       if (Math.random() > 0.5) {
@@ -5624,7 +5624,7 @@ var Promise$1 = function () {
       }
       return new Author();
     }
-  
+
     try {
       return findAuthor(); // succeed or fail
     } catch(error) {
@@ -5634,9 +5634,9 @@ var Promise$1 = function () {
       // doesn't affect the return value
     }
     ```
-  
+
     Asynchronous example:
-  
+
     ```js
     findAuthor().catch(function(reason){
       return findOtherAuther();
@@ -5644,7 +5644,7 @@ var Promise$1 = function () {
       // author was either found, or not
     });
     ```
-  
+
     @method finally
     @param {Function} callback
     @return {Promise}
@@ -5757,7 +5757,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_jspdf__;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -5771,14 +5771,14 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_jspdf__;
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	!function() {
@@ -5791,7 +5791,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_jspdf__;
 /******/ 			return getter;
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
@@ -5803,12 +5803,12 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_jspdf__;
 /******/ 			}
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	!function() {
 /******/ 		// define __esModule on exports
@@ -5819,7 +5819,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_jspdf__;
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
