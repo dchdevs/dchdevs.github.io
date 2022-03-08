@@ -90,7 +90,16 @@ table thead th {
     background: -webkit-linear-gradient(to top, rgba(255, 255, 255, 0.5), rgba(4, 42, 146, 0.5));
     background: linear-gradient(to top, rgba(255, 255, 255, 0.5), rgba(4, 42, 146, 0.5));
 }
-
+.page-footer{
+    height:35px;
+    width:100%;
+    flex-direction: row;
+    align-items:stretch;
+    justify-content: space-evenly;
+    background: rgba(4, 42, 146, 0.3);
+    font-size: smaller;
+    position:relative;
+}
 .ph-left{
     display: flex;
     float: left;
@@ -99,7 +108,7 @@ table thead th {
 
 .page-logo img{
     height: 100%;
-} 
+}
 .page-title {
     margin:10px;
     padding:5px;

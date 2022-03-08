@@ -3,6 +3,7 @@
 * Copyright - GPL Version 3
 *
 * Libraries used: jQuery, jspdf, html2canvas, html2pdf, jhxlsx
+*
 * Author: Atul Pratap Singh (https://github.com/atuldch)
 */
 
