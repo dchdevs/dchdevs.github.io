@@ -549,16 +549,17 @@ $(document).ready(function () {
     $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
 
     $(".add_row1").on('click', function () {
-        var table = $(this).parent().parent().find("table").first();
-        $(table).find('select').chosen('destroy').end();
-        $added_line = $(table).find("tr").eq(1).clone().appendTo($(table));
+        $("#shovel_table > tbody > tr").eq(0).find('select').chosen('destroy').end();
+        $line = $("#shovel_table > tbody").children().first().clone();
+        $added_line = $line.appendTo($("#shovel_table > tbody"));
+        $("#shovel_table > tbody").children().first().find('select').chosen().change(setFocusOnNextElement);
         $added_line.find('.create-dumper-column').val('Add to Dumper Table').removeClass('btn-success').addClass('btn-primary');
         $added_line.find('.shovel_work_hour').val('');
         $added_line.find('input,select').prop('disabled', false);
-        $(".create-dumper-column").on('click', create_corresponding_dumper_column);
-        $(".delete_row1").on('click', delete_synchrnous_row_and_column);
-        $(table).find('select').chosen().change(setFocusOnNextElement);
-        $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
+        $added_line.find(".create-dumper-column").on('click', create_corresponding_dumper_column);
+        $added_line.find(".delete_row1").on('click', delete_synchrnous_row_and_column);
+        $added_line.find('select').chosen().change(setFocusOnNextElement);
+        $added_line.find('select[name="material_type[]"]').on('change', updateSeam);
     });
     $(".add_row2").on('click', function () {
         var table = $(this).parent().parent().find("table").first();
