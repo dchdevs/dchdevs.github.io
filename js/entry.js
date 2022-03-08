@@ -557,16 +557,26 @@ function add_row_to_shovel_table() {
       .find(".delete_row1").on('click', delete_synchrnous_row_and_column);
 }
 function add_row_to_dumper_table() {
-    let temp = $('#dumper_row').clone();
-    $('#dumper_table > tbody')
+    let tbody = $('#dumper_table > tbody');
+    let dumper_thead_tr = $('#dumper_table > thead > tr');
+    if ($(dumper_thead_tr).children().length <= 4) {
+      var temp = $('#dumper_row').clone();
+      temp = $(temp).html();
+    } else {
+      $(tbody).children().first().find('.searchable').chosen('destroy').end();
+      var temp = $(tbody).children().first().clone();
+      $(tbody).children().first().find('.searchable').chosen().change(setFocusOnNextElement);
+      $(temp).find('input').not(':input[type=button]').val('');
+    }
+    $(tbody)
       .children()
       .eq(-2)
-      .before($(temp).html());
-    $('#dumper_table > tbody')
+      .before(temp);
+    $(tbody)
       .children()
       .eq(-3)
       .find('.searchable').chosen().change(setFocusOnNextElement);
-    $('#dumper_table > tbody')
+    $(tbody)
       .children()
       .eq(-3)
       .find(".delete_row2").on('click', delete_dummper_row);
