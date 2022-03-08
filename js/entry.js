@@ -550,6 +550,10 @@ function add_row_to_shovel_table() {
     $('#shovel_table > tbody')
       .children()
       .last()
+      .find(".create-dumper-column").on('click', create_corresponding_dumper_column);
+    $('#shovel_table > tbody')
+      .children()
+      .last()
       .find(".delete_row1").on('click', delete_synchrnous_row_and_column);
 }
 function add_row_to_dumper_table() {
@@ -604,9 +608,6 @@ $(document).ready(function () {
 
     $(".add_row1").on('click', add_row_to_shovel_table);
     $(".add_row2").on('click', add_row_to_dumper_table);
-    $(".delete_row1").on('click', delete_synchrnous_row_and_column);
-    $(".delete_row2").on('click', delete_dummper_row);
-    $(".create-dumper-column").on('click', create_corresponding_dumper_column);
     $("#validate2").on('click', check_mandatory_fields);
     $("#save_dumpers_1").on('click', get_sap_compatible_excel);
     $("#pdf_report").on('click', get_pdf_report);
