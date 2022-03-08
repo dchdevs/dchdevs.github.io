@@ -101,13 +101,11 @@
             </table>
         </div>
     </div>
-    <br>
+    <hr>
     <div class="page-body">
-
         <div id="entry">
-
             <div style="position:relative; width:fit-content;">
-                <label style="font-weight: bold; background-color:rgb(230, 236, 255);">-----------------------------------------------Shovels Operating:-----------------------------------------------</label>
+                <label style="font-weight: bold; background-color:rgb(230, 236, 255);">----------------------------------------------- Shovel Report: -----------------------------------------------</label>
                 <br>
                 <br>
                 <form id='shovels'>
@@ -141,7 +139,7 @@
                 <br>
             </div>
             <div id="dumperwise_entry">
-                <label style="font-weight: bold; background-color:rgb(230, 236, 255);">----------------------------------------Dumpers operating per shovel:----------------------------------------</label>
+                <label style="font-weight: bold; background-color:rgb(230, 236, 255);">---------------------------------------------- Dumper Report: ----------------------------------------------</label>
                 <br>
                 <br>
                 <form id='pageData'>
@@ -175,6 +173,35 @@
                     </div>
                     <div style="float:left; margin:0 15px 0 0;">
                         <input type="button" value="Get PDF Report" id="pdf_report"
+                            class="no-print btn btn-primary" />
+                    </div>
+                </form>
+                <div class='scroll_space'>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <div id="dumperwise_special_trips">
+                <label style="font-weight: bold; background-color:rgb(230, 236, 255);">------------------------------------------------ Special Trips: -----------------------------------------------</label>
+                <br>
+                <br>
+                <form>
+                    <table id="dumper_table_special_trips" style="width:auto;" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Dumper No.</th>
+                                <th>Dumper Operator</th>
+                                <th class="work_hours_dumper_head">Work Hrs.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <br>
+                    <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Get Excel -- SAP Compatible" id="save_dumpers_1"
                             class="no-print btn btn-primary" />
                     </div>
                 </form>
