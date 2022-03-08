@@ -536,6 +536,59 @@ function delete_synchrnous_row_and_column() {
         }
     }
 }
+function add_row_to_shovel_table() {
+    let temp = $('#shovel_row').clone();
+    $('#shovel_table > tbody').append($(temp).html());
+    $('#shovel_table > tbody')
+      .children()
+      .last()
+      .find('.searchable').chosen().change(setFocusOnNextElement);
+    $('#shovel_table > tbody')
+      .children()
+      .last()
+      .find('select[name="material_type[]"]').on('change', updateSeam);
+    $('#shovel_table > tbody')
+      .children()
+      .last()
+      .find(".delete_row1").on('click', delete_synchrnous_row_and_column);
+}
+function add_row_to_dumper_table() {
+    let temp = $('#dumper_row').clone();
+    $('#dumper_table > tbody')
+      .children()
+      .eq(-2)
+      .before($(temp).html());
+    $('#dumper_table > tbody')
+      .children()
+      .eq(-3)
+      .find('.searchable').chosen().change(setFocusOnNextElement);
+    $('#dumper_table > tbody')
+      .children()
+      .eq(-3)
+      .find(".delete_row2").on('click', delete_dummper_row);
+
+    bind_total_event();
+    // $('td > input').on('keydown', function (e) {
+    //     if (e.which === 13) {
+    //         var element = $(this).parent().next().children('input,select').eq(0);
+    //         if (element.is('input')) {
+    //             window.setTimeout(() => $(element).focus(), 0);
+    //         } else if (element.is('select')) {
+    //             window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
+    //         }
+    //         return false;
+    //     }
+    // });
+}
+function delete_dummper_row() {
+    var tbody = $(this).closest("tbody");
+    if ($(tbody).children("tr").length > 3) {
+        $(this).closest('tr').remove();
+        $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
+            calc_total(this);
+        });
+    }
+}
 $(document).ready(function () {
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
@@ -544,61 +597,15 @@ $(document).ready(function () {
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     $('#date').val(today);
 
-    $('.searchable').chosen().change(setFocusOnNextElement);
+    add_row_to_shovel_table();
+    let temp = $('#dumper_total_rows').clone();
+    $('#dumper_table > tbody').append($(temp).html());
+    add_row_to_dumper_table();
 
-    $('#shovel_table select[name="material_type[]"]').on('change', updateSeam);
-
-    $(".add_row1").on('click', function () {
-        $("#shovel_table > tbody > tr").eq(0).find('select').chosen('destroy').end();
-        $line = $("#shovel_table > tbody").children().first().clone();
-        $added_line = $line.appendTo($("#shovel_table > tbody"));
-        $("#shovel_table > tbody").children().first().find('select').chosen().change(setFocusOnNextElement);
-        $added_line.find('.create-dumper-column').val('Add to Dumper Table').removeClass('btn-success').addClass('btn-primary');
-        $added_line.find('.shovel_work_hour').val('');
-        $added_line.find('input,select').prop('disabled', false);
-        $added_line.find(".create-dumper-column").on('click', create_corresponding_dumper_column);
-        $added_line.find(".delete_row1").on('click', delete_synchrnous_row_and_column);
-        $added_line.find('select').chosen().change(setFocusOnNextElement);
-        $added_line.find('select[name="material_type[]"]').on('change', updateSeam);
-    });
-    $(".add_row2").on('click', function () {
-        var table = $(this).parent().parent().find("table").first();
-        $(table).find('select').chosen('destroy').end();
-        $(table).find("tr").eq(1).clone().insertAfter($('#dumper_table > tbody > tr').eq($('#dumper_table > tbody > tr').length - 3)).find('input').not(':input[type=button]').val('');
-        bind_total_event();
-        $(table).find('select').chosen().change(setFocusOnNextElement);
-        $('td > input').on('keydown', function (e) {
-            if (e.which === 13) {
-                var element = $(this).parent().next().children('input,select').eq(0);
-                if (element.is('input')) {
-                    window.setTimeout(() => $(element).focus(), 0);
-                } else if (element.is('select')) {
-                    window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
-                }
-                return false;
-            }
-        });
-        $(".delete_row2").on('click', function () {
-            var tbody = $(this).closest("tbody");
-            if ($(tbody).children("tr").length > 3) {
-                $(this).closest('tr').remove();
-                $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
-                    calc_total(this);
-                });
-            }
-        });
-    });
+    $(".add_row1").on('click', add_row_to_shovel_table);
+    $(".add_row2").on('click', add_row_to_dumper_table);
     $(".delete_row1").on('click', delete_synchrnous_row_and_column);
-    $(".delete_row2").on('click', function () {
-        var tbody = $(this).closest("tbody");
-        if ($(tbody).children("tr").length > 3) {
-            $(this).closest('tr').remove();
-            $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
-                calc_total(this);
-            });
-        }
-    });
-
+    $(".delete_row2").on('click', delete_dummper_row);
     $(".create-dumper-column").on('click', create_corresponding_dumper_column);
     $("#validate2").on('click', check_mandatory_fields);
     $("#save_dumpers_1").on('click', get_sap_compatible_excel);
