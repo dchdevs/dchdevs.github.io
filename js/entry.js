@@ -312,7 +312,7 @@ function get_sap_compatible_excel() {
     //load dumper-wise working hours
     $('#dumper_table input[name="dumper_working_hours[]"]').each(function () {
         if ($(this).val() !== '') {
-            dumper_working_hours[$(this).parent().parent().children().first().children('select, input').eq(0).val()] = $(this).val();
+            dumper_working_hours[$(this).parent().parent().children().first().children('select').eq(0).val() + '_' + $(this).parent().parent().children().eq(1).children('select').eq(0).val()] = $(this).val();
         }
     });
 
@@ -320,7 +320,8 @@ function get_sap_compatible_excel() {
     //load dumper to shovel-wise trips
     var dumper_tbody_tr = $('#dumper_table > tbody > tr');
     $(dumper_tbody_tr).each(function (index, tr) {
-        var unique_dumper = $(tr).children('td').eq(0).children('select, input').eq(0).val();
+        var unique_dumper = $(tr).children('td').eq(0).children('select').eq(0).val()
+        + '_' + $(tr).children('td').eq(1).children('select').eq(0).val();
         dumper_shovel_trips[unique_dumper] = {};
         $(tr).children('td').each(function (index1, td) {
             if ($(td).children('input').eq(0).hasClass('shovel_dumper_trip')
@@ -359,7 +360,9 @@ function get_sap_compatible_excel() {
                 if ($(td1).children('input').eq(0).hasClass('shovel_dumper_trip')
                     && $(td1).children('select, input').eq(0).val() !== ''
                 ) {
-                    var unique_dumper = $(td1).parent().children('td').eq(0).children('select, input').eq(0).val();
+                    var unique_dumper = $(td1).parent().children('td').eq(0).children('select').eq(0).val()
+                    + '_'
+                    + $(td1).parent().children('td').eq(1).children('select').eq(0).val();
                     shovel_dumper_trips[unique_shovel][unique_dumper] = $(td1).children('select, input').eq(0).val();
                 }
             });
@@ -410,13 +413,13 @@ function get_sap_compatible_excel() {
                     excelRowToInsert.push({ "text": parseInt(threeFields[2]) });
                     //shovel operating time
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({ "text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()] * 60) });
+                        excelRowToInsert.push({ "text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val() + '_' + $(td).parent().children('td').eq(1).children('select, input').eq(0).val()] * 60) });
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({ "text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val()] * 60) });
+                        excelRowToInsert.push({ "text": parseInt(shovel_working_hour_distribution[$(td).children('select, input').eq(0).attr("name")][$(td).parent().children('td').eq(0).children('select, input').eq(0).val() + '_' + $(td).parent().children('td').eq(1).children('select, input').eq(0).val()] * 60) });
                     }
                     excelRowToInsert.push({ "text": $(td).parent().children('td').eq(0).children('select, input').eq(0).val() });
                     excelRowToInsert.push({ "text": parseInt($(td).parent().children('td').eq(1).children('select, input').eq(0).val()) });
-                    excelRowToInsert.push({ "text": parseInt(dumper_working_hour_distribution[$(td).parent().children('td').eq(0).children('select, input').eq(0).val()][$(td).children('select, input').eq(0).attr("name")] * 60) });
+                    excelRowToInsert.push({ "text": parseInt(dumper_working_hour_distribution[$(td).parent().children('td').eq(0).children('select').eq(0).val() + '_' + $(td).parent().children('td').eq(1).children('select').eq(0).val()][$(td).children('select, input').eq(0).attr("name")] * 60) });
                     var trips = $(td).children('select, input').eq(0).val();
                     excelRowToInsert.push({ "text": parseInt(trips) });
                     var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1]);
