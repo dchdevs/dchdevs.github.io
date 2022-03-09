@@ -445,6 +445,46 @@ function get_sap_compatible_excel() {
         fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
     };
     Jhxlsx.export(dataForPage, options);
+    populate_special_trips();
+}
+
+function populate_special_trips() {
+  var unique_dumper_operator = {};
+  $('#dumper_table select[name="dumper_operator[]"]').each(function () {
+    if ($(this).val() !== '') {
+      var key1 = $(this).val();
+      if (! (key1 in unique_dumper_operator)) {
+        unique_dumper_operator[key1] = $(this).find("option:selected" ).text();
+      }
+    }
+  });
+  $('#dumper_table_special_trips > tbody').children().remove();
+  $.each(unique_dumper_operator, function (key, value){
+    let operator = value;
+    const tr = `
+    <tr>
+      <td>
+        <span>${operator}</span>
+      </td>
+      <td>
+        <input name="first_hr[]" class='inp1 shv' required="required"
+            maxlength="128" type="number" value="" placeholder=""
+            data-rule-required="true" data-msg-required="Please enter a valid number">
+      </td>
+      <td>
+        <input name="mid_hr[]" class='inp1 shv' required="required"
+            maxlength="128" type="number" value="" placeholder=""
+            data-rule-required="true" data-msg-required="Please enter a valid number">
+      </td>
+      <td>
+        <input name="last_hr[]" class='inp1 shv' required="required"
+            maxlength="128" type="number" value="" placeholder=""
+            data-rule-required="true" data-msg-required="Please enter a valid number">
+      </td>
+    </tr>
+    `;
+    $('#dumper_table_special_trips > tbody').append(tr);
+  });
 }
 
 function get_dumper_factor(dumper_number, material_type) {
