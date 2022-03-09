@@ -154,6 +154,18 @@ hr {
     float: left;
     margin-top: 20px;
 }
+.arrow-right {
+  margin:1em;
+  border:none;
+  padding:0.25em 3em 0.25em 1em;
+  text-align:left;
+  background:
+    linear-gradient(-120deg, transparent 1em, #0099C3 1.05em , #0099C3 1.5em, transparent 1.45em, transparent 2em, #0099C3 2.05em) top no-repeat,
+    linear-gradient(300deg, transparent 1em, #0099C3 1.05em , #0099C3 1.5em, transparent 1.45em, transparent 2em, #0099C3 2.05em) bottom no-repeat ;
+  background-size: 100% 50%;
+  color:white;
+  height: 50px;
+}
 
 .select-print {
     display: none;
