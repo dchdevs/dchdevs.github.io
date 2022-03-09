@@ -109,8 +109,12 @@ table thead th {
 #dumper-entries {
   display: flex;
 }
+#dumperwise_entry{
+  width:100%;
+}
 #dumperwise_special_trips {
   display: none;
+  width:100%;
 }
 body {
   display: inline
@@ -153,6 +157,10 @@ hr {
 .ph-mid{
     float: left;
     margin-top: 20px;
+}
+#excel_buttons {
+  display:none;
+  width: 100%;
 }
 .arrow-right {
   border:none;

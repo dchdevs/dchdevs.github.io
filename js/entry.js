@@ -437,8 +437,22 @@ function populate_data_object_for_excel() {
             });
         }
     });
-    $('#dumperwise_entry').hide('slide', {direction: 'left'}, 2000).end();
-    $('#dumperwise_special_trips').show('slide', {direction: 'right'}, 2000);
+    populate_special_trips();
+    $('#dumperwise_entry').hide('slide', {direction: 'left'}, 1000);
+    $('#dumperwise_special_trips').show('slide', {direction: 'right'}, 1000);
+}
+
+function go_back() {
+  $('#dumperwise_special_trips').hide('slide', {direction: 'right'}, 1000);
+  $('#dumperwise_entry').show('slide', {direction: 'left'}, 1000);
+}
+function go_back_1() {
+  $('#excel_buttons').hide('slide', {direction: 'right'}, 1000);
+  $('#dumperwise_special_trips').show('slide', {direction: 'left'}, 1000);
+}
+function go_forward() {
+  $('#dumperwise_special_trips').hide('slide', {direction: 'left'}, 1000);
+  $('#excel_buttons').show('slide', {direction: 'right'}, 1000);
 }
 
 function get_sap_compatible_excel() {
@@ -450,7 +464,6 @@ function get_sap_compatible_excel() {
       fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
   };
   Jhxlsx.export(dataForPage, options);
-  populate_special_trips();
 }
 
 function populate_special_trips() {
@@ -695,5 +708,8 @@ $(document).ready(function () {
     $(".add_row2").on('click', add_row_to_dumper_table);
     $("#validate2").on('click', check_mandatory_fields);
     $("#populate_data_object").on('click', populate_data_object_for_excel);
+    $("#go_back").on('click', go_back);
+    $("#go_back_1").on('click', go_back_1);
+    $("#go_forward").on('click', go_forward);
     $("#pdf_report").on('click', get_pdf_report);
 });
