@@ -708,8 +708,9 @@ $(document).ready(function () {
     $(".add_row2").on('click', add_row_to_dumper_table);
     $("#validate2").on('click', check_mandatory_fields);
     $("#populate_data_object").on('click', populate_data_object_for_excel);
+    $("#get_sap_compatible_excel").on('click',get_sap_compatible_excel);
     $("#go_back").on('click', go_back);
     $("#go_back_1").on('click', go_back_1);
     $("#go_forward").on('click', go_forward);
-    $("#pdf_report").on('click', get_pdf_report);
+    $("#get_pdf_report").on('click', get_pdf_report);
 });
