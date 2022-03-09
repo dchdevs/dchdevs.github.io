@@ -323,6 +323,7 @@ function populate_data_object_for_excel() {
         $(tr).children('td').each(function (index1, td) {
             if ($(td).children('input').eq(0).hasClass('shovel_dumper_trip')
                 && $(td).children('select, input').eq(0).val() !== ''
+                && $(td).children('select, input').eq(0).val() !== '0'
             ) {
                 var unique_shovel = $(td).children('select, input').eq(0).attr("name");
                 dumper_shovel_trips[unique_dumper][unique_shovel] = $(td).children('select, input').eq(0).val();
@@ -356,6 +357,7 @@ function populate_data_object_for_excel() {
             $(dumper_columns).each(function (index1, td1) {
                 if ($(td1).children('input').eq(0).hasClass('shovel_dumper_trip')
                     && $(td1).children('select, input').eq(0).val() !== ''
+                    && $(td1).children('select, input').eq(0).val() !== '0'
                 ) {
                     var unique_dumper = $(td1).parent().children('td').eq(0).children('select').eq(0).val()
                     + '_'
@@ -378,7 +380,9 @@ function populate_data_object_for_excel() {
             var dumper_columns = $('#dumper_table tr td:nth-child(' + (index + 1) + ')');
             $(dumper_columns).each(function (index1, td) {
                 if ($(td).children('select, input').eq(0).is('input')
-                    && $(td).children('select, input').eq(0).val() !== '') {
+                    && $(td).children('select, input').eq(0).val() !== ''
+                    && $(td).children('select, input').eq(0).val() !== '0'
+                ) {
                     excelRowToInsert = [];
                     excelRowToInsert = excelData.slice();
                     threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
