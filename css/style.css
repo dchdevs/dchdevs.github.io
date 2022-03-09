@@ -105,9 +105,11 @@ table thead th {
 }
 .page-body {
   display: inline-block;
+  width: 100%;
 }
 #dumper-entries {
   display: flex;
+  width: 100%;
 }
 #dumperwise_entry{
   width:100%;
