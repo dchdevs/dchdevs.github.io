@@ -449,22 +449,49 @@ function get_sap_compatible_excel() {
 }
 
 function populate_special_trips() {
-  var unique_dumper_operator = {};
-  $('#dumper_table select[name="dumper_operator[]"]').each(function () {
-    if ($(this).val() !== '') {
-      var key1 = $(this).val();
-      if (! (key1 in unique_dumper_operator)) {
-        unique_dumper_operator[key1] = $(this).find("option:selected" ).text();
+  var unique_dumper_operator_data = {};
+  var operator_total_trips = {};
+  $('#dumper_table > tbody > tr').each(function (index, tr) {
+    var operator = $(tr).children('td').eq(1).children('select').eq(0);
+    if ($(operator).length > 0 && $(operator).val() !== '') {
+      if (! ($(operator).val() in unique_dumper_operator_data)) {
+        unique_dumper_operator_data[$(operator).val()] = {};
+        unique_dumper_operator_data[$(operator).val()]['Oprtr/Vend'] = $(operator).val();
+        unique_dumper_operator_data[$(operator).val()]['Name'] = $(operator).find("option:selected" ).text().split('--')[0].trim();
+        var total_trips = 0;
+        $(tr).find('.shovel_dumper_trip').each(function () {
+          if ($(this).val() !== '') {
+              total_trips += parseInt($(this).val());
+          }
+        });
+        unique_dumper_operator_data[$(operator).val()]['Trips'] = total_trips;
+      } else if ($(operator).val() in unique_dumper_operator_data) {
+        var total_trips = 0;
+        $(tr).find('.shovel_dumper_trip').each(function () {
+          if ($(this).val() !== '') {
+              total_trips += parseInt($(this).val());
+          }
+        });
+        unique_dumper_operator_data[$(operator).val()]['Trips'] += total_trips;
       }
     }
   });
+
   $('#dumper_table_special_trips > tbody').children().remove();
-  $.each(unique_dumper_operator, function (key, value){
-    let operator = value;
+  $.each(unique_dumper_operator_data, function (key, value){
+    let operator_no = unique_dumper_operator_data[key]['Oprtr/Vend'];
+    let operator_name = unique_dumper_operator_data[key]['Name'];
+    let total_trips = unique_dumper_operator_data[key]['Trips'];
     const tr = `
     <tr>
       <td>
-        <span>${operator}</span>
+        <span>${operator_no}</span>
+      </td>
+      <td>
+        <span>${operator_name}</span>
+      </td>
+      <td>
+        <span>${total_trips}</span>
       </td>
       <td>
         <input name="first_hr[]" class='inp1 shv' required="required"
