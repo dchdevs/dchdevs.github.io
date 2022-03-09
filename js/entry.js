@@ -7,9 +7,6 @@
 * Author: Atul Pratap Singh (https://github.com/atuldch)
 */
 
-var date = 'today';
-var shift = 1;
-var section = 1;
 var coal_shovel_seam = {};
 var ob_shovel_seam = {};
 var material_code_coal = 4900000014;
@@ -17,6 +14,13 @@ var material_code_ob = 4900000011;
 var process_order_purewa_coal = 60006912;
 var process_order_turra_coal = 60006914;
 var process_order_ob = 70004778;
+//JSON for "the data"
+var dataForPage = [
+    {
+        "sheetName": "Sheet1",
+        "data": []
+    }
+];
 
 function check_mandatory_fields_shovel(objj) {
     var flag = false;
@@ -97,14 +101,6 @@ function check_mandatory_fields() {
     });
     return flag;
 }
-
-//JSON for data
-var dataForPage = [
-    {
-        "sheetName": "Sheet1",
-        "data": []
-    }
-];
 
 function create_corresponding_dumper_column() {
     if (check_mandatory_fields_shovel($(this).parent().parent().parent())) {
@@ -273,14 +269,15 @@ function get_pdf_report() {
     }).save();
 }
 
-function get_sap_compatible_excel() {
+function populate_data_object_for_excel() {
     var check = check_mandatory_fields();
     if (check == true) {
         alert('ERROR: Empty fields in DUMPER TABLE!');
         return;
     }
-    //Create header
+    //reinitialize data array to empty
     dataForPage[0].data = [];
+    //Create header
     var header = [];
     header.push({ "text": "Plant" });
     header.push({ "text": "Materialcode" });
@@ -440,12 +437,20 @@ function get_sap_compatible_excel() {
             });
         }
     });
+    $('#dumperwise_entry').hide('slide', {direction: 'left'}, 2000).end();
+    $('#dumperwise_special_trips').show('slide', {direction: 'right'}, 2000);
+}
 
-    var options = {
-        fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
-    };
-    Jhxlsx.export(dataForPage, options);
-    populate_special_trips();
+function get_sap_compatible_excel() {
+  if(dataForPage[0].data.length <= 0) {
+    alert('Error: Data object is not populated yet.');
+    return;
+  }
+  var options = {
+      fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
+  };
+  Jhxlsx.export(dataForPage, options);
+  populate_special_trips();
 }
 
 function populate_special_trips() {
@@ -689,6 +694,6 @@ $(document).ready(function () {
     $(".add_row1").on('click', add_row_to_shovel_table);
     $(".add_row2").on('click', add_row_to_dumper_table);
     $("#validate2").on('click', check_mandatory_fields);
-    $("#save_dumpers_1").on('click', get_sap_compatible_excel);
+    $("#populate_data_object").on('click', populate_data_object_for_excel);
     $("#pdf_report").on('click', get_pdf_report);
 });
