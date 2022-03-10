@@ -404,11 +404,29 @@ function populate_data_object_for_excel() {
                     if (threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][0] });
                         excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][1] });
-                        var dump_loc = $(td).parent().find('select.coal_dump').val();
+                        var dump_loc = get_dump_location(
+                          'Coal',
+                          coal_shovel_seam[shovel_unique_id][0],
+                          $('#section').val(),
+                          threeFields[0],
+                          $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
+                        );
+                        if (! dump_loc) {
+                          dump_loc = $(td).parent().find('select.coal_dump').val();
+                        }
                     } else if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][0] });
                         excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][1] });
-                        var dump_loc = $(td).parent().find('select.ob_dump').val();
+                        var dump_loc = get_dump_location(
+                          'OB',
+                          ob_shovel_seam[shovel_unique_id][0],
+                          $('#section').val(),
+                          threeFields[0],
+                          $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
+                        );
+                        if (! dump_loc) {
+                          dump_loc = $(td).parent().find('select.ob_dump').val();
+                        }
                     }
                     excelRowToInsert.push({ "text": threeFields[0] });
                     excelRowToInsert.push({ "text": parseInt(threeFields[2]) });
@@ -446,14 +464,56 @@ function populate_data_object_for_excel() {
     $('#dumperwise_special_trips').show('slide', {direction: 'right'}, 1000);
 }
 
+function get_dump_location(material_type, seam, section, shovel_name, dumper_name) {
+    /*
+    --> All OB: OB12 fix
+    --> Coal turra (Km and CN) : U023 fix
+    --> Coal pureva bottom : east shovels (12, 15, Laxman): ANY DUMPER: U022 (east yard) fix
+    --> Coal pureva bottom : west shovels ( 17/19/16/Laxman): Default me U023 (CHP) for 100te dumpers + U024 (west yard) for 190 te (CAT)
+    Manual correction needed only for west section.. if mentioned in the report of West section (each shift), then manually change..
+    */
+    if(material_type === 'OB') {
+        return 'OB12';
+    } else if(material_type === 'Coal'
+        && seam.indexOf('TURRA') > -1
+        && (dumper_name.indexOf('KM') > -1 || dumper_name.indexOf('CN') > -1)
+    ) {
+        return 'U023';
+    } else if(material_type === 'Coal'
+        && seam.indexOf('PURVA-BOTM-COAL') > -1
+        && section === 'East'
+        && (shovel_name.indexOf('PH-12') > -1 || shovel_name.indexOf('PH-15') > -1 || shovel_name.indexOf('LAXMAN') > -1)
+    ) {
+        return 'U022';
+    } else if(material_type === 'Coal'
+        && seam.indexOf('PURVA-BOTM-COAL') > -1
+        && section === 'West'
+        && (shovel_name.indexOf('PH-16') > -1 || shovel_name.indexOf('PH-17') > -1 || shovel_name.indexOf('PH-19') > -1 || shovel_name.indexOf('LAXMAN') > -1)
+        && (dumper_name.indexOf('KM') > -1 || dumper_name.indexOf('CN') > -1)
+    ) {
+        return 'U023';
+    } else if(material_type === 'Coal'
+        && seam.indexOf('PURVA-BOTM-COAL') > -1
+        && section === 'West'
+        && (shovel_name.indexOf('PH-16') > -1 || shovel_name.indexOf('PH-17') > -1 || shovel_name.indexOf('PH-19') > -1 || shovel_name.indexOf('LAXMAN') > -1)
+        && dumper_name.indexOf('CAT') > -1
+    ) {
+        return 'U024';
+    } else {
+        return null;
+    }
+}
+
 function go_back() {
   $('#dumperwise_special_trips').hide('slide', {direction: 'right'}, 1000);
   $('#dumperwise_entry').show('slide', {direction: 'left'}, 1000);
 }
+
 function go_back_1() {
   $('#excel_buttons').hide('slide', {direction: 'right'}, 1000);
   $('#dumperwise_special_trips').show('slide', {direction: 'left'}, 1000);
 }
+
 function go_forward() {
   $('#dumperwise_special_trips').hide('slide', {direction: 'left'}, 1000);
   $('#excel_buttons').show('slide', {direction: 'right'}, 1000);
