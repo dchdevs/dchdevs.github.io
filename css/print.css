@@ -3,9 +3,13 @@ table thead th {
 }
 .page-head{
     background: #ffffff;
+    display: block !important;
 }
 .page-title {
     border-right:1px solid rgb(218, 218, 218);
+}
+.add_delete_button {
+  display: none !important;
 }
 .page-title-2{
     border-top:1px solid rgb(218, 218, 218);
@@ -34,18 +38,48 @@ td select, td input
     display: block !important;
 }
 .printpdf {
-    font-size: xx-small;
+    font-size: small;
     vertical-align: middle;
     display:inline !important;
 }
 .printpdf_bottom {
-    font-size: small;
-    vertical-align: middle;
-    display:inline !important;
+    height:35px;
+    width:100%;
+    flex-direction: row;
+    align-items:stretch;
+    justify-content: space-evenly;
+    display: inline-block;
+    background: #ffffff;
+    display: inline-block !important;
 }
 .printpdf span{
     margin-left: 30px;
 }
 #entry {
     padding-left:0em !important;
+}
+.page-footer {
+  background: #ffffff;
+}
+.page-body {
+  display: block !important;
+  width: 100%;
+}
+#dumper-entries {
+  display: block !important;
+  width: 100%;
+}
+#dumperwise_entry{
+  width:100%;
+    display: block !important;
+}
+#dumperwise_special_trips {
+  display: none !important;
+  width:100%;
+}
+body {
+  display: block !important;
+}
+#excel_buttons {
+  display: none !important;
 }
