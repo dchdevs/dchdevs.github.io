@@ -401,7 +401,19 @@ function populate_data_object_for_excel() {
                     } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('PURVA') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_purewa_coal });
                     }
-                    excelRowToInsert.push({ "text": new Date($('#date').val()) });
+                    let date_to_enter = new Date($('#date').val());
+                    let day = date_to_enter.getDate();
+                    let month = date_to_enter.getMonth();
+                    let year = date_to_enter.getFullYear();
+                    month = month + 1;
+                    if((String(day)).length == 1) {
+                      day='0'+day;
+                    }
+                    if((String(month)).length == 1) {
+                      month='0'+month;
+                    }
+                    date_to_enter = day + '.' + month + '.' + year;
+                    excelRowToInsert.push({ "text": date_to_enter });
                     excelRowToInsert.push({ "text": $('#shift').val() });
                     if (threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][0] });
