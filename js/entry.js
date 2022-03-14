@@ -496,20 +496,17 @@ function get_dump_location(material_type, seam, section, shovel_name, dumper_nam
     } else if(material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'East'
-        && (shovel_name.indexOf('PH-12') > -1 || shovel_name.indexOf('PH-15') > -1 || shovel_name.indexOf('LAXMAN') > -1)
     ) {
         return 'U022';
     } else if(material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'West'
-        && (shovel_name.indexOf('PH-16') > -1 || shovel_name.indexOf('PH-17') > -1 || shovel_name.indexOf('PH-19') > -1 || shovel_name.indexOf('LAXMAN') > -1)
         && (dumper_name.indexOf('KM') > -1 || dumper_name.indexOf('CN') > -1)
     ) {
         return 'U023';
     } else if(material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'West'
-        && (shovel_name.indexOf('PH-16') > -1 || shovel_name.indexOf('PH-17') > -1 || shovel_name.indexOf('PH-19') > -1 || shovel_name.indexOf('LAXMAN') > -1)
         && dumper_name.indexOf('CAT') > -1
     ) {
         return 'U024';
