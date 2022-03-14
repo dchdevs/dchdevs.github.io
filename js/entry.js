@@ -748,17 +748,17 @@ function add_row_to_dumper_table() {
       .find(".delete_row2").on('click', delete_dummper_row);
 
     bind_total_event();
-    // $('td > input').on('keydown', function (e) {
-    //     if (e.which === 13) {
-    //         var element = $(this).parent().next().children('input,select').eq(0);
-    //         if (element.is('input')) {
-    //             window.setTimeout(() => $(element).focus(), 0);
-    //         } else if (element.is('select')) {
-    //             window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
-    //         }
-    //         return false;
-    //     }
-    // });
+    $('td > input').on('keydown', function (e) {
+        if (e.which === 13) {
+            var element = $(this).parent().next().children('input,select').eq(0);
+            if (element.is('input')) {
+                window.setTimeout(() => $(element).focus(), 0);
+            } else if (element.is('select')) {
+                window.setTimeout(() => $(element).trigger('chosen:activate'), 0);
+            }
+            return false;
+        }
+    });
 }
 function delete_dummper_row() {
     var tbody = $(this).closest("tbody");
