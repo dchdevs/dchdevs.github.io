@@ -11,9 +11,9 @@ var coal_shovel_seam = {};
 var ob_shovel_seam = {};
 var material_code_coal = 4900000014;
 var material_code_ob = 4900000011;
-var process_order_purewa_coal = 60006912;
-var process_order_turra_coal = 60006914;
-var process_order_ob = 70004778;
+var process_order_purewa_coal = 60008065;
+var process_order_turra_coal = 60008066;
+var process_order_ob = 70005488;
 //JSON for "the data"
 var dataForPage = [
     {
