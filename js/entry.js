@@ -133,7 +133,7 @@ function create_corresponding_dumper_column() {
                 + "<option value='' selected disabled hidden>Select Dump</option>"
                 + "<option value='U022'>East Coal Yard</option>"
                 + "<option value='U024'>West Coal Yard</option>"
-                + "<option value='U023'>Crusher Yard</option>"
+                + "<option value='CH01'>Crusher Yard</option>"
                 + "</select></td>").insertAfter(
                     $(dumper_tbody_tr).find('.work_hours_dumper_body')
                 );
@@ -481,9 +481,9 @@ function populate_data_object_for_excel() {
 function get_dump_location(material_type, seam, section, shovel_name, dumper_name) {
     /*
     --> All OB: OB12 fix
-    --> Coal turra (Km and CN) : U023 fix
+    --> Coal turra (Km and CN) : CH01 fix
     --> Coal pureva bottom : east shovels (12, 15, Laxman): ANY DUMPER: U022 (east yard) fix
-    --> Coal pureva bottom : west shovels ( 17/19/16/Laxman): Default me U023 (CHP) for 100te dumpers + U024 (west yard) for 190 te (CAT)
+    --> Coal pureva bottom : west shovels ( 17/19/16/Laxman): Default me CH01 (CHP) for 100te dumpers + U024 (west yard) for 190 te (CAT)
     Manual correction needed only for west section.. if mentioned in the report of West section (each shift), then manually change..
     */
     if(material_type === 'OB') {
@@ -492,7 +492,7 @@ function get_dump_location(material_type, seam, section, shovel_name, dumper_nam
         && seam.indexOf('TURRA') > -1
         && (dumper_name.indexOf('KM') > -1 || dumper_name.indexOf('CN') > -1)
     ) {
-        return 'U023';
+        return 'CH01';
     } else if(material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'East'
@@ -503,7 +503,7 @@ function get_dump_location(material_type, seam, section, shovel_name, dumper_nam
         && section === 'West'
         && (dumper_name.indexOf('KM') > -1 || dumper_name.indexOf('CN') > -1)
     ) {
-        return 'U023';
+        return 'CH01';
     } else if(material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'West'
