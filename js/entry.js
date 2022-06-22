@@ -273,11 +273,6 @@ function get_pdf_report() {
 }
 
 function populate_data_object_for_excel() {
-    var check = check_mandatory_fields();
-    if (check == true) {
-        alert('ERROR: Empty fields in DUMPER TABLE!');
-        return;
-    }
     //reinitialize data array to empty
     dataForPage[0].data = [];
     //Create header
@@ -496,8 +491,6 @@ function populate_data_object_for_excel() {
         }
     });
     populate_special_trips();
-    $('#dumperwise_entry').hide('slide', {direction: 'left'}, 1000);
-    $('#dumperwise_special_trips').show('slide', {direction: 'right'}, 1000);
 }
 
 function get_dump_location(material_type, seam, section, shovel_name, dumper_name) {
@@ -538,29 +531,40 @@ function get_dump_location(material_type, seam, section, shovel_name, dumper_nam
 }
 
 function go_back() {
-  $('#dumperwise_special_trips').hide('slide', {direction: 'right'}, 1000);
-  $('#dumperwise_entry').show('slide', {direction: 'left'}, 1000);
+    $('#dumperwise_special_trips').hide('slide', {direction: 'right'}, 1000);
+    $('#dumperwise_entry').show('slide', {direction: 'left'}, 1000);
 }
 
 function go_back_1() {
-  $('#excel_buttons').hide('slide', {direction: 'right'}, 1000);
-  $('#dumperwise_special_trips').show('slide', {direction: 'left'}, 1000);
+    $('#excel_buttons').hide('slide', {direction: 'right'}, 1000);
+    $('#dumperwise_special_trips').show('slide', {direction: 'left'}, 1000);
+}
+
+function go_forward_1() {
+    $('#dumperwise_special_trips').hide('slide', {direction: 'left'}, 1000);
+    $('#excel_buttons').show('slide', {direction: 'right'}, 1000);
 }
 
 function go_forward() {
-  $('#dumperwise_special_trips').hide('slide', {direction: 'left'}, 1000);
-  $('#excel_buttons').show('slide', {direction: 'right'}, 1000);
+    var check = check_mandatory_fields();
+    if (check == true) {
+        alert('ERROR: Empty fields in DUMPER TABLE!');
+        return;
+    }
+    $('#dumperwise_entry').hide('slide', {direction: 'left'}, 1000);
+    $('#dumperwise_special_trips').show('slide', {direction: 'right'}, 1000);
 }
 
 function get_sap_compatible_excel() {
-  if(dataForPage[0].data.length <= 0) {
+    populate_data_object_for_excel();
+    if(dataForPage[0].data.length <= 0) {
     alert('Error: Data object is not populated yet.');
     return;
-  }
-  var options = {
-      fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
-  };
-  Jhxlsx.export(dataForPage, options);
+    }
+    var options = {
+        fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
+    };
+    Jhxlsx.export(dataForPage, options);
 }
 
 function populate_special_trips() {
@@ -804,10 +808,10 @@ $(document).ready(function () {
     $(".add_row1").on('click', add_row_to_shovel_table);
     $(".add_row2").on('click', add_row_to_dumper_table);
     $("#validate2").on('click', check_mandatory_fields);
-    $("#populate_data_object").on('click', populate_data_object_for_excel);
+    $("#go_forward").on('click', go_forward);
     $("#get_sap_compatible_excel").on('click',get_sap_compatible_excel);
     $("#go_back").on('click', go_back);
     $("#go_back_1").on('click', go_back_1);
-    $("#go_forward").on('click', go_forward);
+    $("#go_forward_1").on('click', go_forward_1);
     $("#get_pdf_report").on('click', get_pdf_report);
 });
