@@ -1,10 +1,11 @@
-/* Dudhichua shift wise entry v2.0
+/* Dudhichua shift wise entry v3.0
 *
 * Copyright - GPL Version 3
 *
-* Libraries used: jQuery, jspdf, html2canvas, html2pdf, jhxlsx
+* Library credits: jQuery, jQuery-UI, chosen, popper, jspdf,
+*                  html2canvas, html2pdf, jhxlsx, FileSaver 
 *
-* Author: Atul Pratap Singh (https://github.com/atuldch)
+* Author: Atul Pratap Singh (https://github.com/atul516)
 */
 
 var coal_shovel_seam = {};
@@ -14,9 +15,23 @@ var material_code_ob = 4900000011;
 var process_order_purewa_coal = 60010855;
 var process_order_turra_coal = 60010856;
 var process_order_ob = 70007183;
+//JSON in the format as required by jhxlsx library for creating SAP Compatible excel
+var dataForSAPCompatibleExcel = [
+    {
+        "sheetName": "Sheet1",
+        "data": []
+    }
+];
+// separate array for special trips
+var dataForSpecialTripsExcelShovel = [
+    {
+        "sheetName": "Sheet1",
+        "data": []
+    }
+];
 
-//JSON for "the data"
-var dataForPage = [
+// separate array for special trips
+var dataForSpecialTripsExcelDumper = [
     {
         "sheetName": "Sheet1",
         "data": []
@@ -117,7 +132,7 @@ function create_corresponding_dumper_column() {
     if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'Coal') {
         shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_Coal';
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
-            alert('Such shovel combination already exists!');
+            alert('Such shovel combination already exists!! This duplicate shovel row will now be removed!');
             $(shovel_table_row).remove();
             return;
         }
@@ -134,7 +149,7 @@ function create_corresponding_dumper_column() {
                 + "<option value='' selected disabled hidden>Select Dump</option>"
                 + "<option value='U022'>East Coal Yard</option>"
                 + "<option value='U024'>West Coal Yard</option>"
-                + "<option value='CH01'>Crusher Yard</option>"
+                + "<option value='U023'>Crusher Yard</option>"
                 + "</select></td>").insertAfter(
                     $(dumper_tbody_tr).find('.work_hours_dumper_body')
                 );
@@ -143,6 +158,7 @@ function create_corresponding_dumper_column() {
             $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump - 1).after("<td></td>");
         }
         $(dumper_tbody_tr).find('.coal_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_Coal_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip coal_inp inp " + "sum_" + shovel_unique_id + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+        $(shovel_table_row).addClass(shovel_unique_id);
     } else if ($(shovel_table_row).find('select[name="material_type[]"]').val() === 'OB') {
         shovel_unique_id = $(shovel_table_row).find('select[name="shovel_no[]"]').val() + '_' + $(shovel_table_row).find('select[name="shovel_operator[]"]').val() + '_OB';
         if ($(dumper_thead_tr).find('.' + shovel_unique_id).length > 0) {
@@ -170,6 +186,7 @@ function create_corresponding_dumper_column() {
             $('#dumper_table > tbody').find('.totalQuantityColumn').children().eq(ind_dump - 1).after("<td></td>");
         }
         $(dumper_tbody_tr).find('.ob_dump_column_exists').parent().before("<td class='" + shovel_unique_id + "'><input name='" + shovel_unique_id.split('_')[0] + "_OB_" + shovel_unique_id.split('_')[1] + "[]' class='shovel_dumper_trip ob_inp inp " + "sum_" + shovel_unique_id + "' required='required' maxlength='128' type='number' value='' min='0' data-rule-required='true' data-msg-required='Please enter a valid number'></td>");
+        $(shovel_table_row).addClass(shovel_unique_id);
     }
     //disable for further edit
     $(this).val('Added').removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
@@ -205,8 +222,8 @@ function calc_total(obj) {
     let total_quantity = 0;
     let ind = $(obj).closest('td').index();
     var name_attr = $(obj).attr("name").split('_');
-    let shovel_unique_id = name_attr[0]  + '_' +  name_attr[2].slice(0,-2)  + '_' +  name_attr[1];
-
+    let shovel_unique_id = name_attr[0] + '_' + name_attr[2].slice(0, -2) + '_' + name_attr[1];
+    shovel_unique_id = shovel_unique_id.trim();
 
     if (shovel_unique_id && shovel_unique_id.length > 0) {
         $table.find('tr:not(.totalColumn) .sum_' + shovel_unique_id).each(function () {
@@ -223,6 +240,35 @@ function calc_total(obj) {
         });
         $table.find('tr.totalColumn').children().eq(ind).html(total);
         $table.find('tr.totalQuantityColumn').children().eq(ind).html(total_quantity);
+
+        //set total value in shovel table
+        let relevant_row = $('#shovel_table').find('.' + shovel_unique_id);
+        $(relevant_row).find('td:nth-last-child(2) span').text(total);
+        $(relevant_row).find('td:last-child span').text(total_quantity);
+
+        //set grand totals
+        let grand_total_trips_coal = 0;
+        let grand_total_quantity_coal = 0;
+        let grand_total_trips_ob = 0;
+        let grand_total_quantity_ob = 0;
+        $('#shovel_table').find('.shovel_total_trips').each(function() {
+            if ($(this).parent().parent().find('select[name="material_type[]"]').val() === 'Coal') {
+                grand_total_trips_coal += parseInt($(this).text());
+            } else if ($(this).parent().parent().find('select[name="material_type[]"]').val() === 'OB') {
+                grand_total_trips_ob += parseInt($(this).text());
+            }
+        });
+        $('#shovel_table').find('.shovel_total_quantity').each(function() {
+            if ($(this).parent().parent().find('select[name="material_type[]"]').val() === 'Coal') {
+                grand_total_quantity_coal += parseInt($(this).text());
+            } else if ($(this).parent().parent().find('select[name="material_type[]"]').val() === 'OB') {
+                grand_total_quantity_ob += parseInt($(this).text());
+            }
+        });
+        $('#grand_total_trips_coal').text(grand_total_trips_coal);
+        $('#grand_total_quantity_coal').text(grand_total_quantity_coal);
+        $('#grand_total_trips_ob').text(grand_total_trips_ob);
+        $('#grand_total_quantity_ob').text(grand_total_quantity_ob);
     }
 }
 
@@ -249,8 +295,12 @@ function working_hour_distribution(dumper_working_hours, dumper_shovel_trips) {
 function get_pdf_report() {
     $('select').each(function () {
         $(this).parent().children('span').remove();
+        let value = $(this).find('option:selected').text();
+        if (value.indexOf('--') > -1) {
+            value = value.replace('--', '<br />');
+        }
         $(this).after($('<span class="select-print">'
-            + $(this).find('option:selected').text() + '</span>'));
+            + value + '</span>'));
     });
     $('input[type="number"],input[type="date"]').each(function () {
         $(this).parent().children('span').remove();
@@ -272,9 +322,9 @@ function get_pdf_report() {
     }).save();
 }
 
-function populate_data_object_for_excel() {
+function populate_data_object_for_sap_excel() {
     //reinitialize data array to empty
-    dataForPage[0].data = [];
+    dataForSAPCompatibleExcel[0].data = [];
     //Create header
     var header = [];
     header.push({ "text": "Plant" });
@@ -298,7 +348,7 @@ function populate_data_object_for_excel() {
     header.push({ "text": "DUMPYARD CODE" });
     header.push({ "text": "Breakdown Time" });
 
-    dataForPage[0].data.push(header);
+    dataForSAPCompatibleExcel[0].data.push(header);
 
     var dumper_thead_th = $('#dumper_table > thead > tr > th');
 
@@ -316,7 +366,7 @@ function populate_data_object_for_excel() {
     var dumper_tbody_tr = $('#dumper_table > tbody > tr');
     $(dumper_tbody_tr).each(function (index, tr) {
         var unique_dumper = $(tr).children('td').eq(0).children('select').eq(0).val()
-        + '_' + $(tr).children('td').eq(1).children('select').eq(0).val();
+            + '_' + $(tr).children('td').eq(1).children('select').eq(0).val();
         dumper_shovel_trips[unique_dumper] = {};
         $(tr).children('td').each(function (index1, td) {
             if ($(td).children('input').eq(0).hasClass('shovel_dumper_trip')
@@ -358,8 +408,8 @@ function populate_data_object_for_excel() {
                     && $(td1).children('select, input').eq(0).val() !== '0'
                 ) {
                     var unique_dumper = $(td1).parent().children('td').eq(0).children('select').eq(0).val()
-                    + '_'
-                    + $(td1).parent().children('td').eq(1).children('select').eq(0).val();
+                        + '_'
+                        + $(td1).parent().children('td').eq(1).children('select').eq(0).val();
                     shovel_dumper_trips[unique_shovel][unique_dumper] = $(td1).children('select, input').eq(0).val();
                 }
             });
@@ -367,7 +417,6 @@ function populate_data_object_for_excel() {
     });
 
     var shovel_working_hour_distribution = working_hour_distribution(shovel_working_hours, shovel_dumper_trips);
-
 
     $(dumper_thead_th).each(function (index, th) {
         if ($(th).hasClass("shovel_column")) {
@@ -384,14 +433,7 @@ function populate_data_object_for_excel() {
                     excelRowToInsert = [];
                     excelRowToInsert = excelData.slice();
                     threeFields = $(td).children('select, input').eq(0).attr("name").split('_');
-                    let shovel_unique_id = threeFields[0]  + '_' +  threeFields[2].slice(0,-2)  + '_' +  threeFields[1];
-                    if (threeFields[1] === 'Coal') {
-                        var seam_to_enter = coal_shovel_seam[shovel_unique_id][0];
-                        var bench_to_enter = coal_shovel_seam[shovel_unique_id][1];
-                    } else if (threeFields[1] === 'OB') {
-                        var seam_to_enter = ob_shovel_seam[shovel_unique_id][0];
-                        var bench_to_enter = ob_shovel_seam[shovel_unique_id][1];
-                    }
+                    let shovel_unique_id = threeFields[0] + '_' + threeFields[2].slice(0, -2) + '_' + threeFields[1];
                     if (threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": material_code_coal });
                     } else if (threeFields[1] === 'OB') {
@@ -399,64 +441,38 @@ function populate_data_object_for_excel() {
                     }
                     if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({ "text": process_order_ob });
-                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('TURRA') > -1 
-                        && threeFields[1] === 'Coal'
-                    ) {
+                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('TURRA') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_turra_coal });
-                    } else if ($('#section').val() === 'West'
-                        && (threeFields[0].indexOf('KOMATSU') > -1 
-                            || threeFields[0].indexOf('LAXMAN') > -1 
-                            || threeFields[0].indexOf('TATA1205') > -1 
-                            || threeFields[0].indexOf('PH-13') > -1 
-                            || threeFields[0].indexOf('PH-14') > -1 
-                            || threeFields[0].indexOf('PL-06') > -1 
-                            || threeFields[0].indexOf('PL-07') > -1  )
-                    ) {
-                        excelRowToInsert.push({ "text": process_order_turra_coal });
-                        seam_to_enter = 'TURRA COAL';
-                        bench_to_enter = 'TURRA COAL EAST';
-                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('PURVA') > -1 
-                        && threeFields[1] === 'Coal'
-                    ) {
+                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('PURVA') > -1 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_purewa_coal });
                     }
-                    let date_to_enter = new Date($('#date').val());
-                    let day = date_to_enter.getDate();
-                    let month = date_to_enter.getMonth();
-                    let year = date_to_enter.getFullYear();
-                    month = month + 1;
-                    if((String(day)).length == 1) {
-                      day='0'+day;
-                    }
-                    if((String(month)).length == 1) {
-                      month='0'+month;
-                    }
-                    date_to_enter = day + '.' + month + '.' + year;
-                    excelRowToInsert.push({ "text": date_to_enter });
+                    excelRowToInsert.push({ "text": get_date_to_enter() });
                     excelRowToInsert.push({ "text": $('#shift').val() });
-                    excelRowToInsert.push({ "text": seam_to_enter });
-                    excelRowToInsert.push({ "text": bench_to_enter });
                     if (threeFields[1] === 'Coal') {
+                        excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][0] });
+                        excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][1] });
                         var dump_loc = get_dump_location(
-                          'Coal',
-                          seam_to_enter,
-                          $('#section').val(),
-                          threeFields[0],
-                          $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
+                            'Coal',
+                            coal_shovel_seam[shovel_unique_id][0],
+                            $('#section').val(),
+                            threeFields[0],
+                            $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
                         );
-                        if (! dump_loc) {
-                          dump_loc = $(td).parent().find('select.coal_dump').val();
+                        if (!dump_loc) {
+                            dump_loc = $(td).parent().find('select.coal_dump').val();
                         }
                     } else if (threeFields[1] === 'OB') {
+                        excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][0] });
+                        excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][1] });
                         var dump_loc = get_dump_location(
-                          'OB',
-                          seam_to_enter,
-                          $('#section').val(),
-                          threeFields[0],
-                          $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
+                            'OB',
+                            ob_shovel_seam[shovel_unique_id][0],
+                            $('#section').val(),
+                            threeFields[0],
+                            $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
                         );
-                        if (! dump_loc) {
-                          dump_loc = $(td).parent().find('select.ob_dump').val();
+                        if (!dump_loc) {
+                            dump_loc = $(td).parent().find('select.ob_dump').val();
                         }
                     }
                     excelRowToInsert.push({ "text": threeFields[0] });
@@ -485,41 +501,116 @@ function populate_data_object_for_excel() {
                     excelRowToInsert.push({ "text": '' });
                     excelRowToInsert.push({ "text": dump_loc });
                     excelRowToInsert.push({ "text": '' });
-                    dataForPage[0].data.push(excelRowToInsert);
+                    dataForSAPCompatibleExcel[0].data.push(excelRowToInsert);
                 }
             });
         }
     });
-    populate_special_trips();
+    populate_special_trips_table();
+}
+
+function get_date_to_enter() {
+    let date_to_enter = new Date($('#date').val());
+    let day = date_to_enter.getDate();
+    let month = date_to_enter.getMonth();
+    let year = date_to_enter.getFullYear();
+    month = month + 1;
+    if ((String(day)).length == 1) {
+        day = '0' + day;
+    }
+    if ((String(month)).length == 1) {
+        month = '0' + month;
+    }
+    date_to_enter = day + '.' + month + '.' + year;
+    return date_to_enter;
+}
+
+function populate_data_object_for_special_trips_excel() {
+    //reinitialize data array to empty
+    dataForSpecialTripsExcelShovel[0].data = [];
+    dataForSpecialTripsExcelDumper[0].data = [];
+    //Create header
+    let header = [];
+    header.push({ "text": "Production_Dates" });
+    header.push({ "text": "shift" });
+    header.push({ "text": "Oprtr/Vend" });
+    header.push({ "text": "Name" });
+    header.push({ "text": "Trips" });
+    header.push({ "text": "First hr" });
+    header.push({ "text": "Mid hr" });
+    header.push({ "text": "Last hr" });
+
+    dataForSpecialTripsExcelShovel[0].data.push(header);
+    dataForSpecialTripsExcelDumper[0].data.push(header);
+
+    $('#special_trips_table_shovel > tbody > tr').each(function(index, tr) {
+        let Oprtr = $(tr).find('td span').eq(0).text();
+        let Name = $(tr).find('td span').eq(1).text();
+        let Trips = $(tr).find('td span').eq(2).text();
+        let first_hr = $(tr).find('td > input').eq(0).val();
+        let mid_hr = $(tr).find('td > input').eq(1).val();
+        let last_hr = $(tr).find('td > input').eq(2).val();
+        let data = [];
+        data.push({ "text": get_date_to_enter() });
+        data.push({ "text": $('#shift').val() });
+        data.push({ "text": Oprtr });
+        data.push({ "text": Name });
+        data.push({ "text": Trips });
+        data.push({ "text": first_hr });
+        data.push({ "text": mid_hr });
+        data.push({ "text": last_hr });
+
+        dataForSpecialTripsExcelShovel[0].data.push(data);
+    });
+
+    $('#special_trips_table_dumper > tbody > tr').each(function(index, tr) {
+        let Oprtr = $(tr).find('td span').eq(0).text();
+        let Name = $(tr).find('td span').eq(1).text();
+        let Trips = $(tr).find('td span').eq(2).text();
+        let first_hr = $(tr).find('td > input').eq(0).val();
+        let mid_hr = $(tr).find('td > input').eq(1).val();
+        let last_hr = $(tr).find('td > input').eq(2).val();
+        let data = [];
+        data.push({ "text": get_date_to_enter() });
+        data.push({ "text": $('#shift').val() });
+        data.push({ "text": Oprtr });
+        data.push({ "text": Name });
+        data.push({ "text": Trips });
+        data.push({ "text": first_hr });
+        data.push({ "text": mid_hr });
+        data.push({ "text": last_hr });
+
+        dataForSpecialTripsExcelDumper[0].data.push(data);
+    });
 }
 
 function get_dump_location(material_type, seam, section, shovel_name, dumper_name) {
     /*
     --> All OB: OB12 fix
-    --> Coal turra (Km and CN) : CH01 fix
+    --> Coal turra (Km and CN) : U023 fix
     --> Coal pureva bottom : east shovels (12, 15, Laxman): ANY DUMPER: U022 (east yard) fix
-    --> Coal pureva bottom : west shovels ( 17/19/16/Laxman): Default me CH01 (CHP) for 100te dumpers + U024 (west yard) for 190 te (CAT)
+    --> Coal pureva bottom : west shovels ( 17/19/16/Laxman): Default me U023 (CHP) for 100te dumpers + U024 (west yard) for 190 te (CAT)
     Manual correction needed only for west section.. if mentioned in the report of West section (each shift), then manually change..
     */
-    if(material_type === 'OB') {
+    if (material_type === 'OB') {
         return 'OB12';
-    } else if(material_type === 'Coal'
+    } else if (material_type === 'Coal'
         && seam.indexOf('TURRA') > -1
         && (dumper_name.indexOf('KM') > -1 || dumper_name.indexOf('CN') > -1)
     ) {
-        return 'CH01';
-    } else if(material_type === 'Coal'
+        return 'U023';
+    } else if (material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'East'
     ) {
         return 'U022';
-    } else if(material_type === 'Coal'
+    } else if (material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'West'
         && (dumper_name.indexOf('KM') > -1 || dumper_name.indexOf('CN') > -1)
     ) {
-        return 'CH01';
-    } else if(material_type === 'Coal'
+        return 'U023';
+    } else if (material_type === 'Coal'
         && seam.indexOf('PURVA-BOTM-COAL') > -1
         && section === 'West'
         && dumper_name.indexOf('CAT') > -1
@@ -531,17 +622,17 @@ function get_dump_location(material_type, seam, section, shovel_name, dumper_nam
 }
 
 function go_back() {
-    $('#dumperwise_special_trips').hide('slide', {direction: 'right'}, 1000);
+    $('#special_trips_div').hide('slide', {direction: 'right'}, 1000);
     $('#dumperwise_entry').show('slide', {direction: 'left'}, 1000);
 }
 
 function go_back_1() {
     $('#excel_buttons').hide('slide', {direction: 'right'}, 1000);
-    $('#dumperwise_special_trips').show('slide', {direction: 'left'}, 1000);
+    $('#special_trips_div').show('slide', {direction: 'left'}, 1000);
 }
 
 function go_forward_1() {
-    $('#dumperwise_special_trips').hide('slide', {direction: 'left'}, 1000);
+    $('#special_trips_div').hide('slide', {direction: 'left'}, 1000);
     $('#excel_buttons').show('slide', {direction: 'right'}, 1000);
 }
 
@@ -552,56 +643,92 @@ function go_forward() {
         return;
     }
     $('#dumperwise_entry').hide('slide', {direction: 'left'}, 1000);
-    $('#dumperwise_special_trips').show('slide', {direction: 'right'}, 1000);
+    $('#special_trips_div').show('slide', {direction: 'right'}, 1000);
 }
 
 function get_sap_compatible_excel() {
-    populate_data_object_for_excel();
-    if(dataForPage[0].data.length <= 0) {
-    alert('Error: Data object is not populated yet.');
-    return;
+    populate_data_object_for_sap_excel();
+    if (dataForSAPCompatibleExcel[0].data.length <= 0) {
+        alert('Error: Data object is not populated yet.');
+        return;
     }
     var options = {
         fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
     };
-    Jhxlsx.export(dataForPage, options);
+    Jhxlsx.export(dataForSAPCompatibleExcel, options);
 }
 
-function populate_special_trips() {
-  var unique_dumper_operator_data = {};
-  var operator_total_trips = {};
-  $('#dumper_table > tbody > tr').each(function (index, tr) {
-    var operator = $(tr).children('td').eq(1).children('select').eq(0);
-    if ($(operator).length > 0 && $(operator).val() !== '') {
-      if (! ($(operator).val() in unique_dumper_operator_data)) {
-        unique_dumper_operator_data[$(operator).val()] = {};
-        unique_dumper_operator_data[$(operator).val()]['Oprtr/Vend'] = $(operator).val();
-        unique_dumper_operator_data[$(operator).val()]['Name'] = $(operator).find("option:selected" ).text().split('--')[0].trim();
-        var total_trips = 0;
-        $(tr).find('.shovel_dumper_trip').each(function () {
-          if ($(this).val() !== '') {
-              total_trips += parseInt($(this).val());
-          }
-        });
-        unique_dumper_operator_data[$(operator).val()]['Trips'] = total_trips;
-      } else if ($(operator).val() in unique_dumper_operator_data) {
-        var total_trips = 0;
-        $(tr).find('.shovel_dumper_trip').each(function () {
-          if ($(this).val() !== '') {
-              total_trips += parseInt($(this).val());
-          }
-        });
-        unique_dumper_operator_data[$(operator).val()]['Trips'] += total_trips;
-      }
+function get_special_trips_excel() {
+    //disabled for now
+    //populate_data_object_for_special_trips_excel();
+    if (dataForSpecialTripsExcelShovel[0].data.length <= 0) {
+        alert('Error: Shovel Data object(special trips) is not populated yet.');
+        return;
     }
-  });
+    var options = {
+        fileName: "Shovel_Special_Trips_" + $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
+    };
+    Jhxlsx.export(dataForSpecialTripsExcelShovel, options);
 
-  $('#dumper_table_special_trips > tbody').children().remove();
-  $.each(unique_dumper_operator_data, function (key, value){
-    let operator_no = unique_dumper_operator_data[key]['Oprtr/Vend'];
-    let operator_name = unique_dumper_operator_data[key]['Name'];
-    let total_trips = unique_dumper_operator_data[key]['Trips'];
-    const tr = `
+    if (dataForSpecialTripsExcelDumper[0].data.length <= 0) {
+        alert('Error: Dumper Data object(special trips) is not populated yet.');
+        return;
+    }
+    var options = {
+        fileName: "Dumper_Special_Trips_" + $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
+    };
+    Jhxlsx.export(dataForSpecialTripsExcelDumper, options);
+}
+
+function populate_special_trips_table() {
+    var shovel_unique_operator_for_special_trips = {};
+    var dumper_unique_operator_for_special_trips = {};
+    //Get operator names from shovel table
+    $('#shovel_table > tbody > tr').each(function (index, tr) {
+        var operator = $(tr).children('td').eq(1).children('select').eq(0);
+        if ($(operator).length > 0 && $(operator).val() !== '') {
+            if (!($(operator).val() in shovel_unique_operator_for_special_trips)) {
+                shovel_unique_operator_for_special_trips[$(operator).val()] = {};
+                shovel_unique_operator_for_special_trips[$(operator).val()]['Oprtr/Vend'] = $(operator).val();
+                shovel_unique_operator_for_special_trips[$(operator).val()]['Name'] = $(operator).find("option:selected").text().split('--')[0].trim();
+                var total_trips = 0;
+                shovel_unique_operator_for_special_trips[$(operator).val()]['Trips'] = total_trips;
+            }
+        }
+    });
+    //get operator names from dumper table as well as count their total trips
+    $('#dumper_table > tbody > tr').each(function (index, tr) {
+        var operator = $(tr).children('td').eq(1).children('select').eq(0);
+        if ($(operator).length > 0 && $(operator).val() !== '') {
+            if (!($(operator).val() in dumper_unique_operator_for_special_trips)) {
+                dumper_unique_operator_for_special_trips[$(operator).val()] = {};
+                dumper_unique_operator_for_special_trips[$(operator).val()]['Oprtr/Vend'] = $(operator).val();
+                dumper_unique_operator_for_special_trips[$(operator).val()]['Name'] = $(operator).find("option:selected").text().split('--')[0].trim();
+                var total_trips = 0;
+                $(tr).find('.shovel_dumper_trip').each(function () {
+                    if ($(this).val() !== '') {
+                        total_trips += parseInt($(this).val());
+                    }
+                });
+                dumper_unique_operator_for_special_trips[$(operator).val()]['Trips'] = total_trips;
+            } else if ($(operator).val() in dumper_unique_operator_for_special_trips) {
+                var total_trips = 0;
+                $(tr).find('.shovel_dumper_trip').each(function () {
+                    if ($(this).val() !== '') {
+                        total_trips += parseInt($(this).val());
+                    }
+                });
+                dumper_unique_operator_for_special_trips[$(operator).val()]['Trips'] += total_trips;
+            }
+        }
+    });
+
+    $('#special_trips_table_shovel > tbody').children().remove();
+    $.each(shovel_unique_operator_for_special_trips, function (key, value) {
+        let operator_no = shovel_unique_operator_for_special_trips[key]['Oprtr/Vend'];
+        let operator_name = shovel_unique_operator_for_special_trips[key]['Name'];
+        let total_trips = shovel_unique_operator_for_special_trips[key]['Trips'];
+        const tr = `
     <tr>
       <td>
         <span>${operator_no}</span>
@@ -629,8 +756,44 @@ function populate_special_trips() {
       </td>
     </tr>
     `;
-    $('#dumper_table_special_trips > tbody').append(tr);
-  });
+        $('#special_trips_table_shovel > tbody').append(tr);
+    });
+
+    $('#special_trips_table_dumper > tbody').children().remove();
+    $.each(dumper_unique_operator_for_special_trips, function (key, value) {
+        let operator_no = dumper_unique_operator_for_special_trips[key]['Oprtr/Vend'];
+        let operator_name = dumper_unique_operator_for_special_trips[key]['Name'];
+        let total_trips = dumper_unique_operator_for_special_trips[key]['Trips'];
+        const tr = `
+    <tr>
+      <td>
+        <span>${operator_no}</span>
+      </td>
+      <td>
+        <span>${operator_name}</span>
+      </td>
+      <td>
+        <span>${total_trips}</span>
+      </td>
+      <td>
+        <input name="first_hr[]" class='inp1 shv' required="required"
+            maxlength="128" type="number" value="" placeholder=""
+            data-rule-required="true" data-msg-required="Please enter a valid number">
+      </td>
+      <td>
+        <input name="mid_hr[]" class='inp1 shv' required="required"
+            maxlength="128" type="number" value="" placeholder=""
+            data-rule-required="true" data-msg-required="Please enter a valid number">
+      </td>
+      <td>
+        <input name="last_hr[]" class='inp1 shv' required="required"
+            maxlength="128" type="number" value="" placeholder=""
+            data-rule-required="true" data-msg-required="Please enter a valid number">
+      </td>
+    </tr>
+    `;
+        $('#special_trips_table_dumper > tbody').append(tr);
+    });
 }
 
 function get_dumper_factor(dumper_number, material_type) {
@@ -729,46 +892,46 @@ function add_row_to_shovel_table() {
     let temp = $('#shovel_row').clone();
     $('#shovel_table > tbody').append($(temp).html());
     $('#shovel_table > tbody')
-      .children()
-      .last()
-      .find('.searchable').chosen().change(setFocusOnNextElement);
+        .children()
+        .last()
+        .find('.searchable').chosen().change(setFocusOnNextElement);
     $('#shovel_table > tbody')
-      .children()
-      .last()
-      .find('select[name="material_type[]"]').on('change', updateSeam);
+        .children()
+        .last()
+        .find('select[name="material_type[]"]').on('change', updateSeam);
     $('#shovel_table > tbody')
-      .children()
-      .last()
-      .find(".create-dumper-column").on('click', create_corresponding_dumper_column);
+        .children()
+        .last()
+        .find(".create-dumper-column").on('click', create_corresponding_dumper_column);
     $('#shovel_table > tbody')
-      .children()
-      .last()
-      .find(".delete_row1").on('click', delete_synchrnous_row_and_column);
+        .children()
+        .last()
+        .find(".delete_row1").on('click', delete_synchrnous_row_and_column);
 }
 function add_row_to_dumper_table() {
     let tbody = $('#dumper_table > tbody');
     let dumper_thead_tr = $('#dumper_table > thead > tr');
     if ($(dumper_thead_tr).children().length <= 4) {
-      var temp = $('#dumper_row').clone();
-      temp = $(temp).html();
+        var temp = $('#dumper_row').clone();
+        temp = $(temp).html();
     } else {
-      $(tbody).children().first().find('.searchable').chosen('destroy').end();
-      var temp = $(tbody).children().first().clone();
-      $(tbody).children().first().find('.searchable').chosen().change(setFocusOnNextElement);
-      $(temp).find('input').not(':input[type=button]').val('');
+        $(tbody).children().first().find('.searchable').chosen('destroy').end();
+        var temp = $(tbody).children().first().clone();
+        $(tbody).children().first().find('.searchable').chosen().change(setFocusOnNextElement);
+        $(temp).find('input').not(':input[type=button]').val('');
     }
     $(tbody)
-      .children()
-      .eq(-2)
-      .before(temp);
+        .children()
+        .eq(-2)
+        .before(temp);
     $(tbody)
-      .children()
-      .eq(-3)
-      .find('.searchable').chosen().change(setFocusOnNextElement);
+        .children()
+        .eq(-3)
+        .find('.searchable').chosen().change(setFocusOnNextElement);
     $(tbody)
-      .children()
-      .eq(-3)
-      .find(".delete_row2").on('click', delete_dummper_row);
+        .children()
+        .eq(-3)
+        .find(".delete_row2").on('click', delete_dummper_row);
 
     bind_total_event();
     $('td > input').on('keydown', function (e) {
@@ -809,7 +972,8 @@ $(document).ready(function () {
     $(".add_row2").on('click', add_row_to_dumper_table);
     $("#validate2").on('click', check_mandatory_fields);
     $("#go_forward").on('click', go_forward);
-    $("#get_sap_compatible_excel").on('click',get_sap_compatible_excel);
+    $("#get_sap_compatible_excel").on('click', get_sap_compatible_excel);
+    $("#get_special_trips_excel").on('click', get_special_trips_excel);
     $("#go_back").on('click', go_back);
     $("#go_back_1").on('click', go_back_1);
     $("#go_forward_1").on('click', go_forward_1);

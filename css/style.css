@@ -15,10 +15,24 @@ table thead th {
     padding-top: 3px;
     padding-bottom: 2px;
     font-weight:700;
-    background: linear-gradient(to top, rgb(255, 255, 255), rgb(153, 173, 231));
+    background: linear-gradient(to top, rgb(255, 255, 255), rgb(113,142,199));
     position:sticky;
     top:0;
     z-index: 1000;
+}
+#shovels_div {
+    display: inline-block;
+    position:relative;
+    width:fit-content;
+}
+#grand_total { 
+    display: inline-block;
+    margin-bottom: 30px;
+}
+#grand_total > div{
+  width:auto;
+  margin-right: 60px;
+  float: left;
 }
 .edit {
     display:    none;
@@ -65,6 +79,7 @@ table thead th {
     display: none !important;
 }
 #entry {
+    display: block;
     padding-left:2em;
     padding-top: 1em;
 }
@@ -88,8 +103,8 @@ table thead th {
     justify-content: space-evenly;
     display: inline-block;
     background: #6a85b6;
-    background: -webkit-linear-gradient(to top, rgba(255, 255, 255, 0.5), rgba(4, 42, 146, 0.5));
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.5), rgba(4, 42, 146, 0.5));
+    background: -webkit-linear-gradient(to top, rgba(255, 255, 255, 0.5), rgba(0,55,155,0.73));
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.5), rgba(0,55,155,0.73));
 }
 .page-footer{
     height:35px;
@@ -97,11 +112,11 @@ table thead th {
     flex-direction: row;
     align-items:stretch;
     justify-content: space-evenly;
-    background: rgba(4, 42, 146, 0.3);
+    background: rgba(90, 68, 14, 0.5);
     font-size: smaller;
     display: inline-block;
-    background: -webkit-linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(4, 42, 146, 0.5));
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(4, 42, 146, 0.5));
+    background: -webkit-linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0,55,155,0.73));
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0,55,155,0.73));
 }
 .page-body {
   display: inline-block;
@@ -114,15 +129,24 @@ table thead th {
 #dumperwise_entry{
   width:100%;
 }
-#dumperwise_special_trips {
+#special_trips_div {
   display: none;
   width:100%;
 }
 body {
   display: inline
 }
+.separater_labels {
+    width:1100px;
+    text-align: center; 
+    color: white;
+    font-weight: bold; 
+    background-color: #356656;
+}
 hr {
-  background: rgba(4, 42, 146, 0.9);
+  background-color: #356656;
+  height: 7px;
+  width:1100px;
 }
 .ph-left{
     display: flex;

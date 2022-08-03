@@ -1,817 +1,934 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link href="css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/chosen.css">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Shift Production Report v2.0</title>
-    <script src="js/entry.js" defer></script>
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="icon" type="image/png" href="images/favicon.png">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link href="css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="css/chosen.css">
+        <link rel="stylesheet" href="css/style.css">
+        <title>Shift Production Report v3.0</title>
+        <script src="js/entry.js" defer></script>
+    </head>
 
-<body>
-    <div class="printpdf"><span id="print_time"></span> via https://dchdevs.github.io/</div>
-    <div class="page-head">
-        <div class="ph-left">
-            <div class="page-logo">
-                <img src="images/cil-logo.png" alt="">
+    <body>
+        <div class="printpdf"><span id="print_time"></span> via https://dchdevs.github.io/</div>
+        <div class="page-head">
+            <div class="ph-left">
+                <div class="page-logo">
+                    <img src="images/cil-logo.png" alt="">
+                </div>
+                <div class="page-title">
+                    <p class="page-title-1">Shift Production Report v3.0</p>
+                    <p class="page-title-2">Dudhichua Project, NCL</p>
+                </div>
             </div>
-            <div class="page-title">
-                <p class="page-title-1">Shift Production Report v2.0</p>
-                <p class="page-title-2">Dudhichua Project, NCL</p>
+            <div class="ph-mid">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="border: 0px !important;">
+                                <label style="width: 150px !important;">Production Date:</label>
+                            </td>
+                            <td style="border: 0px !important;">
+                                <input id="date" style="width: 140px !important;" required="required" type="date" value=""
+                                       placeholder="" data-rule-required="true" data-msg-required="Please enter a valid date">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 0px !important;">
+                                <label style="width: 100px !important;">Shift:</label>
+                            </td>
+                            <td style="border: 0px !important;">
+                                <select id="shift" style="width: 100px !important;" class="searchable">
+                                    <option value='SF1A'> Shift 1</option>
+                                    <option value='SF2B'> Shift 2</option>
+                                    <option value='SF3C'> Shift 3</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 0px !important;">
+                                <label style="width: 100px !important;">Section:</label>
+                            </td>
+                            <td style="border: 0px !important;">
+                                <select id="section" style="width: 100px !important;" class="searchable">
+                                    <option value='East'> East</option>
+                                    <option value='West'> West</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ph-mid">
+                <table style="display:none;">
+                    <tbody>
+                        <tr>
+                            <td style="border: 0px !important;">
+                                <label>Plant Number:</label>
+                            </td>
+                            <td style="border: 0px !important;">
+                                <input id="plant" style="width: 100px !important;" required="required" type="number"
+                                       value="6013" placeholder="" data-rule-required="true"
+                                       data-msg-required="Please enter a valid number" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 0px !important;">
+                                <label>Material Code:</label>
+                            </td>
+                            <td style="border: 0px !important;">
+                                <input id="material_code" style="width: 100px !important;" required="required" type="number"
+                                       value="4900000014" placeholder="" data-rule-required="true"
+                                       data-msg-required="Please enter a valid number" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 0px !important;">
+                                <label>Process Order:</label>
+                            </td>
+                            <td style="border: 0px !important;">
+                                <input id="process_order" style="width: 100px !important;" required="required" type="number"
+                                       value="60002898" placeholder="" data-rule-required="true"
+                                       data-msg-required="Please enter a valid number" disabled>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="ph-mid">
-            <table>
-                <tbody>
-                    <tr>
-                        <td style="border: 0px !important;">
-                            <label style="width: 150px !important;">Production Date:</label>
-                        </td>
-                        <td style="border: 0px !important;">
-                            <input id="date" style="width: 130px !important;" required="required" type="date" value=""
-                                placeholder="" data-rule-required="true" data-msg-required="Please enter a valid date">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border: 0px !important;">
-                            <label style="width: 100px !important;">Shift:</label>
-                        </td>
-                        <td style="border: 0px !important;">
-                            <select id="shift" style="width: 100px !important;" class="searchable">
-                                <option value='SF1A'> Shift 1</option>
-                                <option value='SF2B'> Shift 2</option>
-                                <option value='SF3C'> Shift 3</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border: 0px !important;">
-                            <label style="width: 100px !important;">Section:</label>
-                        </td>
-                        <td style="border: 0px !important;">
-                            <select id="section" style="width: 100px !important;" class="searchable">
-                                <option value='East'> East</option>
-                                <option value='West'> West</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="ph-mid">
-            <table style="display:none;">
-                <tbody>
-                    <tr>
-                        <td style="border: 0px !important;">
-                            <label>Plant Number:</label>
-                        </td>
-                        <td style="border: 0px !important;">
-                            <input id="plant" style="width: 100px !important;" required="required" type="number"
-                                value="6013" placeholder="" data-rule-required="true"
-                                data-msg-required="Please enter a valid number" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border: 0px !important;">
-                            <label>Material Code:</label>
-                        </td>
-                        <td style="border: 0px !important;">
-                            <input id="material_code" style="width: 100px !important;" required="required" type="number"
-                                value="4900000014" placeholder="" data-rule-required="true"
-                                data-msg-required="Please enter a valid number" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border: 0px !important;">
-                            <label>Process Order:</label>
-                        </td>
-                        <td style="border: 0px !important;">
-                            <input id="process_order" style="width: 100px !important;" required="required" type="number"
-                                value="60002898" placeholder="" data-rule-required="true"
-                                data-msg-required="Please enter a valid number" disabled>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <hr>
-    <div class="page-body">
-        <div id="entry">
-          <div style="position:relative; width:fit-content;">
-              <label style="font-weight: bold; background-color:rgb(230, 236, 255);">----------------------------------------------- Shovel Report: -----------------------------------------------</label>
-              <br>
-              <br>
-              <form id='shovels'>
-                  <table id="shovel_table" style="width: auto;" class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th>Shovel No.</th>
-                              <th>Shovel Operator</th>
-                              <th>Material Type</th>
-                              <th>Seam</th>
-                              <th>Work Hrs.</th>
-                              <th class="add_delete_button"></th>
-                              <th class="add_delete_button"></th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                  </table>
-              </form>
-              <br>
-              <div style="float:left; margin:0 15px 0 0;">
-                  <input type="button" value="Add Row" class="no-print add_row1 btn btn-success" />
-              </div>
-              <div class='scroll_space'>
-                  <br>
-                  <br>
-              </div>
-          </div>
-          <br>
-          <br>
-          <div id="dumper-entries">
-            <div id="dumperwise_entry">
-              <label style="font-weight: bold; background-color:rgb(230, 236, 255);">---------------------------------------------- Dumper Report: ----------------------------------------------</label>
-              <br>
-              <br>
-              <form id='pageData'>
-                  <table id="dumper_table" style="width:auto;" class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th>Dumper No.</th>
-                              <th>Dumper Operator</th>
-                              <th class="work_hours_dumper_head">Work Hrs.</th>
-                              <th class="dumper_row_delete_button add_delete_button"></th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                  </table>
-                  <br>
-                  <div style="float:left; margin:0 15px 0 0;">
-                      <input type="button" value="Add Row" class="no-print add_row2  btn btn-success" />
-                  </div>
-                  <div style="float:left; margin:0 15px 0 0;">
-                      <input type="button" value="Validate Data" id="validate2"
-                          class="no-print btn btn-success" />
-                  </div>
-                  <div class='scroll_space'>
-                      <br>
-                      <br>
-                      <br>
-                  </div>
-                  <div style="float:left; margin:0 15px 0 0;">
-                      <input type="button" value="Completed? Continue to Special Trips Entry >>>>>>>  " id="go_forward"
-                          class="no-print arrow-right" />
-                  </div>
-              </form>
+        <div class="page-body">
+            <div id="entry">
+                <div id="grand_total">
+                    <hr>
+                    <label class="separater_labels">Grand Totals</label>
+                    <label style="text-align: center;color: red;width: 1100px;">The following shift production totals should be verified before downloading SAP Excel!</label>
+                    <hr>
+                    <br>
+                    <div>
+                        <form>
+                            <table style="width:auto;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Shift Grand Total (Coal)</th>
+                                    </tr>
+                                    <tr>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Total Coal Trips</th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Total Coal Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span id="grand_total_trips_coal">0</span>
+                                        </td>
+                                        <td>
+                                            <span id="grand_total_quantity_coal">0</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div>
+                        <form>
+                            <table style="width:auto;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Shift Grand Total (OB)</th>
+                                    </tr>
+                                    <tr>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Total OB Trips</th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Total OB Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span id="grand_total_trips_ob">0</span>
+                                        </td>
+                                        <td>
+                                            <span id="grand_total_quantity_ob">0</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div id="shovels_div">
+                    <hr>
+                    <label class="separater_labels">Shovel Report</label>
+                    <hr>
+                    <br>
+                    <form id='shovels'>
+                        <table id="shovel_table" style="width: auto;" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Shovel <br /> No.</th>
+                                    <th>Shovel <br /> Operator</th>
+                                    <th>Material <br /> Type</th>
+                                    <th>Seam</th>
+                                    <th>Work <br /> Hrs.</th>
+                                    <th class="add_delete_button"></th>
+                                    <th class="add_delete_button"></th>
+                                    <th>Total <br /> Trips</th>
+                                    <th>Total <br /> Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </form>
+                    <br>
+                    <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Add Row" class="no-print add_row1 btn btn-success" />
+                    </div>
+                    <div class='scroll_space'>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div id="dumper-entries">
+                    <div id="dumperwise_entry">
+                        <hr>
+                        <label class="separater_labels">Dumper Report</label>
+                        <hr>
+                        <br>
+                        <form id='pageData'>
+                            <table id="dumper_table" style="width:auto;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Dumper <br /> No.</th>
+                                        <th>Dumper <br /> Operator</th>
+                                        <th class="work_hours_dumper_head">Work <br /> Hrs.</th>
+                                        <th class="dumper_row_delete_button add_delete_button"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <br>
+                            <div style="float:left; margin:0 15px 0 0;">
+                                <input type="button" value="Add Row" class="no-print add_row2  btn btn-success" />
+                            </div>
+                            <div style="float:left; margin:0 15px 0 0;">
+                                <input type="button" value="Validate Data" id="validate2"
+                                       class="no-print btn btn-success" />
+                            </div>
+                            <div class='scroll_space'>
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+                            <div style="float:left; margin:0 15px 0 0;">
+                                <input type="button" value="Continue to Special Trips Entry >>>>>>>  "
+                                       id="go_forward" class="no-print arrow-right" />
+                            </div>
+                        </form>
+                    </div>
+                    <div id="special_trips_div">
+                        <hr>
+                        <label class="separater_labels">Shovel Special Trips</label>
+                        <hr>
+                        <br>
+                        <form>
+                            <table id="special_trips_table_shovel" style="width:auto;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Operator No.</th>
+                                        <th>Operator Name</th>
+                                        <th>Total Trips</th>
+                                        <th class="work_hours_dumper_head" colspan="3">Special Trips</th>
+                                    </tr>
+                                    <tr>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                        </th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                        </th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                        </th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            First Hr</th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Mid Hr</th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Last Hr</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </form>
+                        <br>
+                        <hr>
+                        <label class="separater_labels">Dumper Special Trips</label>
+                        <hr>
+                        <br>
+                        <form>
+                            <table id="special_trips_table_dumper" style="width:auto;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Operator No.</th>
+                                        <th>Operator Name</th>
+                                        <th>Total Trips</th>
+                                        <th class="work_hours_dumper_head" colspan="3">Special Trips</th>
+                                    </tr>
+                                    <tr>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                        </th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                        </th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                        </th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            First Hr</th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Mid Hr</th>
+                                        <th
+                                            style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(113,142,199));">
+                                            Last Hr</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </form>
+                        <br>
+                        <div style="float:left; margin:0 15px 0 0;">
+                            <input type="button" value="Go back / Edit <<<<<<<   " id="go_back"
+                                   class="no-print arrow-left" />
+                        </div>
+                        <div style="float:left; margin:0 15px 0 0; margin-left:20px;">
+                            <input type="button" value="Continue to Excel/PDF Download  >>>>>>>  " id="go_forward_1"
+                                   class="no-print arrow-right" />
+                        </div>
+                        <div class='scroll_space'>
+                            <br>
+                        </div>
+                    </div>
+                    <div id="excel_buttons">
+                        <hr>
+                        <label class="separater_labels">Get SAP Compatible Data Files</label>
+                        <hr>
+                        <br>
+                        <br>
+                        <div style="float:left; margin:0 15px 0 0;">
+                            <input type="button" value="Get SAP Compatible Excel" id="get_sap_compatible_excel"
+                                   class="no-print btn btn-primary" />
+                        </div>
+                        <div style="float:left; margin:0 15px 0 0;">
+                            <input type="button" value="Get PDF Report" id="get_pdf_report"
+                                   class="no-print btn btn-primary" />
+                        </div>
+                        <div style="display:none;float:left; margin:0 15px 0 0;">
+                            <input type="button" value="Get Special Trips Excel" id="get_special_trips_excel"
+                                   class="no-print btn btn-primary" disabled />
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <div style="float:left; margin:0 15px 0 0;">
+                            <input type="button" value="Go back / Edit  <<<<<<<<   " id="go_back_1"
+                                   class="no-print arrow-left" />
+                        </div>
+                        <div class='scroll_space'>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
             </div>
-            <div id="dumperwise_special_trips">
-              <label style="font-weight: bold; background-color:rgb(230, 236, 255);">------------------------------------------------ Special Trips: -----------------------------------------------</label>
-              <br>
-              <br>
-              <form>
-                  <table id="dumper_table_special_trips" style="width:auto;" class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th>Operator No.</th>
-                              <th>Operator Name</th>
-                              <th>Total Trips</th>
-                              <th class="work_hours_dumper_head" colspan="3">Special Trips</th>
-                          </tr>
-                          <tr>
-                            <th style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(153, 173, 231));"></th>
-                            <th style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(153, 173, 231));"></th>
-                            <th style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(153, 173, 231));"></th>
-                            <th style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(153, 173, 231));">First Hr</th>
-                            <th style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(153, 173, 231));">Mid Hr</th>
-                            <th style="background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(153, 173, 231));">Last Hr</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                  </table>
-              </form>
-              <br>
-              <div style="float:left; margin:0 15px 0 0;">
-                  <input type="button" value="Go back / Edit <<<<<<<   " id="go_back"
-                      class="no-print arrow-left" />
-              </div>
-              <div style="float:left; margin:0 15px 0 0; margin-left:20px;">
-                  <input type="button" value="Continue to Excel/PDF Download  >>>>>>>  " id="go_forward_1"
-                      class="no-print arrow-right" />
-              </div>
-              <div class='scroll_space'>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-              </div>
-            </div>
-            <div id="excel_buttons">
-              <label style="font-weight: bold; background-color:rgb(230, 236, 255);">------------------------------------------ Get SAP Compatible Excel: -----------------------------------------</label>
-              <br>
-              <br>
-              <br>
-              <div style="float:left; margin:0 15px 0 0;">
-                  <input type="button" value="Get Excels -- SAP Compatible" id="get_sap_compatible_excel"
-                      class="no-print btn btn-primary" />
-              </div>
-              <div style="float:left; margin:0 15px 0 0;">
-                  <input type="button" value="Get PDF Report" id="get_pdf_report"
-                      class="no-print btn btn-primary" />
-              </div>
-              <br>
-              <br>
-              <br>
-              <br>
-              <div style="float:left; margin:0 15px 0 0;">
-                  <input type="button" value="Go back / Edit  <<<<<<<<   " id="go_back_1"
-                      class="no-print arrow-left" />
-              </div>
-              <div class='scroll_space'>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-              </div>
-            </div>
-          </div>
         </div>
-    </div>
-    <div class='scroll_space'>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="printpdf_bottom"><span>Digitally generated and verified by Shift Incharge.<img src="images/check.png" style='vertical-align:middle; height: 1em;' alt="signed" /></span></div>
-    <!-- page-body ends here -->
-    <div class="page-footer">
-      <footer class="text-center text-lg-start text-black" style="transform: translate(0,35%);">
-        <div class="text-center">
-          © 2022 Copyright: Dudhicua Project, Northern Coalfields Limited.
+        <div class='scroll_space'>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
         </div>
-      </footer>
-    </div>
-    <template id="shovel_row">
-          <tr>
-              <td>
-                  <select style="width: 120px;" name="shovel_no[]" class="searchable shv">
-                      <option value="" selected disabled hidden>Select Shovel</option>
-                      <option value='PH-06'>PH-06</option>
-                      <option value='PH-07'>PH-07</option>
-                      <option value='PH-10'>PH-10</option>
-                      <option value='PH-11'>PH-11</option>
-                      <option value='PH-12'>PH-12</option>
-                      <option value='PH-13'>PH-13</option>
-                      <option value='PH-14'>PH-14</option>
-                      <option value='PH-15'>PH-15</option>
-                      <option value='PH-16'>PH-16</option>
-                      <option value='PH-17'>PH-17</option>
-                      <option value='PH-18'>PH-18</option>
-                      <option value='PH-19'>PH-19</option>
-                      <option value='HIMALAY'>HIMALAY</option>
-                      <option value='TATA1205'>TATA1205</option>
-                      <option value='PL-06'>PL-06</option>
-                      <option value='PL-07'>PL-07</option>
-                      <option value='PL-642'>PL-642</option>
-                      <option value='LAXMAN'>LAXMAN</option>
-                      <option value='KOMATSU'>KOMATSU</option>
-                      <option value='TATA-05'>TATA-05</option>
-                      <option value='TATA-06'>TATA-06</option>
-                      <option value='SIDE-CASTING'>SIDE-CASTING</option>
-                  </select>
-              </td>
-              <td>
-                  <select style="width: 200px;" name="shovel_operator[]" class="searchable shv">
-                      <option value="" selected disabled hidden>Select Shovel Operator</option>
-                      <option value='0'>SIDE CASTING -- 0</option>
-                      <option value='26006027'>SUDAMA PANDEY -- 26006027</option>
-                      <option value='26006049'>KUNJ BIHARI PANDEY -- 26006049</option>
-                      <option value='26029629'>RAJJAB ALI -- 26029629</option>
-                      <option value='26044610'>MEHNGA SINGH -- 26044610</option>
-                      <option value='26062554'>DEVI CHARAN -- 26062554</option>
-                      <option value='26209049'>RAMESH KUMAR SAHU -- 26209049</option>
-                      <option value='26233502'>GANESH BAHADUR SINGH -- 26233502</option>
-                      <option value='26271734'>PARMESHWAR SINGH -- 26271734</option>
-                      <option value='26306183'>SUKHVENDAR SINGH -- 26306183</option>
-                      <option value='26314385'>BABUA RAM VAISHY -- 26314385</option>
-                      <option value='26315150'>RAMASHRAY HARIZAN -- 26315150</option>
-                      <option value='26315200'>BIR SINGH -- 26315200</option>
-                      <option value='26315226'>SUDAMA -- 26315226</option>
-                      <option value='26318345'>VISHWAKARMAJEE SHARMA -- 26318345</option>
-                      <option value='26318485'>MITHILESH KUMAR SINGH -- 26318485</option>
-                      <option value='26318857'>RAKESH PRASAD -- 26318857</option>
-                      <option value='26319780'>ANJANI KUMAR PATHAK -- 26319780</option>
-                      <option value='26319855'>AKHILESH KUMAR SHAHU -- 26319855</option>
-                      <option value='26320150'>BHAGVATI PRASAD VAISHYA -- 26320150</option>
-                      <option value='26320614'>MD. KUNYAN -- 26320614</option>
-                      <option value='26320879'>MD. IBRAHIM -- 26320879</option>
-                      <option value='26321430'>RAM RAJ AHIR -- 26321430</option>
-                      <option value='26321455'>JAGTAR SINGH -- 26321455</option>
-                      <option value='26321745'>BIJAY SHANKAR RAM -- 26321745</option>
-                      <option value='26321802'>MANOJ KUMAR PANDEY -- 26321802</option>
-                      <option value='26321893'>SURJIT SINGH -- 26321893</option>
-                      <option value='26322289'>INDRA BAHADUR TIWARI -- 26322289</option>
-                      <option value='26323246'>RAM PRASAD -- 26323246</option>
-                      <option value='26323410'>RAM LAL -- 26323410</option>
-                      <option value='26323667'>SUNIL KUMAR SINGH -- 26323667</option>
-                      <option value='26323766'>KAUSHIK MANDAL -- 26323766</option>
-                      <option value='26324483'>AWADH BIHARI DUBEY -- 26324483</option>
-                      <option value='26324608'>MUKESH KUMAR SINGH -- 26324608</option>
-                      <option value='26324749'>VIKASH KUMAR -- 26324749</option>
-                      <option value='26324772'>AMIT ORAON -- 26324772</option>
-                      <option value='26325316'>LALIT KUMAR VAISH -- 26325316</option>
-                      <option value='26325464'>AMARJIT SINGH -- 26325464</option>
-                      <option value='26325472'>DEVANAND VAISH -- 26325472</option>
-                      <option value='26326553'>SUNIL KUMAR YADAV -- 26326553</option>
-                      <option value='26326591'>PRASENJEET SARKAR -- 26326591</option>
-                      <option value='26328431'>GOODVIN MASIH -- 26328431</option>
-                      <option value='26328963'>GOPAL SINGH -- 26328963</option>
-                      <option value='26330008'>TINKU BAHADUR -- 26330008</option>
-                      <option value='26330016'>MUKESH KUMAR -- 26330016</option>
-                      <option value='26330024'>RANJEET KUMAR KUSHWAHA -- 26330024</option>
-                      <option value='26330064'>PRAKASH GUPTA -- 26330064</option>
-                      <option value='26330072'>RAM MILAN PATEL -- 26330072</option>
-                      <option value='26330080'>VIJAY PRATAP SINGH -- 26330080</option>
-                      <option value='26330088'>HARIGOVIND -- 26330088</option>
-                      <option value='26330096'>VIJENDRA SINGH -- 26330096</option>
-                      <option value='26330104'>AMIT-NEW -- 26330104</option>
-                      <option value='26330112'>SACHIN KUMAR -- 26330112</option>
-                      <option value='26330200'>RAMASHISH KUMAR -- 26330200</option>
-                      <option value='26330208'>SANDEEP SINGH -- 26330208</option>
-                      <option value='26330224'>KAMLESH AHIRWAR -- 26330224</option>
-                      <option value='26330280'>NARENDAR -- 26330280</option>
-                      <option value='26330312'>RANJEET JAYSAWAL -- 26330312</option>
-                      <option value='26330344'>YOGESH YADAV -- 26330344</option>
-                      <option value='26330376'>VIVEK KUMAR MISHRA -- 26330376</option>
-                      <option value='26331320'>RAM AUTAR SINGH -- 26331320</option>
-                      <option value='26331336'>PRADEEP RICHARD -- 26331336</option>
-                      <option value='26331432'>RANJEET KUMAR SHUKLA -- 26331432</option>
-                      <option value='26331512'>KHEM SINGH MEENA -- 26331512</option>
-                      <option value='26331656'>HARI RAM -- 26331656</option>
-                      <option value='26331776'>PARVEEN KUMAR -- 26331776</option>
-                      <option value='26330216'>VISHAL KUMAR RAI -- 26330216</option>
-                  </select>
-              </td>
-              <td>
-                  <select style="width: 120px;" name="material_type[]" class="searchable shv">
-                      <option value="" selected disabled hidden>Select Material</option>
-                      <option value='Coal'>COAL</option>
-                      <option value='OB'> OB</option>
-                  </select>
-              </td>
-              <td>
-                  <select style="width: 150px;" name="seam[]" class="searchable shv">
-                      <option value="" selected disabled hidden>Select Seam</option>
-                      <option value='TURRA BAND-OB|TURRA BAND-OB WEST'>OB-Turra Band West</option>
-                      <option value='TURRA BAND-OB|TURRA BAND-OB EAST'>OB-Turra Band East</option>
-                      <option value='SM BAND-OB|SM BAND-OB WEST'>OB-SM Band West</option>
-                      <option value='SM BAND-OB|SM BAND-OB EAST'>OB-SM Band East</option>
-                      <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-W'>OB-Above Purewa Bottom-West</option>
-                      <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-E'>OB-Above Purewa Bottom-East</option>
-                      <option value='PURVA-TOP-COAL|PURVA-TOP-COAL EAST'>Pureva Top Coal-East</option>
-                      <option value='PURVA-TOP-COAL|PURVA-TOP-COAL WEST'>Pureva Top Coal-West</option>
-                      <option value='PURVA-BOTM-COAL|PURVA-BOTM-COAL EAST'>Pureva Bottom Coal-East</option>
-                      <option value='PURVA-BOTM-COAL|PURVA-BOTM-COAL WEST'>Pureva Bottom Coal-West</option>
-                      <option value='TURRA COAL|TURRA COAL EAST'>Turra Coal-East</option>
-                      <option value='TURRA COAL|TURRA COAL WEST'>Turra Coal-West</option>
-                  </select>
-              </td>
-              <td>
-                  <input name="shovel_working_hours[]" class='inp1 shv shovel_work_hour' required="required"
-                      maxlength="128" type="number" value="" min="1" max="7.5" placeholder=""
-                      data-rule-required="true" data-msg-required="Please enter a valid number">
-              </td>
-              <td class="add_delete_button">
-                  <div style="float:left; margin:0 15px 0 0;">
-                      <input type="button" value="Add to Dumper Table" class="no-print btn btn-primary create-dumper-column" />
-                  </div>
-              </td>
-              <td class="add_delete_button">
-                  <div style="float:left; margin:0 15px 0 0;">
-                      <input type="button" value="Remove" class="no-print delete_row1 btn btn-danger" />
-                  </div>
-              </td>
-          </tr>
-    </template>
+        <div class="printpdf_bottom"><span>Digitally generated and verified by Shift Incharge.<img src="images/check.png"
+                                                                                                   style='vertical-align:middle; height: 1em;' alt="signed" /></span></div>
+        <!-- page-body ends here -->
+        <div class="page-footer">
+            <footer class="text-center text-lg-start text-black" style="transform: translate(0,35%);">
+                <div class="text-center">
+                    © 2022 Copyright: Dudhicua Project, Northern Coalfields Limited.
+                </div>
+            </footer>
+        </div>
+        <template id="shovel_row">
+            <tr>
+                <td>
+                    <select style="width: 100px;" name="shovel_no[]" class="searchable shv">
+                        <option value="" selected disabled hidden>Select Shovel</option>
+                        <option value='PH-06'>PH-06</option>
+                        <option value='PH-07'>PH-07</option>
+                        <option value='PH-10'>PH-10</option>
+                        <option value='PH-11'>PH-11</option>
+                        <option value='PH-12'>PH-12</option>
+                        <option value='PH-13'>PH-13</option>
+                        <option value='PH-14'>PH-14</option>
+                        <option value='PH-15'>PH-15</option>
+                        <option value='PH-16'>PH-16</option>
+                        <option value='PH-17'>PH-17</option>
+                        <option value='PH-18'>PH-18</option>
+                        <option value='PH-19'>PH-19</option>
+                        <option value='HIMALAY'>HIMALAY</option>
+                        <option value='TATA1205'>TATA1205</option>
+                        <option value='PL-06'>PL-06</option>
+                        <option value='PL-07'>PL-07</option>
+                        <option value='PL-642'>PL-642</option>
+                        <option value='LAXMAN'>LAXMAN</option>
+                        <option value='KOMATSU'>KOMATSU</option>
+                        <option value='TATA-05'>TATA-05</option>
+                        <option value='TATA-06'>TATA-06</option>
+                        <option value='SIDE-CASTING'>SIDE-CASTING</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="width: 150px;" name="shovel_operator[]" class="searchable shv">
+                        <option value="" selected disabled hidden>Select Operator</option>
+                        <option value='0'>SIDE CASTING -- 0</option>
+                        <option value='26006027'>SUDAMA PANDEY -- 26006027</option>
+                        <option value='26006049'>KUNJ BIHARI PANDEY -- 26006049</option>
+                        <option value='26029629'>RAJJAB ALI -- 26029629</option>
+                        <option value='26044610'>MEHNGA SINGH -- 26044610</option>
+                        <option value='26062554'>DEVI CHARAN -- 26062554</option>
+                        <option value='26209049'>RAMESH KUMAR SAHU -- 26209049</option>
+                        <option value='26233502'>GANESH BAHADUR SINGH -- 26233502</option>
+                        <option value='26271734'>PARMESHWAR SINGH -- 26271734</option>
+                        <option value='26306183'>SUKHVENDAR SINGH -- 26306183</option>
+                        <option value='26314385'>BABUA RAM VAISHY -- 26314385</option>
+                        <option value='26315150'>RAMASHRAY HARIZAN -- 26315150</option>
+                        <option value='26315200'>BIR SINGH -- 26315200</option>
+                        <option value='26315226'>SUDAMA -- 26315226</option>
+                        <option value='26318345'>VISHWAKARMAJEE SHARMA -- 26318345</option>
+                        <option value='26318485'>MITHILESH KUMAR SINGH -- 26318485</option>
+                        <option value='26318857'>RAKESH PRASAD -- 26318857</option>
+                        <option value='26319780'>ANJANI KUMAR PATHAK -- 26319780</option>
+                        <option value='26319855'>AKHILESH KUMAR SHAHU -- 26319855</option>
+                        <option value='26320150'>BHAGVATI PRASAD VAISHYA -- 26320150</option>
+                        <option value='26320614'>MD. KUNYAN -- 26320614</option>
+                        <option value='26320879'>MD. IBRAHIM -- 26320879</option>
+                        <option value='26321430'>RAM RAJ AHIR -- 26321430</option>
+                        <option value='26321455'>JAGTAR SINGH -- 26321455</option>
+                        <option value='26321745'>BIJAY SHANKAR RAM -- 26321745</option>
+                        <option value='26321802'>MANOJ KUMAR PANDEY -- 26321802</option>
+                        <option value='26321893'>SURJIT SINGH -- 26321893</option>
+                        <option value='26322289'>INDRA BAHADUR TIWARI -- 26322289</option>
+                        <option value='26323246'>RAM PRASAD -- 26323246</option>
+                        <option value='26323410'>RAM LAL -- 26323410</option>
+                        <option value='26323667'>SUNIL KUMAR SINGH -- 26323667</option>
+                        <option value='26323766'>KAUSHIK MANDAL -- 26323766</option>
+                        <option value='26324483'>AWADH BIHARI DUBEY -- 26324483</option>
+                        <option value='26324608'>MUKESH KUMAR SINGH -- 26324608</option>
+                        <option value='26324749'>VIKASH KUMAR -- 26324749</option>
+                        <option value='26324772'>AMIT ORAON -- 26324772</option>
+                        <option value='26325316'>LALIT KUMAR VAISH -- 26325316</option>
+                        <option value='26325464'>AMARJIT SINGH -- 26325464</option>
+                        <option value='26325472'>DEVANAND VAISH -- 26325472</option>
+                        <option value='26326553'>SUNIL KUMAR YADAV -- 26326553</option>
+                        <option value='26326591'>PRASENJEET SARKAR -- 26326591</option>
+                        <option value='26328431'>GOODVIN MASIH -- 26328431</option>
+                        <option value='26328963'>GOPAL SINGH -- 26328963</option>
+                        <option value='26330008'>TINKU BAHADUR -- 26330008</option>
+                        <option value='26330016'>MUKESH KUMAR -- 26330016</option>
+                        <option value='26330024'>RANJEET KUMAR KUSHWAHA -- 26330024</option>
+                        <option value='26330064'>PRAKASH GUPTA -- 26330064</option>
+                        <option value='26330072'>RAM MILAN PATEL -- 26330072</option>
+                        <option value='26330080'>VIJAY PRATAP SINGH -- 26330080</option>
+                        <option value='26330088'>HARIGOVIND -- 26330088</option>
+                        <option value='26330096'>VIJENDRA SINGH -- 26330096</option>
+                        <option value='26330104'>AMIT -- 26330104</option>
+                        <option value='26330112'>SACHIN KUMAR -- 26330112</option>
+                        <option value='26330200'>RAMASHISH KUMAR -- 26330200</option>
+                        <option value='26330208'>SANDEEP SINGH -- 26330208</option>
+                        <option value='26330224'>KAMLESH AHIRWAR -- 26330224</option>
+                        <option value='26330280'>NARENDAR -- 26330280</option>
+                        <option value='26330312'>RANJEET JAYSAWAL -- 26330312</option>
+                        <option value='26330344'>YOGESH YADAV -- 26330344</option>
+                        <option value='26330376'>VIVEK KUMAR MISHRA -- 26330376</option>
+                        <option value='26331320'>RAM AUTAR SINGH -- 26331320</option>
+                        <option value='26331336'>PRADEEP RICHARD -- 26331336</option>
+                        <option value='26331432'>RANJEET KUMAR SHUKLA -- 26331432</option>
+                        <option value='26331512'>KHEM SINGH MEENA -- 26331512</option>
+                        <option value='26331656'>HARI RAM -- 26331656</option>
+                        <option value='26331776'>PARVEEN KUMAR -- 26331776</option>
+                        <option value='26330216'>VISHAL KUMAR RAI -- 26330216</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="width: 100px;" name="material_type[]" class="searchable shv">
+                        <option value="" selected disabled hidden>Select Material</option>
+                        <option value='Coal'>COAL</option>
+                        <option value='OB'> OB</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="width: 120px;" name="seam[]" class="searchable shv">
+                        <option value="" selected disabled hidden>Select Seam</option>
+                        <option value='TURRA BAND-OB|TURRA BAND-OB WEST'>OB-Turra Band West</option>
+                        <option value='TURRA BAND-OB|TURRA BAND-OB EAST'>OB-Turra Band East</option>
+                        <option value='SM BAND-OB|SM BAND-OB WEST'>OB-SM Band West</option>
+                        <option value='SM BAND-OB|SM BAND-OB EAST'>OB-SM Band East</option>
+                        <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-W'>OB-Above Purewa Bottom-West</option>
+                        <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-E'>OB-Above Purewa Bottom-East</option>
+                        <option value='PURVA-TOP-COAL|PURVA-TOP-COAL EAST'>Pureva Top Coal-East</option>
+                        <option value='PURVA-TOP-COAL|PURVA-TOP-COAL WEST'>Pureva Top Coal-West</option>
+                        <option value='PURVA-BOTM-COAL|PURVA-BOTM-COAL EAST'>Pureva Bottom Coal-East</option>
+                        <option value='PURVA-BOTM-COAL|PURVA-BOTM-COAL WEST'>Pureva Bottom Coal-West</option>
+                        <option value='TURRA COAL|TURRA COAL EAST'>Turra Coal-East</option>
+                        <option value='TURRA COAL|TURRA COAL WEST'>Turra Coal-West</option>
+                    </select>
+                </td>
+                <td>
+                    <input name="shovel_working_hours[]" class='inp1 shv shovel_work_hour' required="required"
+                           maxlength="128" type="number" value="" min="1" max="7.5" placeholder="" data-rule-required="true"
+                           data-msg-required="Please enter a valid number" style="width: 55px;">
+                </td>
+                <td class="add_delete_button">
+                    <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Add to Dumper Table"
+                               class="no-print btn btn-primary create-dumper-column" />
+                    </div>
+                </td>
+                <td class="add_delete_button">
+                    <div style="float:left; margin:0 15px 0 0;">
+                        <input type="button" value="Remove" class="no-print delete_row1 btn btn-danger" />
+                    </div>
+                </td>
+                <td>
+                    <span class="shovel_total_trips">0
+                    </span>
+                </td>
+                <td>
+                    <span class="shovel_total_quantity">0
+                    </span>
+                </td>
+            </tr>
+        </template>
 
-    <template id="dumper_row">
-        <tr>
-            <td>
-                <!-- CN-01 TO CN-36 FOR COAL=45 FOR OB 32
-                C-SERIES & K/D SERIES COAL 40 & OB 27
-                TX SERIES COAL 55 OB 37
-                KM SERIES FOR COAL=45 FOR OB 32
-                CAT SERIES COAL 75 OB 50
-                -->
-                <select style="width: 95px;" name="dumper_no[]" class="searchable dumper_n">
-                    <option value="" selected disabled hidden>Select Dumper</option>
-                    <option value='CN-01'>CN-01</option>
-                    <option value='CN-02'>CN-02</option>
-                    <option value='CN-03'>CN-03</option>
-                    <option value='CN-04'>CN-04</option>
-                    <option value='CN-05'>CN-05</option>
-                    <option value='CN-06'>CN-06</option>
-                    <option value='CN-07'>CN-07</option>
-                    <option value='CN-08'>CN-08</option>
-                    <option value='CN-09'>CN-09</option>
-                    <option value='CN-10'>CN-10</option>
-                    <option value='CN-11'>CN-11</option>
-                    <option value='CN-12'>CN-12</option>
-                    <option value='CN-13'>CN-13</option>
-                    <option value='CN-14'>CN-14</option>
-                    <option value='CN-15'>CN-15</option>
-                    <option value='CN-16'>CN-16</option>
-                    <option value='CN-17'>CN-17</option>
-                    <option value='CN-18'>CN-18</option>
-                    <option value='CN-19'>CN-19</option>
-                    <option value='CN-20'>CN-20</option>
-                    <option value='CN-21'>CN-21</option>
-                    <option value='CN-22'>CN-22</option>
-                    <option value='CN-23'>CN-23</option>
-                    <option value='CN-24'>CN-24</option>
-                    <option value='CN-25'>CN-25</option>
-                    <option value='CN-26'>CN-26</option>
-                    <option value='CN-27'>CN-27</option>
-                    <option value='CN-28'>CN-28</option>
-                    <option value='CN-29'>CN-29</option>
-                    <option value='CN-30'>CN-30</option>
-                    <option value='CN-31'>CN-31</option>
-                    <option value='CN-32'>CN-32</option>
-                    <option value='CN-33'>CN-33</option>
-                    <option value='CN-34'>CN-34</option>
-                    <option value='CN-35'>CN-35</option>
-                    <option value='CN-36'>CN-36</option>
-                    <option value='CN-37'>CN-37</option>
-                    <option value='CN-38'>CN-38</option>
-                    <option value='CN-39'>CN-39</option>
-                    <option value='CN-40'>CN-40</option>
-                    <option value='CN-41'>CN-41</option>
-                    <option value='C-40'>C-40</option>
-                    <option value='C-41'>C-41</option>
-                    <option value='C-43'>C-43</option>
-                    <option value='K-171'>K-171</option>
-                    <option value='K-172'>K-172</option>
-                    <option value='TX-201'>TX-201</option>
-                    <option value='TX-202'>TX-202</option>
-                    <option value='TX-215'>TX-215</option>
-                    <option value='TX-216'>TX-216</option>
-                    <option value='TX-219'>TX-219</option>
-                    <option value='TX-220'>TX-220</option>
-                    <option value='TX-221'>TX-221</option>
-                    <option value='TX-223'>TX-223</option>
-                    <option value='TX-224'>TX-224</option>
-                    <option value='TX-228'>TX-228</option>
-                    <option value='TX-230'>TX-230</option>
-                    <option value='TX-232'>TX-232</option>
-                    <option value='TX-234'>TX-234</option>
-                    <option value='TX-238'>TX-238</option>
-                    <option value='KM-02'>KM-02</option>
-                    <option value='KM-05'>KM-05</option>
-                    <option value='KM-06'>KM-06</option>
-                    <option value='KM-07'>KM-07</option>
-                    <option value='KM-08'>KM-08</option>
-                    <option value='KM-09'>KM-09</option>
-                    <option value='KM-10'>KM-10</option>
-                    <option value='KM-11'>KM-11</option>
-                    <option value='KM-12'>KM-12</option>
-                    <option value='KM-13'>KM-13</option>
-                    <option value='KM-14'>KM-14</option>
-                    <option value='KM-15'>KM-15</option>
-                    <option value='KM-16'>KM-16</option>
-                    <option value='KM-17'>KM-17</option>
-                    <option value='KM-18'>KM-18</option>
-                    <option value='KM-19'>KM-19</option>
-                    <option value='KM-20'>KM-20</option>
-                    <option value='KM-21'>KM-21</option>
-                    <option value='KM-22'>KM-22</option>
-                    <option value='KM-23'>KM-23</option>
-                    <option value='KM-24'>KM-24</option>
-                    <option value='KM-25'>KM-25</option>
-                    <option value='KM-26'>KM-26</option>
-                    <option value='KM-27'>KM-27</option>
-                    <option value='KM-28'>KM-28</option>
-                    <option value='KM-29'>KM-29</option>
-                    <option value='KM-30'>KM-30</option>
-                    <option value='KM-31'>KM-31</option>
-                    <option value='KM-32'>KM-32</option>
-                    <option value='KM-33'>KM-33</option>
-                    <option value='CAT-824'>CAT-824</option>
-                    <option value='CAT-839'>CAT-839</option>
-                    <option value='CAT-919'>CAT-919</option>
-                    <option value='CAT-902'>CAT-902</option>
-                    <option value='CAT-903'>CAT-903</option>
-                    <option value='CAT-904'>CAT-904</option>
-                    <option value='CAT-927'>CAT-927</option>
-                    <option value='CAT-928'>CAT-928</option>
-                    <option value='CAT-935'>CAT-935</option>
-                    <option value='CAT-936'>CAT-936</option>
-                    <option value='CAT-949'>CAT-949</option>
-                    <option value='CAT-950'>CAT-950</option>
-                    <option value='CAT-985'>CAT-985</option>
-                    <option value='CAT-958'>CAT-958</option>
-                    <option value='CAT-959'>CAT-959</option>
-                    <option value='CAT-1001'>CAT-1001</option>
-                </select>
-            </td>
-            <td>
-                <select style="width: 160px;" name="dumper_operator[]" class="searchable dumper_op">
-                    <option value="" selected disabled hidden>Select Dumper Operator</option>
-                    <option value='0'>SIDE CASTING -- 0</option>
-                    <option value='26006047'>LAXMAN DAS -- 26006047</option>
-                    <option value='26006049'>KUNJ BIHARI PANDEY -- 26006049</option>
-                    <option value='26006186'>UGRASEN SINGH -- 26006186</option>
-                    <option value='26013169'>TRIVENI SHARMA -- 26013169</option>
-                    <option value='26020966'>AMAL BISWAS -- 26020966</option>
-                    <option value='26022525'>BHAWAR LAL NATH -- 26022525</option>
-                    <option value='26028753'>SATYA NARAYAN VAISHYA -- 26028753</option>
-                    <option value='26029751'>SANTOSH KUMAR VAISHYA -- 26029751</option>
-                    <option value='26035170'>MANIKCHAND -- 26035170</option>
-                    <option value='26035535'>TILAK RAM LAHRE -- 26035535</option>
-                    <option value='26035907'>ATMA RAM VAISHYA -- 26035907</option>
-                    <option value='26046318'>SHIVNATH -- 26046318</option>
-                    <option value='26046409'>SATYA DEO -- 26046409</option>
-                    <option value='26061101'>SARV JEET SINGH -- 26061101</option>
-                    <option value='26061960'>AMAN KUMAR SINGH -- 26061960</option>
-                    <option value='26062992'>MAHESH KUMAR KARPETI -- 26062992</option>
-                    <option value='26120303'>MANOJ KUMAR SINGH -- 26120303</option>
-                    <option value='26164145'>BHAGWAN DAS SAHU -- 26164145</option>
-                    <option value='26168823'>MOHAN LOHAR -- 26168823</option>
-                    <option value='26181230'>VIKASH KUMAR SHUKLA -- 26181230</option>
-                    <option value='26193177'>RAMCHANDRA YADAV -- 26193177</option>
-                    <option value='26213256'>CHANDRA SHEKHAR PASWAN -- 26213256</option>
-                    <option value='26234195'>RAYCHEN VC -- 26234195</option>
-                    <option value='26239418'>RAJENDRA KUMAR JAISWAL -- 26239418</option>
-                    <option value='26248687'>ABHAY KUMAR PANDEY -- 26248687</option>
-                    <option value='26248751'>IQBAL -- 26248751</option>
-                    <option value='26266874'>SHAILENDRA KUMAR SINGH 1ST -- 26266874</option>
-                    <option value='26305904'>RAMKRIPAL KAHAR -- 26305904</option>
-                    <option value='26306167'>SUNIL KUMAR SHARMA -- 26306167</option>
-                    <option value='26306308'>HARSHAN SINGH -- 26306308</option>
-                    <option value='26306431'>SURYANATH YADAV -- 26306431</option>
-                    <option value='26306472'>SAKIL ANSARI -- 26306472</option>
-                    <option value='26306555'>BHUWNESHWAR -- 26306555</option>
-                    <option value='26306688'>RAJ KUMAR SINGH -- 26306688</option>
-                    <option value='26309286'>SUNIL KUMAR SHARMA -- 26309286</option>
-                    <option value='26309310'>MOHMMAD ISRAR -- 26309310</option>
-                    <option value='26309369'>TARKESHWAR PRASAD KUSHWAHA -- 26309369</option>
-                    <option value='26309419'>RAMESH NATH MISHRA -- 26309419</option>
-                    <option value='26309526'>DALWANT SINGH -- 26309526</option>
-                    <option value='26309583'>BADHURAM -- 26309583</option>
-                    <option value='26311845'>BASHISTH LAL SAHU -- 26311845</option>
-                    <option value='26312223'>AMBIKA PRASAD SAHU -- 26312223</option>
-                    <option value='26312603'>CHHOTELAL -- 26312603</option>
-                    <option value='26312900'>ANUJ KUMAR -- 26312900</option>
-                    <option value='26313528'>RAMMANOHR SHARMA -- 26313528</option>
-                    <option value='26313601'>MOHAMMAD SHAMIM KHAN -- 26313601</option>
-                    <option value='26313635'>LALMANI SINGH -- 26313635</option>
-                    <option value='26313908'>LOKNATH SINGH -- 26313908</option>
-                    <option value='26314138'>MUKHMENDRAPAL SINGH -- 26314138</option>
-                    <option value='26314187'>DEEP NARAYAN VAISHYA -- 26314187</option>
-                    <option value='26314369'>RAMMANOHHR -- 26314369</option>
-                    <option value='26314559'>RAMJAG SAHU -- 26314559</option>
-                    <option value='26314922'>KOUSHAL PRASAD SAHU -- 26314922</option>
-                    <option value='26315119'>ACHHEWAR KUMAR -- 26315119</option>
-                    <option value='26315184'>RAMJI -- 26315184</option>
-                    <option value='26315192'>BHJO RAM -- 26315192</option>
-                    <option value='26315242'>SURESH KUMAR PATIL -- 26315242</option>
-                    <option value='26315424'>RAMANUJRAM -- 26315424</option>
-                    <option value='26315432'>PRATAP SINGH BUNKAR -- 26315432</option>
-                    <option value='26315440'>BRINDAWAN -- 26315440</option>
-                    <option value='26316026'>DIWAKAR PRASAD -- 26316026</option>
-                    <option value='26316158'>RAMSUMER -- 26316158</option>
-                    <option value='26317206'>RAJ KUMAR KUSHWAHA -- 26317206</option>
-                    <option value='26317537'>BALSUGRIV -- 26317537</option>
-                    <option value='26317594'>BHARATLAL -- 26317594</option>
-                    <option value='26317701'>NARAYAN DAS -- 26317701</option>
-                    <option value='26317719'>RAM KRIPAL SHAH -- 26317719</option>
-                    <option value='26318709'>PARAMANAND -- 26318709</option>
-                    <option value='26319061'>LAXMAN PRASAD -- 26319061</option>
-                    <option value='26319129'>AWADHESH PANDEY -- 26319129</option>
-                    <option value='26319137'>SURENDRA -- 26319137</option>
-                    <option value='26319160'>RAMDAYAL RAM -- 26319160</option>
-                    <option value='26319285'>MAUNI SINGH -- 26319285</option>
-                    <option value='26319376'>RAMLALIT VAISHYA -- 26319376</option>
-                    <option value='26319541'>RAMNARAYAN -- 26319541</option>
-                    <option value='26319558'>SANJAY DATT CHAMOLI -- 26319558</option>
-                    <option value='26320382'>VIKRANT MANSOORIA -- 26320382</option>
-                    <option value='26320655'>RAMCHANDRA PASI -- 26320655</option>
-                    <option value='26321067'>SANJAY SARKAR -- 26321067</option>
-                    <option value='26321091'>ASHOK KUMAR KOIRI -- 26321091</option>
-                    <option value='26321109'>CHANDRIKA RAJBHAR -- 26321109</option>
-                    <option value='26321216'>IRSAD SHEKH -- 26321216</option>
-                    <option value='26321265'>JASBINDAR SINGH -- 26321265</option>
-                    <option value='26321281'>BHIMRAJ SHARMA -- 26321281</option>
-                    <option value='26321331'>RAMLAL HARIJAN -- 26321331</option>
-                    <option value='26321349'>MAHENDRANATH CHAMAR -- 26321349</option>
-                    <option value='26321588'>RAMAGYA KEWAT -- 26321588</option>
-                    <option value='26321687'>SURESH CHANDRA SHARMA -- 26321687</option>
-                    <option value='26321703'>NOHAR DAS -- 26321703</option>
-                    <option value='26321729'>MOHAN SINGH -- 26321729</option>
-                    <option value='26321786'>RAJESH KUMAR KUSHWAHA -- 26321786</option>
-                    <option value='26321943'>MD. SABIR -- 26321943</option>
-                    <option value='26322164'>MANOJ KUMAR SWAIN -- 26322164</option>
-                    <option value='26322446'>AWADHESH YADAV -- 26322446</option>
-                    <option value='26322727'>MOHMMED IMTEYAZ HASAN -- 26322727</option>
-                    <option value='26323048'>RAJBIR SINGH -- 26323048</option>
-                    <option value='26323154'>MD.TAJ -- 26323154</option>
-                    <option value='26323238'>RAKESH KUMAR SINGH -- 26323238</option>
-                    <option value='26323253'>SHITAL KOIRI -- 26323253</option>
-                    <option value='26323287'>SARBJIT SINGH -- 26323287</option>
-                    <option value='26323295'>SURESH KUMAR -- 26323295</option>
-                    <option value='26323311'>RAJESH KUMAR SINGH -- 26323311</option>
-                    <option value='26323402'>SURENDAR KUMAR -- 26323402</option>
-                    <option value='26323527'>PRADEEP KUMAR SAHU -- 26323527</option>
-                    <option value='26323543'>RAJU KUMAR -- 26323543</option>
-                    <option value='26324079'>RAVINDRA KUMAR SINGH -- 26324079</option>
-                    <option value='26324160'>ISHWAR LAL GUPTA -- 26324160</option>
-                    <option value='26324427'>PREMPRAKASH -- 26324427</option>
-                    <option value='26324590'>BRIJESH KUMAR PATEL -- 26324590</option>
-                    <option value='26324640'>SANJAY KUMAR SINGH -- 26324640</option>
-                    <option value='26324699'>DINESH KUMAR PANDAY -- 26324699</option>
-                    <option value='26324756'>DEO NARAYAN -- 26324756</option>
-                    <option value='26325324'>CHANCHAL SINGH -- 26325324</option>
-                    <option value='26325373'>VISHV VIMOCHAN UPADHYAY -- 26325373</option>
-                    <option value='26325431'>SAILENDRA SINGH-2ND -- 26325431</option>
-                    <option value='26325464'>AMARJIT SINGH -- 26325464</option>
-                    <option value='26325555'>LAKSHMAN PANIKA -- 26325555</option>
-                    <option value='26325563'>RAMESH KUMAR RAM -- 26325563</option>
-                    <option value='26325662'>DINESH KUMAR BHUIYA -- 26325662</option>
-                    <option value='26325688'>BUDHIMAN PRASAD VISHWAKARMA -- 26325688</option>
-                    <option value='26325720'>SHIV SAGAR SINGH VAISHYA -- 26325720</option>
-                    <option value='26325746'>SHYAM SUNDAR VAISHYA -- 26325746</option>
-                    <option value='26326249'>ANJANI KUMAR -- 26326249</option>
-                    <option value='26326264'>SHIV NATH BHARTI -- 26326264</option>
-                    <option value='26326355'>SUNIL KUMAR -- 26326355</option>
-                    <option value='26326678'>ANIL KUMAR -- 26326678</option>
-                    <option value='26328377'>GOVIND PRASAD SAHU -- 26328377</option>
-                    <option value='26328567'>RAVI KANT SHUKLA -- 26328567</option>
-                    <option value='26328773'>GYAN PRASAD VISHWAKARMA -- 26328773</option>
-                    <option value='26328781'>SHYAM LAL SHAH -- 26328781</option>
-                    <option value='26328914'>KUNDAN KUMAR DUBEY -- 26328914</option>
-                    <option value='26328955'>RAWTE GOPALSINGH NAMDEO -- 26328955</option>
-                    <option value='26328997'>GUNRAJ VASANT WALDE -- 26328997</option>
-                    <option value='26329458'>PADUM -- 26329458</option>
-                    <option value='26329490'>SANTOSH KUMAR -- 26329490</option>
-                    <option value='26329508'>RABINDER KUMAR -- 26329508</option>
-                    <option value='26329516'>LALIT KUMAR SHUKLA -- 26329516</option>
-                    <option value='26329524'>VIMAL KUMAR -- 26329524</option>
-                    <option value='26329532'>SANDIP KUMAR -- 26329532</option>
-                    <option value='26329540'>NASIM KHAN -- 26329540</option>
-                    <option value='26329557'>ASHOK HARIJAN -- 26329557</option>
-                    <option value='26329565'>AMIT KUMAR-OLD -- 26329565</option>
-                    <option value='26329573'>SHRI OM MAURYA -- 26329573</option>
-                    <option value='26329581'>ASHISH MADHUKAR DHABALE -- 26329581</option>
-                    <option value='26329599'>DEEPESH YADAV -- 26329599</option>
-                    <option value='26329607'>SURESH KUMAR TOMAR -- 26329607</option>
-                    <option value='26329615'>BRAHMANANDA DAS -- 26329615</option>
-                    <option value='26329623'>S MANOHAR -- 26329623</option>
-                    <option value='26329631'>RAJ KUMAR YADAV -- 26329631</option>
-                    <option value='26329649'>MAHESH SAINATH WAKULKAR -- 26329649</option>
-                    <option value='26329656'>VIJAY KUMAR CHAUHAN -- 26329656</option>
-                    <option value='26329664'>RAJENDRA KUMAR MACHHA -- 26329664</option>
-                    <option value='26329672'>SURESH MALI -- 26329672</option>
-                    <option value='26329680'>RAJENDRA KUMAR KHATIK -- 26329680</option>
-                    <option value='26329706'>ASHOK KUMAR MALIK -- 26329706</option>
-                    <option value='26329714'>GOPAL VASANT SAKHARE -- 26329714</option>
-                    <option value='26329730'>SANTOSH KUMAR SAHU -- 26329730</option>
-                    <option value='26329755'>SUDAMA PRASAD SHAKET -- 26329755</option>
-                    <option value='26329896'>PUSHPRAJ SINGH -- 26329896</option>
-                    <option value='26329904'>UTTAM PRASAD NONIA -- 26329904</option>
-                    <option value='26329912'>VIJAY KUMAR SONI -- 26329912</option>
-                    <option value='26329920'>RATNESH KUMAR KHANDATE -- 26329920</option>
-                    <option value='26329928'>RAMESH KUMAR PRAJAPATI -- 26329928</option>
-                    <option value='26329936'>SHASHI KUMAR -- 26329936</option>
-                    <option value='26329944'>PRAVEEN KUMAR DAMALLA -- 26329944</option>
-                    <option value='26329952'>MAHESH -- 26329952</option>
-                    <option value='26329960'>SWAPNIL VITTHAL ZADE -- 26329960</option>
-                    <option value='26330032'>JAI PRAKASH -- 26330032</option>
-                    <option value='26330040'>DILIP KUMAR MISHRA -- 26330040</option>
-                    <option value='26330056'>SATISH -- 26330056</option>
-                    <option value='26330152'>RAHUL MALVIYA -- 26330152</option>
-                    <option value='26330168'>BHARAT LAL PATEL -- 26330168</option>
-                    <option value='26330176'>DINESH KUMAR -- 26330176</option>
-                    <option value='26330184'>PAWAN KUMAR SINGH -- 26330184</option>
-                    <option value='26330192'>KULDEEP SINGH -- 26330192</option>
-                    <option value='26330216'>VISHAL KUMAR RAI -- 26330216</option>
-                    <option value='26330232'>MANOJ KUMAR TURI -- 26330232</option>
-                    <option value='26330240'>ABHINEET KUMAR PATHAK -- 26330240</option>
-                    <option value='26330248'>RAM KINKAR VERMA -- 26330248</option>
-                    <option value='26330256'>MILIN ANKUSH TITARMARE -- 26330256</option>
-                    <option value='26330264'>MANISH DEEP -- 26330264</option>
-                    <option value='26330272'>DANISH KHAN -- 26330272</option>
-                    <option value='26330320'>KULDEEP MAWAI -- 26330320</option>
-                    <option value='26330328'>ADITYA ARSIYA -- 26330328</option>
-                    <option value='26330360'>SHAMEEM KHAN -- 26330360</option>
-                    <option value='26330368'>SHIVPRAKASH SAIYAM -- 26330368</option>
-                    <option value='26330392'>DEEPAK GOPIDAS -- 26330392</option>
-                    <option value='26330800'>SUPRAKASH DEY -- 26330800</option>
-                    <option value='26330816'>BIKRAM YADAV -- 26330816</option>
-                    <option value='26330824'>SUBHAS YADAV -- 26330824</option>
-                    <option value='26330832'>GOBIND GOND -- 26330832</option>
-                    <option value='26330840'>MITHILESH BHUIYA -- 26330840</option>
-                    <option value='26330848'>MANGNU RAM -- 26330848</option>
-                    <option value='26330864'>RAMESH GOPE -- 26330864</option>
-                    <option value='26330872'>RAJENDRA NONIA -- 26330872</option>
-                    <option value='26330880'>ARVIND KUMAR -- 26330880</option>
-                    <option value='26331280'>VIDESH KUMAR PANIKA -- 26331280</option>
-                    <option value='26331312'>SANJEEV-- 26331312</option>
-                    <option value='26331328'>DURGESH KUMAR SAKET -- 26331328</option>
-                    <option value='26331384'>SONI KUMAR -- 26331384</option>
-                    <option value='26331400'>RAHUL KUMAR GUPTA  -- 26331400</option>
-                    <option value='26331416'>SACHIN KUMAR PATEL  -- 26331416</option>
-                    <option value='26331448'>SUNIL MEENA-- 26331448</option>
-                    <option value='26331456'>PUNIT KUMAR-- 26331456</option>
-                    <option value='26331464'>AJIT-- 26331464</option>
-                    <option value='26331472'>VIKRAM SINGH -- 26331472</option>
-                    <option value='26331480'>RAHUL -- 26331480</option>
-                    <option value='26331488'>PRADEEP  KUMAR -- 26331488</option>
-                    <option value='26331496'>SHAILENDRA KUMAR SINGH-3RD -- 26331496</option>
-                    <option value='26331528'>SANTOSH KUMAR MEENA -- 26331528</option>
-                    <option value='26331544'>PRADHAN  MEENA -- 26331544</option>
-                    <option value='26331552'>RAJESH KUMAR MEENA -- 26331552</option>
-                    <option value='26331560'>RAKESH KUMAR MEENA -- 26331560</option>
-                    <option value='26331576'>DEVENDRA  KUMAR-- 26331576</option>
-                    <option value='26331616'>KULDEEP -- 26331616</option>
-                    <option value='26331632'>ARUN KUMAR MEENA    -- 26331632</option>
-                    <option value='26331664'>DEEPAK -- 26331664</option>
-                    <option value='26331680'>PARVEEN  KUMAR -- 26331680</option>
-                    <option value='26331688'>MUNESH KUMAR MEENA  -- 26331688</option>
-                    <option value='26331696'>SHASHI LAL MANIKPURI-- 26331696</option>
-                    <option value='26331704'>SANDEEP- NEW -- 26331704</option>
-                    <option value='26331712'>DIVAKAR KUMAR SINGH -- 26331712</option>
-                    <option value='26331720'>DHARMENDER  -- 26331720</option>
-                    <option value='26331728'>RAKESH -- 26331728</option>
-                    <option value='26331736'>RAJENDRA KAMA REDDY -- 26331736</option>
-                    <option value='26331744'>T SATHYANANDA PERUMAL  -- 26331744</option>
-                    <option value='26331768'>VIJENDRA KUMAR  MEENA  -- 26331768</option>
-                    <option value='26331784'>SOMBIR -- 26331784</option>
-                    <option value='26331792'>KULDEEP -- 26331792</option>
-                    <option value='26331800'>SATENDRA SINGH  DURVE  -- 26331800</option>
-                    <option value='26331816'>DURGA PRASAD SHUKLA -- 26331816</option>
-                    <option value='26331824'>DHANANJAY KUMAR GAUTAM -- 26331824</option>
-                    <option value='26395954'>SANTRAM -- 26395954</option>
-                    <option value='26396051'>VIPAYCHAND VISHWAKARMA -- 26396051</option>
-                    <option value='99999001'>SHIV RAJ SINGH -- 99999001</option>
-                    <option value='99999002'>B.P. MISHRA -- 99999002</option>
-                    <option value='99999003'>BHULAN MISHRA -- 99999003</option>
-                    <option value='99999004'>SHRAWAN KUMAR -- 99999004</option>
-                </select>
-            </td>
-            <td class="work_hours_dumper_body">
-                <input name="dumper_working_hours[]" class='inp1 dumper_wh' required="required"
-                    maxlength="128" type="number" value="" min="1" max="7.5" placeholder=""
-                    data-rule-required="true" data-msg-required="Please enter a valid number">
-            </td>
-            <td class="dumper_row_delete_button add_delete_button">
-                <div style='float:left; margin:0 15px 0 0;' ><input type='button' value='X' class='no-print delete_row2  btn btn-danger' /></div>
-            </td>
-        </tr>
-    </template>
-    <template id="dumper_total_rows">
-      <tr class=totalColumn>
-          <td style="font-weight:bold;">Total Trips</td>
-          <td></td>
-          <td></td>
-          <td class="add_delete_button"></td>
-      </tr>
-      <tr class=totalQuantityColumn>
-          <td style="font-weight:bold;">Total Quantity</td>
-          <td></td>
-          <td></td>
-          <td class="add_delete_button"></td>
-      </tr>
-    </template>
-    <script src="libs/jquery-3.6.0.js"></script>
-    <script src="libs/jquery-ui.js"></script>
-    <script src="libs/jquery.validate.min.js"></script>
-    <script src="libs/chosen.jquery.js"></script>
-    <script src="libs/popper.min.js"></script>
-    <script src="libs/bootstrap.min.js"></script>
-    <script src="libs/xlsx.core.min.js"></script>
-    <script src="libs/FileSaver.js"></script>
-    <script src="libs/jhxlsx.js"></script>
-    <script src="libs/jspdf.js"></script>
-    <script src="libs/html2canvas.js"></script>
-    <script src="libs/html2pdf.js"></script>
+        <template id="dumper_row">
+            <tr>
+                <td>
+                    <!-- CN-01 TO CN-36 FOR COAL=45 FOR OB 32
+                    C-SERIES & K/D SERIES COAL 40 & OB 27
+                    TX SERIES COAL 55 OB 37
+                    KM SERIES FOR COAL=45 FOR OB 32
+                    CAT SERIES COAL 75 OB 50
+                    -->
+                    <select style="width: 95px;" name="dumper_no[]" class="searchable dumper_n">
+                        <option value="" selected disabled hidden>Select Dumper</option>
+                        <option value='CN-01'>CN-01</option>
+                        <option value='CN-02'>CN-02</option>
+                        <option value='CN-03'>CN-03</option>
+                        <option value='CN-04'>CN-04</option>
+                        <option value='CN-05'>CN-05</option>
+                        <option value='CN-06'>CN-06</option>
+                        <option value='CN-07'>CN-07</option>
+                        <option value='CN-08'>CN-08</option>
+                        <option value='CN-09'>CN-09</option>
+                        <option value='CN-10'>CN-10</option>
+                        <option value='CN-11'>CN-11</option>
+                        <option value='CN-12'>CN-12</option>
+                        <option value='CN-13'>CN-13</option>
+                        <option value='CN-14'>CN-14</option>
+                        <option value='CN-15'>CN-15</option>
+                        <option value='CN-16'>CN-16</option>
+                        <option value='CN-17'>CN-17</option>
+                        <option value='CN-18'>CN-18</option>
+                        <option value='CN-19'>CN-19</option>
+                        <option value='CN-20'>CN-20</option>
+                        <option value='CN-21'>CN-21</option>
+                        <option value='CN-22'>CN-22</option>
+                        <option value='CN-23'>CN-23</option>
+                        <option value='CN-24'>CN-24</option>
+                        <option value='CN-25'>CN-25</option>
+                        <option value='CN-26'>CN-26</option>
+                        <option value='CN-27'>CN-27</option>
+                        <option value='CN-28'>CN-28</option>
+                        <option value='CN-29'>CN-29</option>
+                        <option value='CN-30'>CN-30</option>
+                        <option value='CN-31'>CN-31</option>
+                        <option value='CN-32'>CN-32</option>
+                        <option value='CN-33'>CN-33</option>
+                        <option value='CN-34'>CN-34</option>
+                        <option value='CN-35'>CN-35</option>
+                        <option value='CN-36'>CN-36</option>
+                        <option value='CN-37'>CN-37</option>
+                        <option value='CN-38'>CN-38</option>
+                        <option value='CN-39'>CN-39</option>
+                        <option value='CN-40'>CN-40</option>
+                        <option value='CN-41'>CN-41</option>
+                        <option value='C-40'>C-40</option>
+                        <option value='C-41'>C-41</option>
+                        <option value='C-43'>C-43</option>
+                        <option value='K-171'>K-171</option>
+                        <option value='K-172'>K-172</option>
+                        <option value='TX-201'>TX-201</option>
+                        <option value='TX-202'>TX-202</option>
+                        <option value='TX-215'>TX-215</option>
+                        <option value='TX-216'>TX-216</option>
+                        <option value='TX-219'>TX-219</option>
+                        <option value='TX-220'>TX-220</option>
+                        <option value='TX-221'>TX-221</option>
+                        <option value='TX-223'>TX-223</option>
+                        <option value='TX-224'>TX-224</option>
+                        <option value='TX-228'>TX-228</option>
+                        <option value='TX-230'>TX-230</option>
+                        <option value='TX-232'>TX-232</option>
+                        <option value='TX-234'>TX-234</option>
+                        <option value='TX-238'>TX-238</option>
+                        <option value='KM-02'>KM-02</option>
+                        <option value='KM-05'>KM-05</option>
+                        <option value='KM-06'>KM-06</option>
+                        <option value='KM-07'>KM-07</option>
+                        <option value='KM-08'>KM-08</option>
+                        <option value='KM-09'>KM-09</option>
+                        <option value='KM-10'>KM-10</option>
+                        <option value='KM-11'>KM-11</option>
+                        <option value='KM-12'>KM-12</option>
+                        <option value='KM-13'>KM-13</option>
+                        <option value='KM-14'>KM-14</option>
+                        <option value='KM-15'>KM-15</option>
+                        <option value='KM-16'>KM-16</option>
+                        <option value='KM-17'>KM-17</option>
+                        <option value='KM-18'>KM-18</option>
+                        <option value='KM-19'>KM-19</option>
+                        <option value='KM-20'>KM-20</option>
+                        <option value='KM-21'>KM-21</option>
+                        <option value='KM-22'>KM-22</option>
+                        <option value='KM-23'>KM-23</option>
+                        <option value='KM-24'>KM-24</option>
+                        <option value='KM-25'>KM-25</option>
+                        <option value='CAT-824'>CAT-824</option>
+                        <option value='CAT-839'>CAT-839</option>
+                        <option value='CAT-919'>CAT-919</option>
+                        <option value='CAT-902'>CAT-902</option>
+                        <option value='CAT-903'>CAT-903</option>
+                        <option value='CAT-904'>CAT-904</option>
+                        <option value='CAT-927'>CAT-927</option>
+                        <option value='CAT-928'>CAT-928</option>
+                        <option value='CAT-935'>CAT-935</option>
+                        <option value='CAT-936'>CAT-936</option>
+                        <option value='CAT-949'>CAT-949</option>
+                        <option value='CAT-950'>CAT-950</option>
+                        <option value='CAT-985'>CAT-985</option>
+                        <option value='CAT-958'>CAT-958</option>
+                        <option value='CAT-959'>CAT-959</option>
+                        <option value='CAT-1001'>CAT-1001</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="width: 160px;" name="dumper_operator[]" class="searchable dumper_op">
+                        <option value="" selected disabled hidden>Select Dumper Operator</option>
+                        <option value='0'>SIDE CASTING -- 0</option>
+                        <option value='26006047'>LAXMAN DAS -- 26006047</option>
+                        <option value='26006049'>KUNJ BIHARI PANDEY -- 26006049</option>
+                        <option value='26006186'>UGRASEN SINGH -- 26006186</option>
+                        <option value='26013169'>TRIVENI SHARMA -- 26013169</option>
+                        <option value='26020966'>AMAL BISWAS -- 26020966</option>
+                        <option value='26022525'>BHAWAR LAL NATH -- 26022525</option>
+                        <option value='26028753'>SATYA NARAYAN VAISHYA -- 26028753</option>
+                        <option value='26029751'>SANTOSH KUMAR VAISHYA -- 26029751</option>
+                        <option value='26035170'>MANIKCHAND -- 26035170</option>
+                        <option value='26035535'>TILAK RAM LAHRE -- 26035535</option>
+                        <option value='26035907'>ATMA RAM VAISHYA -- 26035907</option>
+                        <option value='26046318'>SHIVNATH -- 26046318</option>
+                        <option value='26046409'>SATYA DEO -- 26046409</option>
+                        <option value='26061101'>SARV JEET SINGH -- 26061101</option>
+                        <option value='26061960'>AMAN KUMAR SINGH -- 26061960</option>
+                        <option value='26062992'>MAHESH KUMAR KARPETI -- 26062992</option>
+                        <option value='26120303'>MANOJ KUMAR SINGH -- 26120303</option>
+                        <option value='26164145'>BHAGWAN DAS SAHU -- 26164145</option>
+                        <option value='26168823'>MOHAN LOHAR -- 26168823</option>
+                        <option value='26181230'>VIKASH KUMAR SHUKLA -- 26181230</option>
+                        <option value='26193177'>RAMCHANDRA YADAV -- 26193177</option>
+                        <option value='26213256'>CHANDRA SHEKHAR PASWAN -- 26213256</option>
+                        <option value='26234195'>RAYCHEN VC -- 26234195</option>
+                        <option value='26239418'>RAJENDRA KUMAR JAISWAL -- 26239418</option>
+                        <option value='26248687'>ABHAY KUMAR PANDEY -- 26248687</option>
+                        <option value='26248751'>IQBAL -- 26248751</option>
+                        <option value='26266874'>SHAILENDRA KUMAR SINGH -- 26266874</option>
+                        <option value='26305904'>RAMKRIPAL KAHAR -- 26305904</option>
+                        <option value='26306167'>SUNIL KUMAR SHARMA -- 26306167</option>
+                        <option value='26306308'>HARSHAN SINGH -- 26306308</option>
+                        <option value='26306431'>SURYANATH YADAV -- 26306431</option>
+                        <option value='26306472'>SAKIL ANSARI -- 26306472</option>
+                        <option value='26306555'>BHUWNESHWAR -- 26306555</option>
+                        <option value='26306688'>RAJ KUMAR SINGH -- 26306688</option>
+                        <option value='26309286'>SUNIL KUMAR SHARMA -- 26309286</option>
+                        <option value='26309310'>MOHMMAD ISRAR -- 26309310</option>
+                        <option value='26309369'>TARKESHWAR PRASAD KUSHWAHA -- 26309369</option>
+                        <option value='26309419'>RAMESH NATH MISHRA -- 26309419</option>
+                        <option value='26309526'>DALWANT SINGH -- 26309526</option>
+                        <option value='26309583'>BADHURAM -- 26309583</option>
+                        <option value='26311845'>BASHISTH LAL SAHU -- 26311845</option>
+                        <option value='26312223'>AMBIKA PRASAD SAHU -- 26312223</option>
+                        <option value='26312603'>CHHOTELAL -- 26312603</option>
+                        <option value='26312900'>ANUJ KUMAR -- 26312900</option>
+                        <option value='26313528'>RAMMANOHR SHARMA -- 26313528</option>
+                        <option value='26313601'>MOHAMMAD SHAMIM KHAN -- 26313601</option>
+                        <option value='26313635'>LALMANI SINGH -- 26313635</option>
+                        <option value='26313908'>LOKNATH SINGH -- 26313908</option>
+                        <option value='26314138'>MUKHMENDRAPAL SINGH -- 26314138</option>
+                        <option value='26314187'>DEEP NARAYAN VAISHYA -- 26314187</option>
+                        <option value='26314369'>RAMMANOHHR -- 26314369</option>
+                        <option value='26314559'>RAMJAG SAHU -- 26314559</option>
+                        <option value='26314922'>KOUSHAL PRASAD SAHU -- 26314922</option>
+                        <option value='26315119'>ACHHEWAR KUMAR -- 26315119</option>
+                        <option value='26315184'>RAMJI -- 26315184</option>
+                        <option value='26315192'>BHJO RAM -- 26315192</option>
+                        <option value='26315242'>SURESH KUMAR PATIL -- 26315242</option>
+                        <option value='26315424'>RAMANUJRAM -- 26315424</option>
+                        <option value='26315432'>PRATAP SINGH BUNKAR -- 26315432</option>
+                        <option value='26315440'>BRINDAWAN -- 26315440</option>
+                        <option value='26316026'>DIWAKAR PRASAD -- 26316026</option>
+                        <option value='26316158'>RAMSUMER -- 26316158</option>
+                        <option value='26317206'>RAJ KUMAR KUSHWAHA -- 26317206</option>
+                        <option value='26317537'>BALSUGRIV -- 26317537</option>
+                        <option value='26317594'>BHARATLAL -- 26317594</option>
+                        <option value='26317701'>NARAYAN DAS -- 26317701</option>
+                        <option value='26317719'>RAM KRIPAL SHAH -- 26317719</option>
+                        <option value='26318709'>PARAMANAND -- 26318709</option>
+                        <option value='26319061'>LAXMAN PRASAD -- 26319061</option>
+                        <option value='26319129'>AWADHESH PANDEY -- 26319129</option>
+                        <option value='26319137'>SURENDRA -- 26319137</option>
+                        <option value='26319160'>RAMDAYAL RAM -- 26319160</option>
+                        <option value='26319285'>MAUNI SINGH -- 26319285</option>
+                        <option value='26319376'>RAMLALIT VAISHYA -- 26319376</option>
+                        <option value='26319541'>RAMNARAYAN -- 26319541</option>
+                        <option value='26319558'>SANJAY DATT CHAMOLI -- 26319558</option>
+                        <option value='26320382'>VIKRANT MANSOORIA -- 26320382</option>
+                        <option value='26320655'>RAMCHANDRA PASI -- 26320655</option>
+                        <option value='26321067'>SANJAY SARKAR -- 26321067</option>
+                        <option value='26321091'>ASHOK KUMAR KOIRI -- 26321091</option>
+                        <option value='26321109'>CHANDRIKA RAJBHAR -- 26321109</option>
+                        <option value='26321216'>IRSAD SHEKH -- 26321216</option>
+                        <option value='26321265'>JASBINDAR SINGH -- 26321265</option>
+                        <option value='26321281'>BHIMRAJ SHARMA -- 26321281</option>
+                        <option value='26321331'>RAMLAL HARIJAN -- 26321331</option>
+                        <option value='26321349'>MAHENDRANATH CHAMAR -- 26321349</option>
+                        <option value='26321588'>RAMAGYA KEWAT -- 26321588</option>
+                        <option value='26321687'>SURESH CHANDRA SHARMA -- 26321687</option>
+                        <option value='26321703'>NOHAR DAS -- 26321703</option>
+                        <option value='26321729'>MOHAN SINGH -- 26321729</option>
+                        <option value='26321786'>RAJESH KUMAR KUSHWAHA -- 26321786</option>
+                        <option value='26321943'>MD. SABIR -- 26321943</option>
+                        <option value='26322164'>MANOJ KUMAR SWAIN -- 26322164</option>
+                        <option value='26322446'>AWADHESH YADAV -- 26322446</option>
+                        <option value='26322727'>MOHMMED IMTEYAZ HASAN -- 26322727</option>
+                        <option value='26323048'>RAJBIR SINGH -- 26323048</option>
+                        <option value='26323154'>MD.TAJ -- 26323154</option>
+                        <option value='26323238'>RAKESH KUMAR SINGH -- 26323238</option>
+                        <option value='26323253'>SHITAL KOIRI -- 26323253</option>
+                        <option value='26323287'>SARBJIT SINGH -- 26323287</option>
+                        <option value='26323295'>SURESH KUMAR -- 26323295</option>
+                        <option value='26323311'>RAJESH KUMAR SINGH -- 26323311</option>
+                        <option value='26323402'>SURENDAR KUMAR -- 26323402</option>
+                        <option value='26323527'>PRADEEP KUMAR -- 26323527</option>
+                        <option value='26323543'>RAJU KUMAR -- 26323543</option>
+                        <option value='26324079'>RAVINDRA KUMAR SINGH -- 26324079</option>
+                        <option value='26324160'>ISHWAR LAL GUPTA -- 26324160</option>
+                        <option value='26324427'>PREMPRAKASH -- 26324427</option>
+                        <option value='26324590'>BRIJESH KUMAR PATEL -- 26324590</option>
+                        <option value='26324640'>SANJAY KUMAR SINGH -- 26324640</option>
+                        <option value='26324699'>DINESH KUMAR PANDAY -- 26324699</option>
+                        <option value='26324756'>DEO NARAYAN -- 26324756</option>
+                        <option value='26325324'>CHANCHAL SINGH -- 26325324</option>
+                        <option value='26325373'>VISHV VIMOCHAN UPADHYAY -- 26325373</option>
+                        <option value='26325431'>SAILENDRA SINGH -- 26325431</option>
+                        <option value='26325464'>AMARJIT SINGH -- 26325464</option>
+                        <option value='26325555'>LAKSHMAN PANIKA -- 26325555</option>
+                        <option value='26325563'>RAMESH KUMAR RAM -- 26325563</option>
+                        <option value='26325662'>DINESH KUMAR BHUIYA -- 26325662</option>
+                        <option value='26325688'>BUDHIMAN PRASAD VISHWAKARMA -- 26325688</option>
+                        <option value='26325720'>SHIV SAGAR SINGH VAISHYA -- 26325720</option>
+                        <option value='26325746'>SHYAM SUNDAR VAISHYA -- 26325746</option>
+                        <option value='26326249'>ANJANI KUMAR -- 26326249</option>
+                        <option value='26326264'>SHIV NATH BHARTI -- 26326264</option>
+                        <option value='26326355'>SUNIL KUMAR -- 26326355</option>
+                        <option value='26326678'>ANIL KUMAR -- 26326678</option>
+                        <option value='26328377'>GOVIND PRASAD SAHU -- 26328377</option>
+                        <option value='26328567'>RAVI KANT SHUKLA -- 26328567</option>
+                        <option value='26328773'>GYAN PRASAD VISHWAKARMA -- 26328773</option>
+                        <option value='26328781'>SHYAM LAL SHAH -- 26328781</option>
+                        <option value='26328914'>KUNDAN KUMAR DUBEY -- 26328914</option>
+                        <option value='26328955'>RAWTE GOPALSINGH NAMDEO -- 26328955</option>
+                        <option value='26328997'>GUNRAJ VASANT WALDE -- 26328997</option>
+                        <option value='26329458'>PADUM -- 26329458</option>
+                        <option value='26329490'>SANTOSH KUMAR -- 26329490</option>
+                        <option value='26329508'>RABINDER KUMAR -- 26329508</option>
+                        <option value='26329516'>LALIT KUMAR SHUKLA -- 26329516</option>
+                        <option value='26329524'>VIMAL KUMAR -- 26329524</option>
+                        <option value='26329532'>SANDIP KUMAR -- 26329532</option>
+                        <option value='26329540'>NASIM KHAN -- 26329540</option>
+                        <option value='26329557'>ASHOK HARIJAN -- 26329557</option>
+                        <option value='26329565'>AMIT KUMAR -- 26329565</option>
+                        <option value='26329573'>SHRI OM MAURYA -- 26329573</option>
+                        <option value='26329581'>ASHISH MADHUKAR DHABALE -- 26329581</option>
+                        <option value='26329599'>DEEPESH YADAV -- 26329599</option>
+                        <option value='26329607'>SURESH KUMAR TOMAR -- 26329607</option>
+                        <option value='26329615'>BRAHMANANDA DAS -- 26329615</option>
+                        <option value='26329623'>S MANOHAR -- 26329623</option>
+                        <option value='26329631'>RAJ KUMAR YADAV -- 26329631</option>
+                        <option value='26329649'>MAHESH SAINATH WAKULKAR -- 26329649</option>
+                        <option value='26329656'>VIJAY KUMAR CHAUHAN -- 26329656</option>
+                        <option value='26329664'>RAJENDRA KUMAR MACHHA -- 26329664</option>
+                        <option value='26329672'>SURESH MALI -- 26329672</option>
+                        <option value='26329680'>RAJENDRA KUMAR KHATIK -- 26329680</option>
+                        <option value='26329706'>ASHOK KUMAR MALIK -- 26329706</option>
+                        <option value='26329714'>GOPAL VASANT SAKHARE -- 26329714</option>
+                        <option value='26329730'>SANTOSH KUMAR SAHU -- 26329730</option>
+                        <option value='26329755'>SUDAMA PRASAD SHAKET -- 26329755</option>
+                        <option value='26329896'>PUSHPRAJ SINGH -- 26329896</option>
+                        <option value='26329904'>UTTAM PRASAD NONIA -- 26329904</option>
+                        <option value='26329912'>VIJAY KUMAR SONI -- 26329912</option>
+                        <option value='26329920'>RATNESH KUMAR KHANDATE -- 26329920</option>
+                        <option value='26329928'>RAMESH KUMAR PRAJAPATI -- 26329928</option>
+                        <option value='26329936'>SHASHI KUMAR -- 26329936</option>
+                        <option value='26329944'>PRAVEEN KUMAR DAMALLA -- 26329944</option>
+                        <option value='26329952'>MAHESH -- 26329952</option>
+                        <option value='26329960'>SWAPNIL VITTHAL ZADE -- 26329960</option>
+                        <option value='26330032'>JAI PRAKASH -- 26330032</option>
+                        <option value='26330040'>DILIP KUMAR MISHRA -- 26330040</option>
+                        <option value='26330056'>SATISH -- 26330056</option>
+                        <option value='26330152'>RAHUL MALVIYA -- 26330152</option>
+                        <option value='26330168'>BHARAT LAL PATEL -- 26330168</option>
+                        <option value='26330176'>DINESH KUMAR -- 26330176</option>
+                        <option value='26330184'>PAWAN KUMAR SINGH -- 26330184</option>
+                        <option value='26330192'>KULDEEP SINGH -- 26330192</option>
+                        <option value='26330216'>VISHAL KUMAR RAI -- 26330216</option>
+                        <option value='26330232'>MANOJ KUMAR TURI -- 26330232</option>
+                        <option value='26330240'>ABHINEET KUMAR PATHAK -- 26330240</option>
+                        <option value='26330248'>RAM KINKAR VERMA -- 26330248</option>
+                        <option value='26330256'>MILIN ANKUSH TITARMARE -- 26330256</option>
+                        <option value='26330264'>MANISH DEEP -- 26330264</option>
+                        <option value='26330272'>DANISH KHAN -- 26330272</option>
+                        <option value='26330320'>KULDEEP MAWAI -- 26330320</option>
+                        <option value='26330328'>ADITYA ARSIYA -- 26330328</option>
+                        <option value='26330360'>SHAMEEM KHAN -- 26330360</option>
+                        <option value='26330368'>SHIVPRAKASH SAIYAM -- 26330368</option>
+                        <option value='26330392'>DEEPAK GOPIDAS -- 26330392</option>
+                        <option value='26330800'>SUPRAKASH DEY -- 26330800</option>
+                        <option value='26330816'>BIKRAM YADAV -- 26330816</option>
+                        <option value='26330824'>SUBHAS YADAV -- 26330824</option>
+                        <option value='26330832'>GOBIND GOND -- 26330832</option>
+                        <option value='26330840'>MITHILESH BHUIYA -- 26330840</option>
+                        <option value='26330848'>MANGNU RAM -- 26330848</option>
+                        <option value='26330864'>RAMESH GOPE -- 26330864</option>
+                        <option value='26330872'>RAJENDRA NONIA -- 26330872</option>
+                        <option value='26330880'>ARVIND KUMAR -- 26330880</option>
+                        <option value='26331280'>VIDESH KUMAR PANIKA -- 26331280</option>
+                        <option value='26331312'>SANJEEV-- 26331312</option>
+                        <option value='26331328'>DURGESH KUMAR SAKET -- 26331328</option>
+                        <option value='26331384'>SONI KUMAR -- 26331384</option>
+                        <option value='26331400'>RAHUL KUMAR GUPTA -- 26331400</option>
+                        <option value='26331416'>SACHIN KUMAR PATEL -- 26331416</option>
+                        <option value='26331448'>SUNIL MEENA-- 26331448</option>
+                        <option value='26331456'>PUNIT KUMAR-- 26331456</option>
+                        <option value='26331464'>AJIT-- 26331464</option>
+                        <option value='26331472'>VIKRAM SINGH -- 26331472</option>
+                        <option value='26331480'>RAHUL -- 26331480</option>
+                        <option value='26331488'>PRADEEP KUMAR -- 26331488</option>
+                        <option value='26331496'>SHAILENDRA KUMAR SINGH -- 26331496</option>
+                        <option value='26331528'>SANTOSH KUMAR MEENA -- 26331528</option>
+                        <option value='26331544'>PRADHAN MEENA -- 26331544</option>
+                        <option value='26331552'>RAJESH KUMAR MEENA -- 26331552</option>
+                        <option value='26331560'>RAKESH KUMAR MEENA -- 26331560</option>
+                        <option value='26331576'>DEVENDRA KUMAR-- 26331576</option>
+                        <option value='26331616'>KULDEEP -- 26331616</option>
+                        <option value='26331632'>ARUN KUMAR MEENA -- 26331632</option>
+                        <option value='26331664'>DEEPAK -- 26331664</option>
+                        <option value='26331680'>PARVEEN KUMAR -- 26331680</option>
+                        <option value='26331688'>MUNESH KUMAR MEENA -- 26331688</option>
+                        <option value='26331696'>SHASHI LAL MANIKPURI-- 26331696</option>
+                        <option value='26331704'>SANDEEP -- 26331704</option>
+                        <option value='26331712'>DIVAKAR KUMAR SINGH -- 26331712</option>
+                        <option value='26331720'>DHARMENDER -- 26331720</option>
+                        <option value='26331728'>RAKESH -- 26331728</option>
+                        <option value='26331736'>RAJENDRA KAMA REDDY -- 26331736</option>
+                        <option value='26331744'>T SATHYANANDA PERUMAL -- 26331744</option>
+                        <option value='26331768'>VIJENDRA KUMAR MEENA -- 26331768</option>
+                        <option value='26331784'>SOMBIR -- 26331784</option>
+                        <option value='26331792'>KULDEEP -- 26331792</option>
+                        <option value='26331800'>SATENDRA SINGH DURVE -- 26331800</option>
+                        <option value='26331816'>DURGA PRASAD SHUKLA -- 26331816</option>
+                        <option value='26331824'>DHANANJAY KUMAR GAUTAM -- 26331824</option>
+                        <option value='26395954'>SANTRAM -- 26395954</option>
+                        <option value='26396051'>VIPAYCHAND VISHWAKARMA -- 26396051</option>
+                        <option value='99999001'>SHIV RAJ SINGH -- 99999001</option>
+                        <option value='99999002'>B.P. MISHRA -- 99999002</option>
+                    </select>
+                </td>
+                <td class="work_hours_dumper_body">
+                    <input name="dumper_working_hours[]" class='inp1 dumper_wh' required="required" maxlength="128"
+                           type="number" value="" min="1" max="7.5" placeholder="" data-rule-required="true"
+                           data-msg-required="Please enter a valid number" style="width: 55px;">
+                </td>
+                <td class="dumper_row_delete_button add_delete_button">
+                    <div style='float:left; margin:0 15px 0 0;'><input type='button' value='X'
+                                                                       class='no-print delete_row2  btn btn-danger' /></div>
+                </td>
+            </tr>
+        </template>
+        <template id="dumper_total_rows">
+            <tr class=totalColumn>
+                <td style="font-weight:bold;">Total Trips</td>
+                <td></td>
+                <td></td>
+                <td class="add_delete_button"></td>
+            </tr>
+            <tr class=totalQuantityColumn>
+                <td style="font-weight:bold;">Total Quantity</td>
+                <td></td>
+                <td></td>
+                <td class="add_delete_button"></td>
+            </tr>
+        </template>
+        <script src="libs/jquery-3.6.0.js"></script>
+        <script src="libs/jquery-ui.js"></script>
+        <script src="libs/jquery.validate.min.js"></script>
+        <script src="libs/chosen.jquery.js"></script>
+        <script src="libs/popper.min.js"></script>
+        <script src="libs/bootstrap.min.js"></script>
+        <script src="libs/xlsx.core.min.js"></script>
+        <script src="libs/FileSaver.js"></script>
+        <script src="libs/jhxlsx.js"></script>
+        <script src="libs/jspdf.js"></script>
+        <script src="libs/html2canvas.js"></script>
+        <script src="libs/html2pdf.js"></script>
 
-</body>
+    </body>
 
 </html>
