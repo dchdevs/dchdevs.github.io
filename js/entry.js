@@ -506,7 +506,8 @@ function populate_data_object_for_sap_excel() {
             });
         }
     });
-    populate_special_trips_table();
+    //disabled for now
+    //populate_special_trips_table();
 }
 
 function get_date_to_enter() {
