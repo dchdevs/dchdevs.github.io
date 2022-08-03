@@ -307,6 +307,13 @@ function get_pdf_report() {
         $(this).after($('<span class="select-print">'
             + $(this).val() + '</span>'));
     });
+    $('.separater_labels').each(function() {
+        $(this).css('color','black');
+        let fontSize = parseInt($(this).css("font-size"));
+        fontSize = fontSize + 3 + "px";
+        $(this).css({'font-size':fontSize});
+    });
+    $('.warning').hide();
     $('#print_time').text('Generated on: ' + new Date().toLocaleString() + ' ');
     $("head").append("<link id='printcss' href='css/print.css' type='text/css' rel='stylesheet' />");
     var opt = {
@@ -319,6 +326,13 @@ function get_pdf_report() {
     html2pdf().set(opt).from(document.body).outputPdf().then(function (pdf) {
         $('#printcss').remove();
         $('.select-print').remove();
+        $('.separater_labels').each(function() {
+            $(this).css('color','white');
+            let fontSize = parseInt($(this).css("font-size"));
+            fontSize = fontSize - 3 + "px";
+            $(this).css({'font-size':fontSize});
+        });
+        $('.warning').show();
     }).save();
 }
 
