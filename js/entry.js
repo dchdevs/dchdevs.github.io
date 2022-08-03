@@ -622,16 +622,25 @@ function get_dump_location(material_type, seam, section, shovel_name, dumper_nam
 }
 
 function go_back() {
+    $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
+        calc_total(this);
+    });
     $('#special_trips_div').hide('slide', {direction: 'right'}, 1000);
     $('#dumperwise_entry').show('slide', {direction: 'left'}, 1000);
 }
 
 function go_back_1() {
+    $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
+        calc_total(this);
+    });
     $('#excel_buttons').hide('slide', {direction: 'right'}, 1000);
     $('#special_trips_div').show('slide', {direction: 'left'}, 1000);
 }
 
 function go_forward_1() {
+    $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
+        calc_total(this);
+    });
     $('#special_trips_div').hide('slide', {direction: 'left'}, 1000);
     $('#excel_buttons').show('slide', {direction: 'right'}, 1000);
 }
@@ -642,6 +651,9 @@ function go_forward() {
         alert('ERROR: Empty fields in DUMPER TABLE!');
         return;
     }
+    $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
+        calc_total(this);
+    });
     $('#dumperwise_entry').hide('slide', {direction: 'left'}, 1000);
     $('#special_trips_div').show('slide', {direction: 'right'}, 1000);
 }
