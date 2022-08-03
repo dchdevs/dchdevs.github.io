@@ -631,17 +631,11 @@ function go_back() {
 }
 
 function go_back_1() {
-    $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
-        calc_total(this);
-    });
     $('#excel_buttons').hide('slide', {direction: 'right'}, 1000);
     $('#special_trips_div').show('slide', {direction: 'left'}, 1000);
 }
 
 function go_forward_1() {
-    $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
-        calc_total(this);
-    });
     $('#special_trips_div').hide('slide', {direction: 'left'}, 1000);
     $('#excel_buttons').show('slide', {direction: 'right'}, 1000);
 }
@@ -899,6 +893,9 @@ function delete_synchrnous_row_and_column() {
             $(dumper_thead_tr).find('.ob_dump_column_exists').parent().remove();
             $(dumper_tbody).find('.ob_dump_column_exists').parent().remove();
         }
+        $('#dumper_table > tbody > tr').first().find('.shovel_dumper_trip').each(function () {
+            calc_total(this);
+        });
     }
 }
 function add_row_to_shovel_table() {
