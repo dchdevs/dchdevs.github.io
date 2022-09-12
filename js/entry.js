@@ -464,8 +464,16 @@ function populate_data_object_for_sap_excel() {
                     excelRowToInsert.push({ "text": get_date_to_enter() });
                     excelRowToInsert.push({ "text": $('#shift').val() });
                     if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][0] });
-                        excelRowToInsert.push({ "text": coal_shovel_seam[shovel_unique_id][1] });
+                        if (threeFields[0] === 'PH-13' || threeFields[0] === 'PH-14') {
+                            excelRowToInsert.push({ "text": "TURRA COAL" });
+                            let the_bench = "TURRA COAL " + $('#section').val().toUpperCase();
+                            excelRowToInsert.push({ "text": the_bench });
+                        } else {
+                            excelRowToInsert.push({ "text": "PURVA-BOTM-COAL" });
+                            let the_bench = "PURVA-BOTM-COAL " + $('#section').val().toUpperCase();
+                            excelRowToInsert.push({ "text": the_bench });
+                        }
+                        
                         var dump_loc = get_dump_location(
                             'Coal',
                             coal_shovel_seam[shovel_unique_id][0],
