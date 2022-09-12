@@ -455,9 +455,10 @@ function populate_data_object_for_sap_excel() {
                     }
                     if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({ "text": process_order_ob });
-                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('TURRA') > -1 && threeFields[1] === 'Coal') {
+                    } else if ( (threeFields[0] === 'PH-13' || threeFields[0] === 'PH-14') 
+                                && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_turra_coal });
-                    } else if (coal_shovel_seam[shovel_unique_id][1].indexOf('PURVA') > -1 && threeFields[1] === 'Coal') {
+                    } else if (threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_purewa_coal });
                     }
                     excelRowToInsert.push({ "text": get_date_to_enter() });
