@@ -12,9 +12,9 @@ var coal_shovel_seam = {};
 var ob_shovel_seam = {};
 var material_code_coal = 4900000014;
 var material_code_ob = 4900000011;
-var process_order_purewa_coal = 60011871;
-var process_order_turra_coal = 60011872;
-var process_order_ob = 70007801;
+var process_order_purewa_coal = 60012168;
+var process_order_turra_coal = 60012169;
+var process_order_ob = 70008014;
 //JSON in the format as required by jhxlsx library for creating SAP Compatible excel
 var dataForSAPCompatibleExcel = [
     {
@@ -833,7 +833,7 @@ function get_dumper_factor(dumper_number, material_type) {
     C-SERIES & K/D SERIES COAL 40 & OB 27
     TX SERIES COAL 55 OB 37
     KM SERIES FOR COAL=45 FOR OB 32
-    CAT SERIES COAL 75 OB 50
+    CAT SERIES COAL 75 OB 55
     */
     if (dumper_number.indexOf('CN-') > -1) {
         df = material_type == 'Coal' ? 45 : 32;
@@ -846,7 +846,7 @@ function get_dumper_factor(dumper_number, material_type) {
     } else if (dumper_number.indexOf('KM-') > -1) {
         df = material_type == 'Coal' ? 45 : 32;
     } else if (dumper_number.indexOf('CAT-') > -1) {
-        df = material_type == 'Coal' ? 75 : 50;
+        df = material_type == 'Coal' ? 75 : 55;
     }
     return df;
 }
