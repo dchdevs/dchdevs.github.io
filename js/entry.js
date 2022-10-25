@@ -455,7 +455,7 @@ function populate_data_object_for_sap_excel() {
                     }
                     if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({ "text": process_order_ob });
-                    } else if ( (threeFields[0] === 'PH-13' || threeFields[0] === 'PH-14') 
+                    } else if ( (threeFields[0] === 'PH-13' || threeFields[0] === 'PH-14' || threeFields[0] === 'TATA1205') 
                                 && threeFields[1] === 'Coal') {
                         excelRowToInsert.push({ "text": process_order_turra_coal });
                     } else if (threeFields[1] === 'Coal') {
@@ -464,7 +464,7 @@ function populate_data_object_for_sap_excel() {
                     excelRowToInsert.push({ "text": get_date_to_enter() });
                     excelRowToInsert.push({ "text": $('#shift').val() });
                     if (threeFields[1] === 'Coal') {
-                        if (threeFields[0] === 'PH-13' || threeFields[0] === 'PH-14') {
+                        if (threeFields[0] === 'PH-13' || threeFields[0] === 'PH-14' || threeFields[0] === 'TATA1205') {
                             excelRowToInsert.push({ "text": "TURRA COAL" });
                             let the_bench = "TURRA COAL " + $('#section').val().toUpperCase();
                             excelRowToInsert.push({ "text": the_bench });
