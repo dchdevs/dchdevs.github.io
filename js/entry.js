@@ -234,7 +234,7 @@ function calc_total(obj) {
             var material_name = $(this).attr("name").split('_')[1];
             var dumper_number = $(this).parent().parent().children('td').eq(0).children('select, input').eq(0).val();
             if (dumper_number !== null) {
-                var dumper_factor = get_dumper_factor(dumper_number, material_name);
+                var dumper_factor = get_dumper_factor(dumper_number, material_name, name_attr[0]);
                 total_quantity += parseInt(trips) * parseInt(dumper_factor);
             }
         });
@@ -511,7 +511,7 @@ function populate_data_object_for_sap_excel() {
                     excelRowToInsert.push({ "text": parseInt(dumper_working_hour_distribution[$(td).parent().children('td').eq(0).children('select').eq(0).val() + '_' + $(td).parent().children('td').eq(1).children('select').eq(0).val()][$(td).children('select, input').eq(0).attr("name")] * 60) });
                     var trips = $(td).children('select, input').eq(0).val();
                     excelRowToInsert.push({ "text": parseInt(trips) });
-                    var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1]);
+                    var dumper_factor = get_dumper_factor($(td).parent().children('td').eq(0).children('select, input').eq(0).val(), threeFields[1], threeFields[0]);
                     excelRowToInsert.push({ "text": parseInt(dumper_factor) });
                     var dumper_tonnage = trips * dumper_factor;
                     if (threeFields[1] === 'Coal') {
@@ -826,7 +826,7 @@ function populate_special_trips_table() {
     });
 }
 
-function get_dumper_factor(dumper_number, material_type) {
+function get_dumper_factor(dumper_number, material_type, shovel_name) {
     var df;
     /*
     CN-01 TO CN-36 FOR COAL=45 FOR OB 32
@@ -846,7 +846,13 @@ function get_dumper_factor(dumper_number, material_type) {
     } else if (dumper_number.indexOf('KM-') > -1) {
         df = material_type == 'Coal' ? 45 : 32;
     } else if (dumper_number.indexOf('CAT-') > -1) {
-        df = material_type == 'Coal' ? 75 : 55;
+        if (shovel_name.indexOf('BHAGAT') > -1
+        || shovel_name.indexOf('HIMALAY') > -1
+        ) {
+            df = material_type == 'Coal' ? 90 : 60;
+        } else {
+            df = material_type == 'Coal' ? 75 : 55;
+        }
     }
     return df;
 }
