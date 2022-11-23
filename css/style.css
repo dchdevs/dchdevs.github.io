@@ -83,9 +83,6 @@ table thead th {
     padding-left:2em;
     padding-top: 1em;
 }
-.error_in_field{
-    background-image: linear-gradient(red, orange) !important;
-}
 
 /* //////////////////////CUSTOM STYLES */
 *{
@@ -214,6 +211,24 @@ hr {
 .select-print {
     display: none;
 }
+
+@keyframes error-flash{
+    0%{
+        border-color:red;
+    }
+    50%{
+        border-color: transparent;
+    }
+}
+
+.error_in_field > *{
+    border:3px solid red;
+    animation-name:error-flash;
+    animation-duration:0.5s;
+    animation-iteration-count:50;
+}
+
+
 
 @media print
 {
