@@ -43,17 +43,17 @@ function check_mandatory_fields_shovel(objj) {
     $(objj).find('select.shv').each(function () {
         if (!$(this).val()) {
             flag = true;
-            $(this).parent().addClass("error_in_field");
+            $(this).closest('td').addClass("error_in_field");
         } else {
-            $(this).parent().removeClass("error_in_field");
+            $(this).closest('td').removeClass("error_in_field");
         }
     });
     $(objj).find('input.shv').each(function () {
         if (!$(this).val() || parseFloat($(this).val()) <= 0) {
             flag = true;
-            $(this).parent().addClass("error_in_field");
+            $(this).closest('td').addClass("error_in_field");
         } else {
-            $(this).parent().removeClass("error_in_field");
+            $(this).closest('td').removeClass("error_in_field");
         }
     });
     return flag;
@@ -64,25 +64,25 @@ function check_mandatory_fields() {
     $('#dumper_table select.dumper_n').each(function () {
         if (!$(this).val()) {
             flag = true;
-            $(this).parent().addClass("error_in_field");
+            $(this).closest('td').addClass("error_in_field");
         } else {
-            $(this).parent().removeClass("error_in_field");
+            $(this).closest('td').removeClass("error_in_field");
         }
     });
     $('#dumper_table select.dumper_op').each(function () {
         if (!$(this).val()) {
             flag = true;
-            $(this).parent().addClass("error_in_field");
+            $(this).closest('td').addClass("error_in_field");
         } else {
-            $(this).parent().removeClass("error_in_field");
+            $(this).closest('td').removeClass("error_in_field");
         }
     });
     $('#dumper_table input.dumper_wh').each(function () {
         if (!$(this).val() || parseFloat($(this).val()) <= 0) {
             flag = true;
-            $(this).parent().addClass("error_in_field");
+            $(this).closest('td').addClass("error_in_field");
         } else {
-            $(this).parent().removeClass("error_in_field");
+            $(this).closest('td').removeClass("error_in_field");
         }
     });
     $('#dumper_table select.coal_dump').each(function () {
@@ -95,9 +95,9 @@ function check_mandatory_fields() {
         });
         if (trip_entered && !$(this).val()) {
             flag = true;
-            $(this).parent().addClass("error_in_field");
+            $(this).closest('td').addClass("error_in_field");
         } else {
-            $(this).parent().removeClass("error_in_field");
+            $(this).closest('td').removeClass("error_in_field");
         }
     });
     $('#dumper_table select.ob_dump').each(function () {
@@ -110,9 +110,9 @@ function check_mandatory_fields() {
         });
         if (trip_entered && !$(this).val()) {
             flag = true;
-            $(this).parent().addClass("error_in_field");
+            $(this).closest('td').addClass("error_in_field");
         } else {
-            $(this).parent().removeClass("error_in_field");
+            $(this).closest('td').removeClass("error_in_field");
         }
     });
     return flag;
