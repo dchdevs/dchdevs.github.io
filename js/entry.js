@@ -12,9 +12,9 @@ var coal_shovel_seam = {};
 var ob_shovel_seam = {};
 var material_code_coal = 4900000014;
 var material_code_ob = 4900000011;
-var process_order_purewa_coal = 60013915;
-var process_order_turra_coal = 60013064;
-var process_order_ob = 70008433;
+var process_order_purewa_coal = 60014077;
+var process_order_turra_coal = 60014078;
+var process_order_ob = 70008994;
 //JSON in the format as required by jhxlsx library for creating SAP Compatible excel
 var dataForSAPCompatibleExcel = [
     {
