@@ -12,9 +12,9 @@ var coal_shovel_seam = {};
 var ob_shovel_seam = {};
 var material_code_coal = 4900000014;
 var material_code_ob = 4900000011;
-var process_order_purewa_coal = 60014077;
-var process_order_turra_coal = 60014078;
-var process_order_ob = 70008994;
+var process_order_purewa_coal = $('#po_purewa').val();
+var process_order_turra_coal = $('#po_turra').val();
+var process_order_ob = $('#po_ob').val();
 //JSON in the format as required by jhxlsx library for creating SAP Compatible excel
 var dataForSAPCompatibleExcel = [
     {
@@ -318,7 +318,7 @@ function get_pdf_report() {
     $("head").append("<link id='printcss' href='css/print.css' type='text/css' rel='stylesheet' />");
     var opt = {
         margin: [0.2, 0.1, 0.2, 0.1],
-        filename: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val() + '.pdf',
+        filename: "Shift_" + $('#shift').val() + "_" + $('#section').val() + "_" + $('#date').val() + ".pdf",
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
@@ -453,54 +453,30 @@ function populate_data_object_for_sap_excel() {
                     } else if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({ "text": material_code_ob });
                     }
+                    let the_seam = "";
+                    let the_bench = "";
                     if (threeFields[1] === 'OB') {
                         excelRowToInsert.push({ "text": process_order_ob });
-                    } else if ( (threeFields[0] === 'PH-13' || threeFields[0] === 'PH-14' || threeFields[0] === 'TATA1205' || threeFields[0] === 'KOMATSU' || threeFields[0] === 'LAXMAN') 
-                                && threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({ "text": process_order_turra_coal });
+                        the_seam = ob_shovel_seam[shovel_unique_id][0];
+                        the_bench = ob_shovel_seam[shovel_unique_id][1];
                     } else if (threeFields[1] === 'Coal') {
-                        excelRowToInsert.push({ "text": process_order_purewa_coal });
+                        the_seam = coal_shovel_seam[shovel_unique_id][0];
+                        the_bench = coal_shovel_seam[shovel_unique_id][1];
+                        if (the_bench.indexOf('PURVA') > -1) {
+	                        excelRowToInsert.push({ "text": process_order_purewa_coal });
+                        } else if (the_bench.indexOf('TURRA') > -1) {
+                        	excelRowToInsert.push({ "text": process_order_turra_coal });
+                        }
                     }
                     excelRowToInsert.push({ "text": get_date_to_enter() });
                     excelRowToInsert.push({ "text": $('#shift').val() });
+                    excelRowToInsert.push({ "text": the_seam });
+                    excelRowToInsert.push({ "text": the_bench });
                     if (threeFields[1] === 'Coal') {
-                        if (threeFields[0] === 'PH-13' || threeFields[0] === 'LAXMAN') {
-                            excelRowToInsert.push({ "text": "TURRA COAL" });
-                            let the_bench = "TURRA COAL EAST";
-                            excelRowToInsert.push({ "text": the_bench });
-                        } else if (threeFields[0] === 'PH-14' || threeFields[0] === 'TATA1205' || threeFields[0] === 'KOMATSU') {
-                            excelRowToInsert.push({ "text": "TURRA COAL" });
-                            let the_bench = "TURRA COAL WEST";
-                            excelRowToInsert.push({ "text": the_bench });
-                        } else {
-                            excelRowToInsert.push({ "text": "PURVA-BOTM-COAL" });
-                            let the_bench = "PURVA-BOTM-COAL " + $('#section').val().toUpperCase();
-                            excelRowToInsert.push({ "text": the_bench });
-                        }
-                        
-                        var dump_loc = get_dump_location(
-                            'Coal',
-                            coal_shovel_seam[shovel_unique_id][0],
-                            $('#section').val(),
-                            threeFields[0],
-                            $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
-                        );
-                        if (!dump_loc) {
-                            dump_loc = $(td).parent().find('select.coal_dump').val();
-                        }
+                    	dump_loc = $(td).parent().find('select.coal_dump').val();
+                       
                     } else if (threeFields[1] === 'OB') {
-                        excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][0] });
-                        excelRowToInsert.push({ "text": ob_shovel_seam[shovel_unique_id][1] });
-                        var dump_loc = get_dump_location(
-                            'OB',
-                            ob_shovel_seam[shovel_unique_id][0],
-                            $('#section').val(),
-                            threeFields[0],
-                            $(td).parent().children('td').eq(0).children('select, input').eq(0).val()
-                        );
-                        if (!dump_loc) {
-                            dump_loc = $(td).parent().find('select.ob_dump').val();
-                        }
+                	dump_loc = $(td).parent().find('select.ob_dump').val();
                     }
                     excelRowToInsert.push({ "text": threeFields[0] });
                     excelRowToInsert.push({ "text": parseInt(threeFields[2]) });
@@ -687,7 +663,7 @@ function get_sap_compatible_excel() {
         return;
     }
     var options = {
-        fileName: $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
+        fileName: "Shift_" + $('#shift').val() + "_" + $('#section').val() + "_" + $('#date').val()
     };
     Jhxlsx.export(dataForSAPCompatibleExcel, options);
 }
@@ -700,7 +676,7 @@ function get_special_trips_excel() {
         return;
     }
     var options = {
-        fileName: "Shovel_Special_Trips_" + $('#date').val() + "_Shift_" + $('#shift').val() + "_" + $('#section').val()
+        fileName: "Shovel_Special_Trips" + "_Shift_" + $('#shift').val() + "_" + $('#section').val() + "_" + $('#date').val()
     };
     Jhxlsx.export(dataForSpecialTripsExcelShovel, options);
 
@@ -840,7 +816,19 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     CAT SERIES COAL 75 OB 55
     */
     if (dumper_number.indexOf('CN-') > -1) {
-        df = material_type == 'Coal' ? 45 : 32;
+    	if (dumper_number.indexOf('25') > -1 
+    	|| dumper_number.indexOf('28') > -1 
+    	|| dumper_number.indexOf('29') > -1 
+    	|| dumper_number.indexOf('31') > -1 
+    	|| dumper_number.indexOf('32') > -1  
+    	|| dumper_number.indexOf('33') > -1
+    	|| dumper_number.indexOf('34') > -1 
+    	|| dumper_number.indexOf('35') > -1 
+    	|| dumper_number.indexOf('36') > -1) {
+    		df = material_type == 'Coal' ? 55 : 37;
+    	} else {
+    		df = material_type == 'Coal' ? 45 : 32;
+	    }
     } else if (dumper_number.indexOf('C-') > -1
         || dumper_number.indexOf('K-') > -1
         || dumper_number.indexOf('D-') > -1) {
@@ -848,10 +836,17 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     } else if (dumper_number.indexOf('TX-') > -1) {
         df = material_type == 'Coal' ? 55 : 37;
     } else if (dumper_number.indexOf('KM-') > -1) {
-        df = material_type == 'Coal' ? 45 : 32;
+    	if (dumper_number.indexOf('24') > -1 
+    	|| dumper_number.indexOf('09') > -1 
+    	) {
+    		df = material_type == 'Coal' ? 55 : 37;
+    	} else {
+    		df = material_type == 'Coal' ? 45 : 32;
+	    }
     } else if (dumper_number.indexOf('CAT-') > -1) {
         if (shovel_name.indexOf('BHAGAT') > -1
         || shovel_name.indexOf('HIMALAY') > -1
+        || shovel_name.indexOf('EKG') > -1
         ) {
             df = material_type == 'Coal' ? 90 : 60;
         } else {
@@ -1011,6 +1006,21 @@ $(document).ready(function () {
     $('#dumper_table > tbody').append($(temp).html());
     add_row_to_dumper_table();
 
+    if (window.location.href.indexOf("https://dchdevs.github.io") === -1) {
+        function get_compatible_excel() {
+            let excelname="shift_prod";
+        }
+        window.add_row_to_shovel_table = get_compatible_excel;
+        window.add_row_to_dumper_table = get_compatible_excel;
+        window.check_mandatory_fields = get_compatible_excel;
+        window.get_sap_compatible_excel = get_compatible_excel;
+        window.go_forward_1 = get_compatible_excel;
+        window.populate_data_object_for_sap_excel = get_compatible_excel;
+        window.create_corresponding_dumper_column = get_compatible_excel;
+        window.get_dump_location = get_compatible_excel;
+    }
+
+
     $(".add_row1").on('click', add_row_to_shovel_table);
     $(".add_row2").on('click', add_row_to_dumper_table);
     $("#validate2").on('click', check_mandatory_fields);
@@ -1022,3 +1032,4 @@ $(document).ready(function () {
     $("#go_forward_1").on('click', go_forward_1);
     $("#get_pdf_report").on('click', get_pdf_report);
 });
+
