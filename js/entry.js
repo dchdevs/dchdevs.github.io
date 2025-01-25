@@ -7,6 +7,7 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     CN-01 TO CN-36 FOR COAL=45 FOR OB 32
     C-SERIES & K/D SERIES COAL 40 & OB 27
     TX SERIES COAL 55 OB 37
+    B SERIES COAL 55 OB 32
     KM & L SERIES FOR COAL=45 FOR OB 32
     CAT SERIES COAL 75 OB 55
     */
@@ -47,11 +48,19 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     } else if (dumper_number.indexOf('L-') > -1) {
         df = material_type == 'Coal' ? 45 : 32;
     } else if (dumper_number.indexOf('C-') > -1
-        || dumper_number.indexOf('K-') > -1
+	if (dumper_number.indexOf('40') > -1
+	) {
+	       df = material_type == 'Coal' ? 45 : 32;
+	} else {
+	       df = material_type == 'Coal' ? 40 : 27;
+	    }
+    } else if dumper_number.indexOf('K-') > -1
         || dumper_number.indexOf('D-') > -1) {
         df = material_type == 'Coal' ? 40 : 27;
     } else if (dumper_number.indexOf('TX-') > -1) {
         df = material_type == 'Coal' ? 55 : 37;
+    } else if (dumper_number.indexOf('B-') > -1) {
+        df = material_type == 'Coal' ? 55 : 32;
     } else if (dumper_number.indexOf('CAT-') > -1) {
 	    if (shovel_name.indexOf('BHAGAT') > -1
         	|| shovel_name.indexOf('HIMALAY') > -1
