@@ -62,7 +62,7 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     } else if (dumper_number.indexOf('CAT-') > -1) {
     function getDf(shovel_name, material_type) {
     let df;
-
+		
     if (
         shovel_name.indexOf('BHAGAT') > -1 ||
         shovel_name.indexOf('HIMALAY') > -1 ||
