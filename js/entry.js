@@ -74,6 +74,7 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     } else {
         df = material_type === 'Coal' ? 75 : 55;
     }
+
     return df;
 }
 
