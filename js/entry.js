@@ -70,10 +70,7 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
         shovel_name.indexOf('SH05') > -1
     ) {
         df = material_type === 'Coal' ? 90 : 60;
-    } else if (
-        shovel_name.indexOf('PH-19') > -1 ||
-        shovel_name.indexOf('KMPC-02') > -1
-    ) {
+    } else if (shovel_name.indexOf('PH-19') > -1) {
         df = material_type === 'Coal' ? 75 : 50;
     } else {
         df = material_type === 'Coal' ? 75 : 55;
