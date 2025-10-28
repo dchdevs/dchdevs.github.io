@@ -812,57 +812,73 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     CN-01 TO CN-36 FOR COAL=45 FOR OB 32
     C-SERIES & K/D SERIES COAL 40 & OB 27
     TX SERIES COAL 55 OB 37
-    KM SERIES FOR COAL=45 FOR OB 32
+    KM & L SERIES FOR COAL=45 FOR OB 32
     CAT SERIES COAL 75 OB 55
     */
     if (dumper_number.indexOf('CN-') > -1) {
-    	if (dumper_number.indexOf('24') > -1 
-    	|| dumper_number.indexOf('25') > -1 
-    	|| dumper_number.indexOf('26') > -1 
-    	|| dumper_number.indexOf('28') > -1 
-    	|| dumper_number.indexOf('29') > -1  
-    	|| dumper_number.indexOf('30') > -1
-    	|| dumper_number.indexOf('31') > -1 
-    	|| dumper_number.indexOf('32') > -1 
-    	|| dumper_number.indexOf('33') > -1 
-    	|| dumper_number.indexOf('34') > -1 
-    	|| dumper_number.indexOf('35') > -1
-    	|| dumper_number.indexOf('36') > -1 
-    	|| dumper_number.indexOf('38') > -1 
-    	|| dumper_number.indexOf('39') > -1 ) {
-    		df = material_type == 'Coal' ? 55 : 32;
+    	if (dumper_number.indexOf('24') > -1
+	|| dumper_number.indexOf('25') > -1
+	|| dumper_number.indexOf('26') > -1
+	|| dumper_number.indexOf('27') > -1
+	|| dumper_number.indexOf('28') > -1
+	|| dumper_number.indexOf('29') > -1  
+	|| dumper_number.indexOf('30') > -1
+	|| dumper_number.indexOf('31') > -1 
+	|| dumper_number.indexOf('33') > -1 
+	|| dumper_number.indexOf('34') > -1 
+	|| dumper_number.indexOf('35') > -1
+	|| dumper_number.indexOf('36') > -1 
+	|| dumper_number.indexOf('38') > -1 
+	|| dumper_number.indexOf('39') > -1 ) {
+    		df = material_type == 'Coal' ? 58 : 32;
     	} else {
     		df = material_type == 'Coal' ? 45 : 32;
 	    }
     }  else if (dumper_number.indexOf('KM-') > -1) {
     	if (dumper_number.indexOf('24') > -1 
-    	|| dumper_number.indexOf('09') > -1 
-    	|| dumper_number.indexOf('10') > -1 
-    	|| dumper_number.indexOf('11') > -1 
-    	|| dumper_number.indexOf('12') > -1 
-    	|| dumper_number.indexOf('13') > -1 
-    	|| dumper_number.indexOf('24') > -1 
+	|| dumper_number.indexOf('09') > -1 
+	|| dumper_number.indexOf('10') > -1 
+	|| dumper_number.indexOf('11') > -1 
+	|| dumper_number.indexOf('12') > -1 
+	|| dumper_number.indexOf('13') > -1 
+	|| dumper_number.indexOf('37') > -1
+	|| dumper_number.indexOf('38') > -1
+	|| dumper_number.indexOf('39') > -1
     	) {
-    		df = material_type == 'Coal' ? 55 : 32;
+    		df = material_type == 'Coal' ? 58 : 32;
     	} else {
     		df = material_type == 'Coal' ? 45 : 32;
 	    }
-    } else if (dumper_number.indexOf('C-') > -1
-        || dumper_number.indexOf('K-') > -1
+    } else if (dumper_number.indexOf('L-') > -1) {
+        df = material_type == 'Coal' ? 45 : 32;
+    } else if (dumper_number.indexOf('C-') > -1) {
+	if (dumper_number.indexOf('40') > -1) {
+		df = material_type == 'Coal' ? 45 : 32;
+	} else {
+		df = material_type == 'Coal' ? 40 : 27;
+	}
+    } else if (dumper_number.indexOf('K-') > -1
         || dumper_number.indexOf('D-') > -1) {
         df = material_type == 'Coal' ? 40 : 27;
     } else if (dumper_number.indexOf('TX-') > -1) {
         df = material_type == 'Coal' ? 55 : 37;
-    } else if (shovel_name.indexOf('BHAGAT') > -1
-        || shovel_name.indexOf('HIMALAY') > -1
-        || shovel_name.indexOf('EKG') > -1
-        ) {
-      if (dumper_number.indexOf('CAT-') > -1) {
-         {
-            df = material_type == 'Coal' ? 90 : 60;
-        } else {
-            df = material_type == 'Coal' ? 75 : 55;
-        }
+	} else if (dumper_number.indexOf('B-') > -1) {
+        df = material_type == 'Coal' ? 58 : 32;
+    } else if (dumper_number.indexOf('CAT-') > -1) {
+    	if (shovel_name.indexOf('BHAGAT') > -1
+        	|| shovel_name.indexOf('HIMALAY') > -1
+        	|| shovel_name.indexOf('EKG') > -1
+        	|| shovel_name.indexOf('SH05') > -1
+	) {
+		df = material_type == 'Coal' ? 90 : 60;
+    	} else if (shovel_name.indexOf('PH-19') > -1
+				  || shovel_name.indexOf('KMPC-02') > -1
+				  || shovel_name.indexOf('kmpc-02') > -1
+				  ) {
+		df = material_type == 'Coal' ? 75 : 50;
+	} else {
+		df = material_type == 'Coal' ? 75 : 55;
+	}
     }
     return df;
 }
