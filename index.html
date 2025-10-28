@@ -90,11 +90,17 @@
                         </tr>
                         <tr>
                             <td style="border: 0px !important;">
-                                <label>Process Order:</label>
+                                <label>Process Orders:</label>
                             </td>
                             <td style="border: 0px !important;">
-                                <input id="process_order" style="width: 100px !important;" required="required" type="number"
-                                       value="60002898" placeholder="" data-rule-required="true"
+                                <input id="po_purewa" style="width: 100px !important;" required="required" type="number"
+                                       value="60044161" placeholder="" data-rule-required="true"
+                                       data-msg-required="Please enter a valid number" disabled>
+                                <input id="po_turra" style="width: 100px !important;" required="required" type="number"
+                                       value="60044164" placeholder="" data-rule-required="true"
+                                       data-msg-required="Please enter a valid number" disabled>
+                                <input id="po_ob" style="width: 100px !important;" required="required" type="number"
+                                       value="70025963" placeholder="" data-rule-required="true"
                                        data-msg-required="Please enter a valid number" disabled>
                             </td>
                         </tr>
@@ -385,10 +391,12 @@
                 <td>
                     <select style="width: 100px;" name="shovel_no[]" class="searchable shv">
                         <option value="" selected disabled hidden>Select Shovel</option>
-                        <option value='BHAGAT'>BHAGAT</option>
-                        <option value='PH-06'>PH-06</option>
-                        <option value='PH-07'>PH-07</option>
-                        <option value='PH-10'>PH-10</option>
+                        <option value='EKG-2001'>EKG-2001</option>
+                        <option value='EKG-2006'>EKG-2006</option>
+                        <option value='EKG-2009'>EKG-2009</option>
+                        <option value='TH-01'>TH-01</option>
+                        <option value='TH-02'>TH-02</option>
+                        <option value='TH-03'>TH-03</option>
                         <option value='PH-11'>PH-11</option>
                         <option value='PH-12'>PH-12</option>
                         <option value='PH-13'>PH-13</option>
@@ -396,18 +404,21 @@
                         <option value='PH-15'>PH-15</option>
                         <option value='PH-16'>PH-16</option>
                         <option value='PH-17'>PH-17</option>
-                        <option value='PH-18'>PH-18</option>
                         <option value='PH-19'>PH-19</option>
                         <option value='HIMALAY'>HIMALAY</option>
-                        <option value='TATA1205'>TATA1205</option>
+                        <option value='PL-01'>PL-01</option>
                         <option value='PL-06'>PL-06</option>
                         <option value='PL-07'>PL-07</option>
+                        <option value='PL-08'>PL-08</option>
                         <option value='PL-642'>PL-642</option>
                         <option value='LAXMAN'>LAXMAN</option>
                         <option value='KOMATSU'>KOMATSU</option>
+                        <option value='KMPC-02'>KMPC-02</option>
+                        <option value='KMPC-03'>KMPC-03</option>
                         <option value='TATA-05'>TATA-05</option>
                         <option value='TATA-06'>TATA-06</option>
-                        <option value='SIDE-CASTING'>SIDE-CASTING</option>
+                        <option value='TATA-07'>TATA-07</option>
+                        <option value='SH05'>SH05</option>
                     </select>
                 </td>
                 <td>
@@ -482,6 +493,31 @@
                         <option value='26330216'>VISHAL KUMAR RAI -- 26330216</option>
                         <option value='26250359'>SHUBHAM -- 26250359</option>
                         <option value='26425151'>ANIL -- 26425151</option>
+                        <option value='26327296'>MD YUNUS -- 26327296</option>
+                        <option value='26329474'>NISHAN SINGH -- 26329474</option>
+                        <option value='26355529'>DEVVRAT PARASHAR -- 26355529</option>
+                        <option value='26328708'>PANKAJ KUMAR -- 26328708</option>
+                        <option value='26248135'>GURU PRASAD KUSHWAHA -- 26248135</option>
+                        <option value='26354761'>VINESH KUMAR BAKSHI-- 26354761</option>
+                        <option value='26287524'>SAURABH KUMAR TIWARI -- 26287524</option>
+                        <option value='26246255'>ANIL KUMAR VAISHYA -- 26246255</option>
+                        <option value='26328583'>NARAYAN SAHU -- 26328583</option>
+                        <option value='26329185'>JAG NARAYAN VAISHYA -- 26329185</option>
+                        <option value='26417035'>ANURAG SINHA -- 26417035</option>
+                        <option value='26303735'>SHAILENDRA SINGH 4TH -- 26303735</option>
+                        <option value='26354753'>AJIT BHENGRA -- 26354753</option>
+                        <option value='61436500'>PRAVESH RAJBHAR -- 61436500</option>
+                        <option value='61417377'>AMAR SHANKAR RAJJAK -- 61417377</option>
+                        <option value='12893558'>BADRUDDIN -- 12893558</option>
+                        <option value='58010671'>ROHIT PATEL -- 58010671</option>
+                        <option value='58011741'>HEMRAJ MEENA -- 58011741</option>
+                        <option value='58010931'>PRADEEP KUMAR -- 58010931</option>
+                        <option value='26180299'>Rameshwar -- 26180299</option>
+                        <option value='58010678'>GYANENDRA -- 58010678</option>
+                        <option value='58010675'>VIKRAM MEENA -- 58010675</option>
+                        <option value='58011032'>ROHIT KUMAR GOND -- 58011032</option>
+                        <option value='58012759'>MANOJ KUMAR SOLERA -- 58012759</option>
+                        <option value='58012861'>AMIT -- 58012861</option>
                     </select>
                 </td>
                 <td>
@@ -500,6 +536,8 @@
                         <option value='SM BAND-OB|SM BAND-OB EAST'>OB-SM Band East</option>
                         <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-W'>OB-Above Purewa Bottom-West</option>
                         <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-E'>OB-Above Purewa Bottom-East</option>
+                        <option value='Above PURVA-TOP-COAL|Above PURVA-TOP-COAL EAST'>COAL-Above Pureva Top-East</option>
+                        <option value='Above PURVA-TOP-COAL|Above PURVA-TOP-COAL West'>COAL-Above Pureva Top-West</option>
                         <option value='PURVA-TOP-COAL|PURVA-TOP-COAL EAST'>Pureva Top Coal-East</option>
                         <option value='PURVA-TOP-COAL|PURVA-TOP-COAL WEST'>Pureva Top Coal-West</option>
                         <option value='PURVA-BOTM-COAL|PURVA-BOTM-COAL EAST'>Pureva Bottom Coal-East</option>
@@ -541,7 +579,9 @@
                     <!-- CN-01 TO CN-36 FOR COAL=45 FOR OB 32
                     C-SERIES & K/D SERIES COAL 40 & OB 27
                     TX SERIES COAL 55 OB 37
+                    B SERIES COAL 55 OB 32
                     KM SERIES FOR COAL=45 FOR OB 32
+                    L SERIES FOR COAL=45 FOR OB 32
                     CAT SERIES COAL 75 OB 50
                     -->
                     <select style="width: 95px;" name="dumper_no[]" class="searchable dumper_n">
@@ -606,6 +646,10 @@
                         <option value='TX-232'>TX-232</option>
                         <option value='TX-234'>TX-234</option>
                         <option value='TX-238'>TX-238</option>
+                        <option value='B-01'>B-01</option>
+                        <option value='B-02'>B-02</option>
+                        <option value='B-03'>B-03</option>
+                        <option value='B-04'>B-04</option>
                         <option value='KM-02'>KM-02</option>
                         <option value='KM-05'>KM-05</option>
                         <option value='KM-06'>KM-06</option>
@@ -637,8 +681,32 @@
                         <option value='KM-32'>KM-32</option>
                         <option value='KM-33'>KM-33</option>
                         <option value='KM-34'>KM-34</option>
+                        <option value='KM-37'>KM-37</option>
+                        <option value='KM-38'>KM-38</option>
+                        <option value='KM-39'>KM-39</option>
+                        <option value='L-15'>L-15</option>
+                        <option value='L-16'>L-16</option>
+                        <option value='L-17'>L-17</option>
+                        <option value='CAT-103'>CAT-103</option>
+                        <option value='CAT-104'>CAT-104</option>
+                        <option value='CAT-105'>CAT-105</option>
+                        <option value='CAT-106'>CAT-106</option>
+                        <option value='CAT-107'>CAT-107</option>
+                        <option value='CAT-108'>CAT-108</option>
+                        <option value='CAT-109'>CAT-109</option>
+                        <option value='CAT-110'>CAT-110</option>
+                        <option value='CAT-111'>CAT-111</option>
+                        <option value='CAT-112'>CAT-112</option>
+                        <option value='CAT-113'>CAT-113</option>
+                        <option value='CAT-114'>CAT-114</option>
+                        <option value='CAT-115'>CAT-115</option>
+                        <option value='CAT-116'>CAT-116</option>
+                        <option value='CAT-155'>CAT-155</option>
                         <option value='CAT-167'>CAT-167</option>
                         <option value='CAT-168'>CAT-168</option>
+                        <option value='CAT-169'>CAT-169</option>
+                        <option value='CAT-170'>CAT-170</option>
+                        <option value='CAT-171'>CAT-171</option>
                         <option value='CAT-824'>CAT-824</option>
                         <option value='CAT-839'>CAT-839</option>
                         <option value='CAT-919'>CAT-919</option>
@@ -905,6 +973,110 @@
                         <option value='99999002'>B.P. MISHRA -- 99999002</option>
                         <option value='99999003'>BHULAN MISHRA -- 99999003</option>
                         <option value='26425151'>ANIL -- 26425151</option>
+                        <option value='62992444'>RAGHO PRASAD NONIA -- 62992444</option>
+                        <option value='26328195'>S P CHAUBEY -- 26328195</option>
+                        <option value='26329292'>SUNIL KUMAR KOIRI -- 26329292</option>
+                        <option value='26330808'>RAJESH KUMAR KOIRI -- 26330808</option>
+                        <option value='26303735'>SHAILENDRA SINGH 4TH -- 26303735</option>
+                        <option value='63028560'>TARUN MODI -- 63028560</option>
+                        <option value='61323880'>ASH NARAYAN YADAV -- 61323880</option>
+                        <option value='61415496'>RAM BILAS YADAV -- 61415496</option>
+                        <option value='63029873'>PUNIT MALLAH -- 63029873</option>
+                        <option value='2628710'>ANAND GOPE -- 2628710</option>
+                        <option value='26283788'>RAMANAND VAISH -- 26283788</option>
+                        <option value='26274977'>ANJANI KUMAR -- 26274977</option>
+                        <option value='26279646'>ARVIND SINGH -- 26279646</option>
+                        <option value='26282368'>ANUP -- 26282368</option>
+                        <option value='58010668'>BHEEM -- 58010668</option>
+                        <option value='58010664'>SHUBHAM TRIPATHI -- 58010664</option>
+                        <option value='58010676'>AKASH KUMAR -- 58010676</option>
+                        <option value='58010662'>RAJEEV KUMAR DWIVEDI -- 58010662</option>
+                        <option value='58010672'>Yogesh Kumar -- 58010672</option>
+                        <option value='58011017'>Kuldeep Rana -- 58011017</option>
+                        <option value='58011037'>Rakesh Kumar Singh	 -- 58011037</option>
+                        <option value='58010674'>Ankit Meena -- 58010674</option>
+                        <option value='58010682'>Deepak Kumar(1) -- 58010682</option>
+                        <option value='58010677'>Deepak Singh -- 58010677</option>
+                        <option value='58010663'>Manish Kumar Dubey -- 58010663</option>
+                        <option value='58010680'>Krishna Kumar Prajapati -- 58010680</option>
+                        <option value='58010673'>Ramgopal Meena -- 58010673</option>
+                        <option value='58010665'>Dhananjay Singh Yadav -- 58010665</option>
+                        <option value='58010667'>Vivek Shrivastav -- 58010667</option>
+                        <option value='58011027'>Mahendra Meena -- 58011027</option>
+                        <option value='58011028'>Anand kr pal -- 58011028</option>
+                        <option value='58011029'>Akhilesh kr patel -- 58011029</option>
+                        <option value='58010679'>Suraj kushwaha -- 58010679</option>
+                        <option value='58011019'>Lokesh Kumar -- 58011019</option>
+                        <option value='58011025'>Sujit Tiwari -- 58011025</option>
+                        <option value='58011026'>Ram Bahadur -- 58011026</option>
+                        <option value='58010928'>Pradeep Kumar -- 58010928</option>
+                        <option value='58011114'>Pankaj Choudhary -- 58011114</option>
+                        <option value='58011118'>Vivekanand -- 58011118</option>
+                        <option value='58011120'>Vishal Singh -- 58011120</option>
+                        <option value='58010933'>Paramveer -- 58010933</option>
+                        <option value='58011115'>Deshraj Meena -- 58011115</option>
+                        <option value='58010927'>Sardar Meena -- 58010927</option>
+                        <option value='58011740'>Deepak Kumar II -- 58011740</option>
+                        <option value='58011119'>Pankaj kumar -- 58011119</option>
+                        <option value='58011117'>Malavath Harish -- 58011117</option>
+                        <option value='58011033'>Anuj Divedi -- 58011033</option>
+                        <option value='58012239'>Dharmendra -- 58012239</option>
+                        <option value='58010928'>Pradeep kumar -- 58010928</option>
+                        <option value='58010929'>pardeep -- 58010929</option>
+                        <option value='58011112'>Nirbaya -- 58011112</option>
+                        <option value='58010930'>Deepak -- 58010930</option>
+                        <option value='58011123'>Arman Singh -- 58011123</option>
+                        <option value='58011122'>Rishiraj Singh -- 58011122</option>
+                        <option value='26190074'>Rishabh waskale -- 26190074</option>
+                        <option value='58010926'>Satish Patel -- 58010926</option>
+                        <option value='58011031'>Amarendra Singh -- 58011031</option>
+                        <option value='58012078'>Mithun Kumar -- 58012078</option>
+                        <option value='58011018'>Ramdas Meena -- 58011018</option>
+                        <option value='26188466'>Ganesh Lokhande -- 26188466</option>
+                        <option value='26190132'>Anil -- 26190132</option>
+                        <option value='26188458'>Satish Verma -- 26188458</option>
+                        <option value='58011121'>Kanhaiya lal Meena -- 58011121</option>
+                        <option value='26190157'>Deepak prakash vaish -- 26190157</option>
+                        <option value='58011023'>Ashok Priyadarsi -- 58011023</option>
+                        <option value='26393314'>Diwakar poddar -- 26393314</option>
+                        <option value='26184333'>Sriram -- 26184333</option>
+                        <option value='58011020'>Atal Khyaliya -- 58011020</option>
+                        <option value='58010932'>Rakesh Kumar -- 58010932</option>
+                        <option value='28004574'>Ravindra kumar -- 28004574</option>
+                        <option value='26393314'>Diwakar poddar_khadia -- 26393314</option>
+                        <option value='26085936'>Sunil_khadia -- 26085936</option>
+                        <option value='26188466'>Ganesh Dashrath Lokhande_khadia -- 26188466</option>
+                        <option value='26188458'>Satis Kr. Verma_khadia -- 26188458</option>
+                        <option value='26190132'>Anil_khadia -- 26190132</option>
+                        <option value='26190074'>Rishabh Wasaale_khadia -- 26190074</option>
+                        <option value='26180299'>Rajeswar Ram_khadia -- 26180299</option>
+                        <option value='26189860'>Rahul Meena_khadia -- 26189860</option>
+                        <option value='26288456'>Ramdaras Yadav_Gorbi -- 26288456</option>
+                        <option value='63043346'>Ajay kumar Das_Gorbi -- 63043346</option>
+                        <option value='26425085'>Amardeep kindo_Gorbi -- 26425085</option>
+                        <option value='26061002'>Virender Prasad_Gorbi -- 26061002</option>
+                        <option value='26060848'>Vinod kumar_Gorbi -- 26060848</option>
+                        <option value='26425066'>Ranjeet kumar_Gorbi -- 26425066</option>
+                        <option value='63012747'>mahendar Nonia_Gorbi -- 63012747</option>
+                        <option value='31000213'>Raghvendra shukla_Gorbi -- 31000213</option>
+                        <option value='26328559'>Naseem Akhtar_Gorbi -- 26328559</option>
+                        <option value='26425150'>Pawan kr. sahu_Gorbi -- 26425150</option>
+                        <option value='26425191'>Ashok kumar vaishy_Gorbi -- 26425191</option>
+                        <option value='26060830'>Ravi kumar_Gorbi -- 26060830</option>
+                        <option value='26425153'>Amol Dashrath Pohankar_Gorbi -- 26425153</option>
+                        <option value='62949709'>Jamuna Nonia_Gorbi -- 62949709</option>
+                        <option value='26397562'>Ramswaroop Bhuiya_Gorbi -- 26397562</option>
+                        <option value='58010925'>Raghuveer Meena -- 58010925</option>
+                        <option value='58012080'>Ankit Vishwakarma -- 58012080</option>
+                        <option value='58011036'>Suraj Gupta -- 58011036</option>
+                        <option value='62969145'>Surendra Malah -- 62969145</option>
+                        <option value='58012758'>Bajrang singh kushwaha -- 58012758</option>
+                        <option value='58012882'>Muktanand dhruve -- 58012882</option>
+                        <option value='58010670'>Mohit Patidar -- 58010670</option>
+                        <option value='58013505'>Himanshu dubey -- 58013505</option>
+                        <option value='58011030'>Raju K -- 58011030</option>
+                        <option value='26425140'>Rajesh Singh -- 26425140</option>
+                        <option value='30001191'>Ajay Chauhan -- 30001191</option>
                     </select>
                 </td>
                 <td class="work_hours_dumper_body">
