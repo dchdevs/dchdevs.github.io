@@ -897,6 +897,8 @@ function updateSeam() {
     var options = '';
     if ($(this).val() == 'Coal') {
         options = "<option value='' selected disabled hidden>Select Seam</option> \
+	<option value='Above PURVA-TOP-COAL|Above PURVA-TOP-COAL EAST'>COAL-Above Pureva Top-East</option> \
+        <option value='Above PURVA-TOP-COAL|Above PURVA-TOP-COAL West'>COAL-Above Pureva Top-West</option> \
         <option value='PURVA-TOP-COAL|PURVA-TOP-COAL EAST'>Pureva Top Coal-East</option> \
         <option value='PURVA-TOP-COAL|PURVA-TOP-COAL WEST'>Pureva Top Coal-West</option> \
         <option value='PURVA-BOTM-COAL|PURVA-BOTM-COAL EAST'>Pureva Bottom Coal-East</option> \
