@@ -835,7 +835,7 @@ function get_dumper_factor(dumper_number, material_type, shovel_name) {
     		df = material_type == 'Coal' ? 45 : 32;
 	    }
     }  else if (dumper_number.indexOf('KM-') > -1) {
-    	if (dumper_number.indexOf('24') > -1 
+    	if (dumper_number.indexOf('09') > -1 
 	|| dumper_number.indexOf('09') > -1 
 	|| dumper_number.indexOf('10') > -1 
 	|| dumper_number.indexOf('11') > -1 
