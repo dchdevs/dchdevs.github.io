@@ -906,10 +906,10 @@ function updateSeam() {
         options = "<option value='' selected disabled hidden>Select Seam</option> \
 			<option value='Above PURVA-TOP-OB|Above PURVA-TOP-OB EAST'>OB-Above Pureva Top-East</option> \
         <option value='Above PURVA-TOP-OB|Above PURVA-TOP-OB West'>OB-Above Pureva Top-West</option> \
-        <option value='TURRA BAND-OB|TURRA BAND-OB WEST'>OB-Turra Band West</option> \
-        <option value='TURRA BAND-OB|TURRA BAND-OB EAST'>OB-Turra Band East</option> \
-        <option value='SM BAND-OB|SM BAND-OB WEST'>OB-SM Band West</option> \
-        <option value='SM BAND-OB|SM BAND-OB EAST'>OB-SM Band East</option> \
+        <option value='TURRA-OB|TURRA-OB WEST'>OB-Turra West</option> \
+        <option value='TURRA-OB|TURRA-OB EAST'>OB-Turra East</option> \
+        <option value='SM-OB|SM-OB WEST'>OB-SM West</option> \
+        <option value='SM-OB|SM-OB EAST'>OB-SM East</option> \
         <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-W'>OB-Above Purewa Bottom-West</option> \
         <option value='B/W PURTOP & BOT-OB|B/W PURTOP& BOT-OB-E'>OB-Above Purewa Bottom-East</option>"
     }
